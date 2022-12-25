@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync } = require('bcryptjs');
-const { create, getUserById , getUser , deleteUser , updateUser }  = require('../model/userModel');
+const { create, getUserById , getUser , deleteUser , updateUser , login }  = require('../model/userModel');
 
 module.exports = {
     createUser : (req , res) => {
@@ -82,6 +82,12 @@ module.exports = {
                 success : true,
                 massage : "delete user success"
             })
+        })
+    },
+    userLogin : (req , res) => {
+        const body = req.body;
+        login(body.email , (error, results) => {
+            console.log(results);
         })
     }
 }

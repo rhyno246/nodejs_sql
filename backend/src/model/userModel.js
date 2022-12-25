@@ -78,5 +78,17 @@ module.exports = {
                 return callBack(null , results[0])
             }
         )
+    },
+    login : (email , callBack) => {
+        pool.query(
+            `select * from register where email = ? `,
+            [email],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results[0])
+            }
+        )
     }
 }
