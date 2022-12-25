@@ -7,6 +7,11 @@ module.exports = {
         const salt = genSaltSync(10);
         body.password = hashSync(body.password, salt);
         create(body,(error , results) => {
+            if(!results) {
+                return res.status(409).json({ 
+                    success : false , message : "User already exists !" 
+                })
+            }
             if(error){
                 console.log(error);
                 return res.status(500).json({
@@ -55,7 +60,7 @@ module.exports = {
         const body = req.body;
         const salt = genSaltSync(10);
         body.password = hashSync(body.password , salt);
-        updateUser(body , (error , results) => {
+        updateUser(body , (error) => {
             if(error){
                 console.log(error);
                 return;
@@ -68,16 +73,10 @@ module.exports = {
     },
     deleteUser : (req, res) => {
         const data = req.body;
-        deleteUser(data , (error , results) => {
+        deleteUser(data , (error) => {
             if(error){
                 console.log(error);
                 return;
-            }
-            if(!results) {
-                return res.json({
-                    success : false,
-                    message : "Users not found"
-                })
             }
             return res.json({
                 success : true,
