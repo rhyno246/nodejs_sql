@@ -23,7 +23,7 @@ module.exports = {
     },
     getUser : callBack => {
         pool.query(
-            `select id ,firstName, lastName, gender, email, password , phone from register`,
+            `select id ,firstName, lastName, gender, email, password , phone , role from register`,
             [],
             (error, results , fields) => {
                 if(error){
@@ -35,7 +35,7 @@ module.exports = {
     },
     getUserById : (id , callBack) => {
         pool.query(
-            `select id ,firstName, lastName, gender, email, password , phone from register where id = ?`,
+            `select id ,firstName, lastName, gender, email, password , phone , role from register where id = ?`,
             [id],
             (error, results , fields) => {
                 if(error){
@@ -47,7 +47,7 @@ module.exports = {
     },
     updateUser : (data, callBack) => {
         pool.query(
-            `update register set firstName=?, lastName=?, gender=?, email=?, password=?, phone=? where id = ?`,
+            `update register set firstName=?, lastName=?, gender=?, email=?, password=?, phone=? , role=? where id = ?`,
             [
                 data.first_name,
                 data.last_name,
@@ -55,6 +55,7 @@ module.exports = {
                 data.email,
                 data.password,
                 data.phone,
+                data.role,
                 data.id
             ],
             (error , results , fields) => {
