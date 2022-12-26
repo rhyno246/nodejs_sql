@@ -4,9 +4,16 @@ const { checkAuthorization } = require('../middleware/auth');
 const router = express.Router();
 
 
-router.route('/').get(getUser).post(createUser).patch(updateUser).delete(deleteUser);
-router.route('/login').post(userLogin);
-router.route('/:id').get(getUserById);
+router.route('/').
+    get(checkAuthorization ,getUser).
+    post(createUser).
+    patch(checkAuthorization ,updateUser).
+    delete(checkAuthorization,deleteUser);
+
+router.route('/login')
+    .post(userLogin);
+router.route('/:id')
+.get(checkAuthorization , getUserById);
 
 
 

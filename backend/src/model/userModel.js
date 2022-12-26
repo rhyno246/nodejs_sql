@@ -91,5 +91,8 @@ module.exports = {
                 return callBack(null , results[0])
             }
         )
+    },
+    resetPassoword : (email , callBack) => {
+        
     }
 }
