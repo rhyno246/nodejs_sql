@@ -1,4 +1,4 @@
-const { createUser, getUser , getUserById , updateUser , deleteUser, userLogin } = require('../controller/userController');
+const { createUser, getUser , getUserById , updateUser , deleteUser, userLogin , forgotPassword , resetPassword  } = require('../controller/userController');
 const express = require('express');
 const { checkAuthorization } = require('../middleware/auth');
 const router = express.Router();
@@ -12,6 +12,12 @@ router.route('/').
 
 router.route('/login')
     .post(userLogin);
+
+router.route('/forgot-password')
+    .post(checkAuthorization , forgotPassword);
+router.route('/reset-password/:email')
+    .post(checkAuthorization , resetPassword);
+   
 router.route('/:id')
 .get(checkAuthorization , getUserById);
 

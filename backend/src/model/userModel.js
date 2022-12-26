@@ -92,7 +92,28 @@ module.exports = {
             }
         )
     },
-    resetPassoword : (email , callBack) => {
-        
+    forgotPassword : (email , callBack) => {
+        pool.query(
+            `select * from register where email = ? `,
+            [email],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results[0])
+            }
+        )
+    },
+    resetPassword : (email , password , callBack) => {
+        pool.query(
+            ` update register set password = ? where email = ? `,
+            [password , email],
+            (error , results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results)
+            }
+        )
     }
 }

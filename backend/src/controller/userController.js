@@ -1,6 +1,7 @@
-const { genSaltSync, hashSync, compareSync } = require('bcryptjs');
-const { create, getUserById , getUser , deleteUser , updateUser , login }  = require('../model/userModel');
+const { genSaltSync, hashSync, compareSync, hash} = require('bcryptjs');
+const { create, getUserById , getUser , deleteUser , updateUser , login , forgotPassword , resetPassword }  = require('../model/userModel');
 const sendToken = require('../utils/jwtToken');
+const sendEmail = require('../utils/sendMail');
 
 module.exports = {
     createUser : (req , res) => {
@@ -90,6 +91,7 @@ module.exports = {
         login(body.email , (error, results) => {
             if(error){
                 console.log(error);
+                return;
             }
             if (!results) {
                 return res.json({
@@ -107,5 +109,53 @@ module.exports = {
                 });
             }
         })
+    },
+    forgotPassword : (req, res) => {
+        const body = req.body;
+        forgotPassword(body.email , (error , results) => {
+            if (error) return
+            if(!results){
+                return res.json({
+                    success : false,
+                    message : "Email not found"
+                })
+            }else{
+                hash(body.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
+                    const resetPasswordUrl = `${process.env.CLIENT}/password/reset?email=${body.email}&token=${hashedEmail}"`;
+                    const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+                    sendEmail({
+                        email: body.email,
+                        subject : `Password Recovery`,
+                        message : message
+                    })
+                })
+                return res.json({
+                    success : true,
+                    message : "Send mail success"
+                })
+            }
+        })
+    },
+    resetPassword : (req, res) => {
+        const email = req.params.email;
+        const password = req.body.password;
+        if(!password){
+            return res.json({
+                success : false,
+                message : "Input empty"
+            })
+        }else{
+            hash(password, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedPassword) => {
+                resetPassword(email , hashedPassword , (error , results) => {
+                    if(error) return
+                    if(results){
+                        return res.json({
+                            success : true,
+                            message : "Reset password success"
+                        })
+                    }
+                })
+            })
+        }
     }
 }
