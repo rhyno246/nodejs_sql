@@ -1,5 +1,6 @@
-const { genSaltSync, hashSync } = require('bcryptjs');
+const { genSaltSync, hashSync, compareSync } = require('bcryptjs');
 const { create, getUserById , getUser , deleteUser , updateUser , login }  = require('../model/userModel');
+const sendToken = require('../utils/jwtToken');
 
 module.exports = {
     createUser : (req , res) => {
@@ -87,7 +88,24 @@ module.exports = {
     userLogin : (req , res) => {
         const body = req.body;
         login(body.email , (error, results) => {
-            console.log(results);
+            if(error){
+                console.log(error);
+            }
+            if (!results) {
+                return res.json({
+                  success: false,
+                  data: "Invalid email or password"
+                });
+            }
+            const matchPass = compareSync(body.password , results.password);
+            if(matchPass){
+                return sendToken(results , 200 , res)
+            }else{
+                return res.json({
+                    success: false,
+                    data: "Invalid email or password"
+                });
+            }
         })
     }
 }
