@@ -1,0 +1,31 @@
+@import './pages/home';
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container{
+    width: 100%;
+    padding: 0 1rem;
+    margin-right: auto;
+    margin-left: auto;
+    @media (min-width : 1280px){
+        max-width: 114rem;
+    }
+}
+

@@ -1,0 +1,63 @@
+.client-header{
+    &-logo{
+        text-align: left;
+    }
+    &-menu{
+        background: #fff;
+        padding: 1.2rem 0;
+        box-shadow: (0px 4px 5px rgba(0, 0, 0, 0.16));
+        .main-menu{
+            display: flex;
+            justify-content: space-between;
+            ul{
+                list-style: none;
+                padding-left: 0;
+                display: flex;
+                justify-content: center;
+                li{
+                    color: #222;
+                    font-size: 1.6rem;
+                    line-height: 4rem;
+                    font-weight: 500;
+                    padding: 0 3.5rem;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                }
+            }
+            .auth-login {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    .group-logo{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .box-search{
+            form{
+                position: relative;
+                input{
+                    line-height: 3.2rem;
+                    border-radius: 16px;
+                    border: 1px solid #e5e5e5;
+                    padding: 0 2rem;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                button{
+                    background: transparent;
+                    outline: none;
+                    border: none;
+                    position: absolute;
+                    top: 9px;
+                    right: 9px;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+            }
+        }
+    }    
+}
