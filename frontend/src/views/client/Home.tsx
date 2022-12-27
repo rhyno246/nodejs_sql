@@ -1,12 +1,9 @@
-import * as React from 'react'
-import Layout from '../../components/client/Layout'
+import * as React from "react";
+import Layout from "../../components/client/Layout";
+interface HomeProps {}
 
-const Home = () => {
-  return (
-    <Layout>
-        adssdadsa
-    </Layout>
-  )
-}
+const Home: React.FunctionComponent<HomeProps> = () => {
+  return <Layout>Home</Layout>;
+};
 
-export default Home
+export default Home;

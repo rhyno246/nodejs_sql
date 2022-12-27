@@ -14,14 +14,24 @@
                 padding-left: 0;
                 display: flex;
                 justify-content: center;
+                align-items: center;
                 li{
-                    color: #222;
-                    font-size: 1.6rem;
-                    line-height: 4rem;
-                    font-weight: 500;
-                    padding: 0 3.5rem;
-                    text-decoration: none;
-                    text-transform: uppercase;
+                    margin-right: 3rem;
+                    &:last-child{
+                        margin-right: 0;
+                    }
+                    a{
+                        color: #222;
+                        font-size: 1.6rem;
+                        line-height: 4rem;
+                        font-weight: 500;
+                        padding: 0;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        &.active{
+                            color: #007FFF;
+                        }
+                    }
                 }
             }
             .auth-login {
@@ -29,11 +39,15 @@
                 align-items: center;
             }
         }
+        .btn-login{
+            cursor: pointer;
+        }
     }
     .group-logo{
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin: 1rem 0;
         .box-search{
             form{
                 position: relative;

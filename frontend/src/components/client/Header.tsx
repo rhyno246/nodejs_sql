@@ -1,41 +1,51 @@
-import * as React from 'react';
-import logo from '../../logo.svg';
-import SearchIcon from '@mui/icons-material/Search';
-import SwitchButton from  '../SwitchButton';
+import * as React from "react";
+import logo from "../../logo.svg";
+import SearchIcon from "@mui/icons-material/Search";
+import SwitchButton from "../SwitchButton";
+import { NavLink } from "react-router-dom";
 const Header = () => {
-  
   return (
     <div className="client-header">
-        <div className="client-header-logo">
-            <div className="container">
-              <div className="group-logo">
-                <img src={logo} width={100} height={100} alt="logo"/>
-                <div className="box-search">
-                    <form>
-                      <input type="text" placeholder="Search...."/>
-                      <button type="submit">
-                          <SearchIcon style={{fontSize: "18px"}}/>
-                      </button>
-                    </form>
-                </div>
+      <div className="client-header-logo">
+        <div className="container">
+          <div className="group-logo">
+            <NavLink to="/">
+              <img src={logo} width={50} height={50} alt="logo" />
+            </NavLink>
+            <div className="box-search">
+              <form>
+                <input type="text" placeholder="Search...." />
+                <button type="submit">
+                  <SearchIcon style={{ fontSize: "18px" }} />
+                </button>
+              </form>
             </div>
           </div>
         </div>
-        <div className="client-header-menu">
-          <div className="container">
-            <div className="main-menu">
-              <ul>
-                  <li>Home</li>
-              </ul>
-              <div className="auth-login">
-                <SwitchButton />
-                <span>Login</span>
-              </div>
+      </div>
+      <div className="client-header-menu">
+        <div className="container">
+          <div className="main-menu">
+            <ul>
+              <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/about">About</NavLink>
+              </li>
+              <li>
+                <NavLink to="/news">News</NavLink>
+              </li>
+            </ul>
+            <div className="auth-login">
+              <SwitchButton />
+              <span className="btn-login">Login</span>
             </div>
           </div>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
