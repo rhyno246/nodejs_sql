@@ -3,6 +3,7 @@ import logo from "../../logo.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import SwitchButton from "../SwitchButton";
 import { NavLink } from "react-router-dom";
+import { Box, Button, FormControl, OutlinedInput } from "@mui/material";
 const Header = () => {
   return (
     <div className="client-header">
@@ -13,12 +14,14 @@ const Header = () => {
               <img src={logo} width={50} height={50} alt="logo" />
             </NavLink>
             <div className="box-search">
-              <form>
-                <input type="text" placeholder="Search...." />
-                <button type="submit">
+              <Box component="form">
+                <FormControl sx={{ width : "20rem" }}>
+                  <OutlinedInput placeholder="Please enter text" />
+                </FormControl>
+                <Button variant="text" type="submit" color="primary">
                   <SearchIcon style={{ fontSize: "18px" }} />
-                </button>
-              </form>
+                </Button>
+              </Box>
             </div>
           </div>
         </div>
