@@ -9,26 +9,23 @@
     margin: 0;
 }
 
-html {
-    font-size: 10px;
-}
 
 body {
-    font-size: 1.4rem;
-    line-height: 2.2rem;
+    font-size: 16px;
+    line-height: 22px;
     font-family: 'Poppins', sans-serif;
 }
 
 .container{
     width: 100%;
-    padding: 0 1rem;
+    padding: 0 10px;
     margin-right: auto;
     margin-left: auto;
     @media (min-width : 1280px){
-        max-width: 114rem;
+        max-width: 1140px;
     }
 }
 .main{
-    padding-top: 2rem;
+    padding-top: 20px;
 }
 

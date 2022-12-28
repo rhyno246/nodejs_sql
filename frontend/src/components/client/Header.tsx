@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import SwitchButton from "../SwitchButton";
 import { NavLink } from "react-router-dom";
 import { Box, Button, FormControl, OutlinedInput } from "@mui/material";
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <div className="client-header">
@@ -15,7 +16,7 @@ const Header = () => {
             </NavLink>
             <div className="box-search">
               <Box component="form">
-                <FormControl sx={{ width : "20rem" }}>
+                <FormControl sx={{ width: "200px" }}>
                   <OutlinedInput placeholder="Please enter text" />
                 </FormControl>
                 <Button variant="text" type="submit" color="primary">
@@ -42,7 +43,9 @@ const Header = () => {
             </ul>
             <div className="auth-login">
               <SwitchButton />
-              <span className="btn-login">Login</span>
+              <Link to="/login" className="btn-login">
+                Login
+              </Link>
             </div>
           </div>
         </div>
