@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import { apiUrl } from "./apiUrl";
 
 class Http {
-    instance : AxiosInstance
+    instance : AxiosInstance 
     constructor() {
         this.instance = axios.create({
             baseURL : apiUrl,
