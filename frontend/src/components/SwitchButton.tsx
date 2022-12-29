@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { switchMode } from "../redux/reducer/switch.reducer";
+import { switchMode } from "../redux/reducer/switch.slice";
 import { RootState } from "../redux/store";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";

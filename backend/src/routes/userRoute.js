@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.route('/').
-    get(checkAuthorization ,getUser).
+    get(getUser).
     post(createUser).
     patch(checkAuthorization ,updateUser).
     delete(checkAuthorization,deleteUser);

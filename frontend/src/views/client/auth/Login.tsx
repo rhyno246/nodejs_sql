@@ -2,10 +2,13 @@ import * as React from "react";
 import Layout from "../../../components/client/Layout";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
+  const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
   return (
     <Layout>
       <Typography
@@ -18,6 +21,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
       <Box
         component="form"
         sx={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
+        className="form-auth"
       >
         <TextField
           margin="normal"
@@ -48,7 +52,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
               to="/"
               style={{
                 textDecoration: "none",
-                color: "#000",
+                color: `${ switchTheme ? "#e5e5e5" : "#222" }`,
                 fontSize: "12px",
               }}
             >
@@ -60,7 +64,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
               to="/"
               style={{
                 textDecoration: "none",
-                color: "#000",
+                color: `${ switchTheme ? "#e5e5e5" : "#222" }`,
                 fontSize: "12px",
               }}
             >

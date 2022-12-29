@@ -43,7 +43,7 @@ const Header = () => {
             </ul>
             <div className="auth-login">
               <SwitchButton />
-              <Link to="/login" className="btn-login">
+              <Link to="/login" className="btn-login" color="primary">
                 Login
               </Link>
             </div>
