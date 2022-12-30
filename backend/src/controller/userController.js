@@ -93,6 +93,12 @@ module.exports = {
                 console.log(error);
                 return;
             }
+            if(!body.email || !body.password){
+                return res.json({
+                    success : false,
+                    data : "Enter your email and password"
+                })
+            }
             if (!results) {
                 return res.json({
                   success: false,

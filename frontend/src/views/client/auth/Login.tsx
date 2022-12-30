@@ -9,6 +9,23 @@ interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
+  const [user, setUser] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = (e: React.FormEvent): void => {
+    e.preventDefault();
+    console.log(user);
+  };
+
   return (
     <Layout>
       <Typography
@@ -22,6 +39,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         component="form"
         sx={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
         className="form-auth"
+        onSubmit={handleLogin}
       >
         <TextField
           margin="normal"
@@ -29,6 +47,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
           label="Email Address"
           name="email"
           autoComplete="email"
+          onChange={handleChangeInputData}
         />
         <TextField
           margin="normal"
@@ -37,6 +56,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
           label="Password"
           type="password"
           autoComplete="current-password"
+          onChange={handleChangeInputData}
         />
         <Button
           type="submit"
@@ -52,7 +72,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
               to="/"
               style={{
                 textDecoration: "none",
-                color: `${ switchTheme ? "#e5e5e5" : "#222" }`,
+                color: `${switchTheme ? "#e5e5e5" : "#222"}`,
                 fontSize: "12px",
               }}
             >
@@ -64,7 +84,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
               to="/"
               style={{
                 textDecoration: "none",
-                color: `${ switchTheme ? "#e5e5e5" : "#222" }`,
+                color: `${switchTheme ? "#e5e5e5" : "#222"}`,
                 fontSize: "12px",
               }}
             >
