@@ -44,19 +44,15 @@ class Http {
     
         switch (status) {
           case StatusCode.InternalServerError: {
-            // Handle InternalServerError
             break;
           }
           case StatusCode.Forbidden: {
-            // Handle Forbidden
             break;
           }
           case StatusCode.Unauthorized: {
-            // Handle Unauthorized
             break;
           }
           case StatusCode.TooManyRequests: {
-            // Handle TooManyRequests
             break;
           }
         }

@@ -6,7 +6,7 @@ interface UserState {
     users : Users[],
     loading : boolean,
     error : any,
-    user : object
+    user : any
 }
 export const getAllUsers = createAsyncThunk<Users[]>(
     "users/getAllUsers",
@@ -20,14 +20,23 @@ export const getAllUsers = createAsyncThunk<Users[]>(
     }
 );
 
-export const loginUser = createAsyncThunk<User , Object>('users/loginUser' , async(data, thunkAPI) => {
+export const loginUser = createAsyncThunk<User , any>('users/loginUser' , async(data, thunkAPI) => {
     try {
         const response = await axiosConfig.post('users/login' , data);
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error)
     }
-})
+});
+export const registerUser = createAsyncThunk<Users , any>('/users' , async(data, thunkAPI) => {
+    try {
+       const response = await axiosConfig.post('/users', data);
+       return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
 
 
 const initialState : UserState = {
@@ -61,6 +70,9 @@ const userSlice = createSlice({
             }
         }).addCase(loginUser.rejected , (state, action) => {
             state.error = action.payload
+        }).addCase(registerUser.fulfilled, (state, action) => {
+            const user = action.payload
+            state.users.push(user);
         })
     }
 })

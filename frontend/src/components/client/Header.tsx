@@ -9,8 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 const Header = () => {
-  const data = useSelector((state: RootState) => state.users.user);
-  console.log(data);
+  const { user } = useSelector((state: RootState) => state.users.user);
   return (
     <div className="client-header">
       <div className="client-header-logo">
@@ -48,8 +47,8 @@ const Header = () => {
             </ul>
             <div className="auth-login">
               <SwitchButton />
-              {data ? (
-                <div className="after-login">after-login</div>
+              {user ? (
+                <div className="after-login">{`${user.firstName} ${user.lastName}`}</div>
               ) : (
                 <Link to="/login" className="btn-login" color="primary">
                   Login
