@@ -11,6 +11,7 @@ import { darkTheme, lightTheme } from "./utils/theme";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "./redux/store";
 import Login from "./views/client/auth/Login";
+import "react-toastify/dist/ReactToastify.css";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {

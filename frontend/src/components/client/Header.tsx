@@ -5,7 +5,12 @@ import SwitchButton from "../SwitchButton";
 import { NavLink } from "react-router-dom";
 import { Box, Button, FormControl, OutlinedInput } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+
 const Header = () => {
+  const data = useSelector((state: RootState) => state.users.user);
+  console.log(data);
   return (
     <div className="client-header">
       <div className="client-header-logo">
@@ -43,9 +48,13 @@ const Header = () => {
             </ul>
             <div className="auth-login">
               <SwitchButton />
-              <Link to="/login" className="btn-login" color="primary">
-                Login
-              </Link>
+              {data ? (
+                <div className="after-login">after-login</div>
+              ) : (
+                <Link to="/login" className="btn-login" color="primary">
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -1,19 +1,21 @@
 import * as React from "react";
 import Layout from "../../../components/client/Layout";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { RootState, useAppDispatch } from "../../../redux/store";
+import { loginUser } from "../../../redux/reducer/users.slice";
 
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
+  const error = useSelector((state: RootState) => state.users.error);
+  const dispatch = useAppDispatch();
   const [user, setUser] = React.useState({
     email: "",
     password: "",
   });
-
   const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({
       ...user,
@@ -23,7 +25,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
 
   const handleLogin = (e: React.FormEvent): void => {
     e.preventDefault();
-    console.log(user);
+    dispatch(loginUser(user));
   };
 
   return (
@@ -41,6 +43,13 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         className="form-auth"
         onSubmit={handleLogin}
       >
+        {error?.success === false ? (
+          <Alert severity="error" color="error" sx={{ margin: "10px 0" }}>
+            {error?.data}
+          </Alert>
+        ) : (
+          ""
+        )}
         <TextField
           margin="normal"
           fullWidth
