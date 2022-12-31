@@ -3,13 +3,43 @@ import logo from "../../logo.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import SwitchButton from "../SwitchButton";
 import { NavLink } from "react-router-dom";
-import { Box, Button, FormControl, OutlinedInput } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  FormControl,
+  Menu,
+  MenuItem,
+  OutlinedInput,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { LogoutUser } from "../../redux/reducer/users.slice";
+
+const settings = ["profile", "dashboard"];
 
 const Header = () => {
-  const { user } = useSelector((state: RootState) => state.users.user);
+  const dispatch = useAppDispatch();
+  const { user } = useSelector((state: RootState) => state.users);
+  const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleLogoutUser = () => {
+    dispatch(LogoutUser());
+    setAnchorElUser(null);
+  };
+
   return (
     <div className="client-header">
       <div className="client-header-logo">
@@ -47,8 +77,60 @@ const Header = () => {
             </ul>
             <div className="auth-login">
               <SwitchButton />
-              {user ? (
-                <div className="after-login">{`${user.firstName} ${user.lastName}`}</div>
+              {user?.user ? (
+                <Box sx={{ flexGrow: 0 }}>
+                  <Box
+                    onClick={handleOpenUserMenu}
+                    sx={{
+                      p: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="https://cafebiz.cafebizcdn.vn/2019/1/2/photo-1-15464020829431420592113.png"
+                    />
+                    <Typography
+                      sx={{ color: "#fff", marginLeft: 1 }}
+                    >{`${user?.user?.firstName} ${user?.user?.lastName}`}</Typography>
+                  </Box>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">
+                          <Link
+                            to={`/${setting}`}
+                            style={{
+                              textDecoration: "none",
+                              textTransform: "capitalize",
+                              color: switchTheme ? "#e5e5e5" : "#222",
+                            }}
+                          >
+                            {setting}
+                          </Link>
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                    <MenuItem onClick={handleLogoutUser}>Logout</MenuItem>
+                  </Menu>
+                </Box>
               ) : (
                 <Link to="/login" className="btn-login" color="primary">
                   Login

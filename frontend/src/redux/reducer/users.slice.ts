@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Users , User } from "../../types/type";
 import axiosConfig from "../../utils/axiosConfig";
-import { getItem, setItem } from "../../utils/useLocalStorage";
+import { getItem, removeItem, setItem } from "../../utils/useLocalStorage";
 interface UserState {
     users : Users[],
     loading : boolean,
     error : any,
-    user : any
+    user : any,
+    success : any
 }
 export const getAllUsers = createAsyncThunk<Users[]>(
     "users/getAllUsers",
@@ -43,40 +44,48 @@ const initialState : UserState = {
     users : [],
     loading : false,
     error : null,
-    user : getItem('user') || null
+    user : getItem('user') || null,
+    success : null
 }
 const userSlice = createSlice({
     name : "users",
     initialState : initialState,
     reducers : {
+        LogoutUser : (state) => {
+            state.user = null
+            removeItem('user')
+        }
     },
     extraReducers(builder) {
         builder.addCase(getAllUsers.pending , (state) => {
             state.loading = true
         }).addCase(getAllUsers.fulfilled, (state, action) => {
             state.users = action.payload;
-            state.loading = false;
+            state.loading = false
         }).addCase(getAllUsers.rejected, (state, action) => {
-            state.loading = false;
+            state.loading = false
             state.error = action.payload
         }).addCase(loginUser.pending , (state) => {
-            state.loading = true;
+            state.loading = true
         }).addCase(loginUser.fulfilled , (state, action) => {
             if(action.payload.success){
-                state.user = action.payload;
+                state.user = action.payload
                 setItem('user', state.user)
             }else{
                 state.error = action.payload;
             }
         }).addCase(loginUser.rejected , (state, action) => {
             state.error = action.payload
+        }).addCase(registerUser.pending , (state) => {
+            state.loading = true
         }).addCase(registerUser.fulfilled, (state, action) => {
-            const user = action.payload
-            state.users.push(user);
+            state.success = action.payload.success
+        }).addCase(registerUser.rejected , (state, action : any) => {
+            state.error = action.payload.data
         })
     }
 })
 
-export const { } =  userSlice.actions;
+export const {  LogoutUser } =  userSlice.actions;
 const userReducer = userSlice.reducer;
 export default userReducer

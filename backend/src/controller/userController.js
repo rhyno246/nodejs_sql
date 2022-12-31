@@ -11,7 +11,7 @@ module.exports = {
         create(body,(error , results) => {
             if(!results) {
                 return res.status(409).json({ 
-                    success : false , message : "User already exists !" 
+                    success : false , message : "User already exists or enter feild input !" 
                 })
             }
             if(error){
@@ -23,6 +23,7 @@ module.exports = {
             }
             return res.status(200).json({
                 success : true,
+                message : 'Create account success',
                 data : results
             })
         })
