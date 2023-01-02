@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./scss/app.scss";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./views/client/Home";
 import About from "./views/client/About";
 import News from "./views/client/News";
@@ -12,6 +12,10 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "./redux/store";
 import Login from "./views/client/auth/Login";
 import "react-toastify/dist/ReactToastify.css";
+import DashBoard from "./views/admin/Dashboard";
+import Settings from "./views/admin/Settings";
+import ProtectedRouting from "./route/ProtectedRouting";
+import PublicRoutes from "./route/PublicRoutes";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -22,12 +26,31 @@ const App: React.FunctionComponent<AppProps> = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+
             <Route path="/about" element={<About />} />
+
             <Route path="/news">
               <Route index element={<News />} />
               <Route path=":id" element={<NewsDetail />} />
             </Route>
-            <Route path="/login" element={<Login />} />
+
+            <Route
+              path="/admin"
+              element={<ProtectedRouting roleRequired="admin" />}
+            >
+              <Route
+                path="/admin"
+                element={<Navigate replace to="dashboard" />}
+              />
+              <Route path="dashboard" element={<DashBoard />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+
+            <Route path="login" element={<PublicRoutes />}>
+              <Route path="/login" element={<Login />} />
+            </Route>
+
+            <Route path="*" element={<p>There's nothing here: 404!</p>} />
           </Routes>
         </BrowserRouter>
       </Paper>

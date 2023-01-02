@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { LogoutUser } from "../../redux/reducer/users.slice";
 
-const settings = ["profile", "dashboard"];
+const settings = ["profile", "admin"];
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -51,7 +51,7 @@ const Header = () => {
             <div className="box-search">
               <Box component="form">
                 <FormControl sx={{ width: "200px" }}>
-                  <OutlinedInput placeholder="Please enter text" />
+                  <OutlinedInput placeholder="Tìm kím ... " />
                 </FormControl>
                 <Button variant="text" type="submit" color="primary">
                   <SearchIcon style={{ fontSize: "18px" }} />

@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk<User , any>('users/loginUser' , async(
         return thunkAPI.rejectWithValue(error)
     }
 });
-export const registerUser = createAsyncThunk<Users , any>('/users' , async(data, thunkAPI) => {
+export const registerUser = createAsyncThunk<Users , any>('/users/CreateUsers' , async(data, thunkAPI) => {
     try {
        const response = await axiosConfig.post('/users', data);
        return response.data;
