@@ -16,6 +16,7 @@ import DashBoard from "./views/admin/Dashboard";
 import Settings from "./views/admin/Settings";
 import ProtectedRouting from "./route/ProtectedRouting";
 import PublicRoutes from "./route/PublicRoutes";
+import Register from "./views/client/auth/Register";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -48,6 +49,10 @@ const App: React.FunctionComponent<AppProps> = () => {
 
             <Route path="login" element={<PublicRoutes />}>
               <Route path="/login" element={<Login />} />
+            </Route>
+
+            <Route path="register" element={<PublicRoutes />}>
+              <Route path="/register" element={<Register />} />
             </Route>
 
             <Route path="*" element={<p>There's nothing here: 404!</p>} />

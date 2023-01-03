@@ -1,33 +1,37 @@
-import * as React from "react";
-import Layout from "../../../components/client/Layout";
 import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import * as React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Layout from "../../../components/client/Layout";
+import { registerUser } from "../../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
-import { loginUser } from "../../../redux/reducer/users.slice";
+interface RegisterProps {}
 
-interface LoginProps {}
-
-const Login: React.FunctionComponent<LoginProps> = () => {
+const Register: React.FunctionComponent<RegisterProps> = () => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
   const error = useSelector((state: RootState) => state.users.error);
   const dispatch = useAppDispatch();
-  const [user, setUser] = React.useState({
+  const [dataCreateUser, setDataCreateUser] = React.useState({
+    firstName: "",
+    lastName: "",
+    gender: "",
     email: "",
     password: "",
+    phone: "",
   });
   const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({
-      ...user,
+    setDataCreateUser({
+      ...dataCreateUser,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleLogin = (e: React.FormEvent): void => {
+  const handleRegister = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    dispatch(loginUser(user));
+    dispatch(registerUser(dataCreateUser));
   };
 
+  console.log(error);
   return (
     <Layout>
       <Typography
@@ -35,21 +39,47 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         align="center"
         sx={{ textTransform: "uppercase" }}
       >
-        Đăng Nhập
+        Đăng ký
       </Typography>
       <Box
         component="form"
         sx={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
         className="form-auth"
-        onSubmit={handleLogin}
+        onSubmit={handleRegister}
       >
         {error?.success === false ? (
           <Alert severity="error" color="error" sx={{ margin: "10px 0" }}>
-            {error?.data}
+            {error?.message}
           </Alert>
         ) : (
           ""
         )}
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Họ"
+          name="first_name"
+          autoComplete="first_name"
+          onChange={handleChangeInputData}
+        />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Tên"
+          name="last_name"
+          autoComplete="last_name"
+          onChange={handleChangeInputData}
+        />
+
+        <TextField
+          margin="normal"
+          fullWidth
+          label="Giới tính"
+          name="gender"
+          autoComplete="gender"
+          onChange={handleChangeInputData}
+        />
+
         <TextField
           margin="normal"
           fullWidth
@@ -62,42 +92,41 @@ const Login: React.FunctionComponent<LoginProps> = () => {
           margin="normal"
           fullWidth
           name="password"
-          label="Mật khẩu"
+          label="Mật Khẩu"
           type="password"
           autoComplete="current-password"
           onChange={handleChangeInputData}
         />
+
+        <TextField
+          margin="normal"
+          fullWidth
+          name="phone"
+          label="Số điện thoại"
+          type="number"
+          autoComplete="number"
+          onChange={handleChangeInputData}
+        />
+
         <Button
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Đăng nhập
+          Đăng ký tài khoản
         </Button>
         <Grid container>
           <Grid item xs>
             <Link
-              to="/"
+              to="/login"
               style={{
                 textDecoration: "none",
                 color: `${switchTheme ? "#e5e5e5" : "#222"}`,
                 fontSize: "12px",
               }}
             >
-              Quên mật khẩu?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link
-              to="/register"
-              style={{
-                textDecoration: "none",
-                color: `${switchTheme ? "#e5e5e5" : "#222"}`,
-                fontSize: "12px",
-              }}
-            >
-              Tôi chưa có tài khoản ? tôi muốn đăng ký
+              Bạn muốn đăng nhập ?
             </Link>
           </Grid>
         </Grid>
@@ -106,4 +135,4 @@ const Login: React.FunctionComponent<LoginProps> = () => {
   );
 };
 
-export default Login;
+export default Register;

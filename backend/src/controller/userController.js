@@ -11,7 +11,7 @@ module.exports = {
         create(body,(error , results) => {
             if(!results) {
                 return res.status(409).json({ 
-                    success : false , message : "User already exists or enter feild input !" 
+                    success : false , message : "Tài khoản đã tồn tại hoặc bạn chưa điền đủ thông tin !" 
                 })
             }
             if(error){
@@ -23,7 +23,7 @@ module.exports = {
             }
             return res.status(200).json({
                 success : true,
-                message : 'Create account success',
+                message : 'Tạo tài khoản thành công',
                 data : results
             })
         })
@@ -50,7 +50,7 @@ module.exports = {
             if(!results) {
                 return res.json({
                     success : false,
-                    message : "Users not found"
+                    message : "Không tìm thấy tài khoản"
                 })
             }
             return res.json({
@@ -70,7 +70,7 @@ module.exports = {
             }
             return res.json({
                 success : true,
-                massage : "updated user success"
+                massage : "Cập nhật thành công"
             })
         })
     },
@@ -83,7 +83,7 @@ module.exports = {
             }
             return res.json({
                 success : true,
-                massage : "delete user success"
+                massage : "Xóa thành công"
             })
         })
     },
@@ -97,7 +97,7 @@ module.exports = {
             if (!results) {
                 return res.json({
                   success: false,
-                  data: "Invalid email or password"
+                  data: "Sai hoặc chưa nhập email hoặc mật khẩu"
                 });
             }
             const matchPass = compareSync(body.password , results.password);
@@ -106,7 +106,7 @@ module.exports = {
             }else{
                 return res.json({
                     success: false,
-                    data: "Invalid email or password"
+                    data: "Sai hoặc chưa nhập email hoặc mật khẩu"
                 });
             }
         })
@@ -118,21 +118,21 @@ module.exports = {
             if(!results){
                 return res.json({
                     success : false,
-                    message : "Email not found"
+                    message : "Không tìm thấy email"
                 })
             }else{
                 hash(body.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
                     const resetPasswordUrl = `${process.env.CLIENT}/password/reset?email=${body.email}&token=${hashedEmail}"`;
-                    const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+                    const message = `Reset mật khẩu mới của bạn có token là :- \n\n ${resetPasswordUrl} \n\n Nếu có bất cứ câu hỏi nào vui lòng gửi mail về địa chỉ mail trên hệ thống của chúng tôi.`;
                     sendEmail({
                         email: body.email,
-                        subject : `Password Recovery`,
+                        subject : `Khôi phục mật khẩu đã quên`,
                         message : message
                     })
                 })
                 return res.json({
                     success : true,
-                    message : "Send mail success"
+                    message : "Gửi mail thành cmn công"
                 })
             }
         })
@@ -143,7 +143,7 @@ module.exports = {
         if(!password){
             return res.json({
                 success : false,
-                message : "Input empty"
+                message : "Chưa nhập email"
             })
         }else{
             hash(password, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedPassword) => {
@@ -152,7 +152,7 @@ module.exports = {
                     if(results){
                         return res.json({
                             success : true,
-                            message : "Reset password success"
+                            message : "Reset mật khẩu thành  cmn công"
                         })
                     }
                 })
