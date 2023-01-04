@@ -66,13 +66,10 @@ const Header = () => {
           <div className="main-menu">
             <ul>
               <li>
-                <NavLink to="/">Home</NavLink>
+                <NavLink to="/">Trang chủ</NavLink>
               </li>
               <li>
-                <NavLink to="/about">About</NavLink>
-              </li>
-              <li>
-                <NavLink to="/news">News</NavLink>
+                <NavLink to="/news">Tin tức</NavLink>
               </li>
             </ul>
             <div className="auth-login">
@@ -128,12 +125,12 @@ const Header = () => {
                         </Typography>
                       </MenuItem>
                     ))}
-                    <MenuItem onClick={handleLogoutUser}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogoutUser}>Đăng xuất</MenuItem>
                   </Menu>
                 </Box>
               ) : (
                 <Link to="/login" className="btn-login" color="primary">
-                  Login
+                  Đăng nhập
                 </Link>
               )}
             </div>

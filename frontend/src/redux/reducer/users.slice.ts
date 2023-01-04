@@ -74,8 +74,9 @@ const userSlice = createSlice({
             }else{
                 state.error = action.payload;
             }
-        }).addCase(loginUser.rejected , (state, action) => {
-            state.error = action.payload
+        }).addCase(loginUser.rejected , (state, action : any) => {
+            console.log(action.payload.data)
+            state.error = action.payload.data
         }).addCase(registerUser.pending , (state) => {
             state.loading = true
         }).addCase(registerUser.fulfilled, (state, action) => {

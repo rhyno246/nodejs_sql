@@ -1,11 +1,11 @@
 import * as React from "react";
 import Layout from "../../../components/client/Layout";
-import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { loginUser } from "../../../redux/reducer/users.slice";
-
+import { ToastContainer, toast } from "react-toastify";
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
@@ -22,11 +22,16 @@ const Login: React.FunctionComponent<LoginProps> = () => {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleLogin = (e: React.FormEvent): void => {
     e.preventDefault();
     dispatch(loginUser(user));
   };
+
+  React.useLayoutEffect(() => {
+    if (error) {
+      toast(error.data);
+    }
+  }, [error]);
 
   return (
     <Layout>
@@ -43,13 +48,6 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         className="form-auth"
         onSubmit={handleLogin}
       >
-        {error?.success === false ? (
-          <Alert severity="error" color="error" sx={{ margin: "10px 0" }}>
-            {error?.data}
-          </Alert>
-        ) : (
-          ""
-        )}
         <TextField
           margin="normal"
           fullWidth
@@ -102,6 +100,18 @@ const Login: React.FunctionComponent<LoginProps> = () => {
           </Grid>
         </Grid>
       </Box>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme={switchTheme ? "dark" : "light"}
+      />
     </Layout>
   );
 };

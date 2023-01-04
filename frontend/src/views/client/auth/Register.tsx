@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -47,13 +47,13 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
         className="form-auth"
         onSubmit={handleRegister}
       >
-        {error?.success === false ? (
+        {/* {error?.success === false ? (
           <Alert severity="error" color="error" sx={{ margin: "10px 0" }}>
             {error?.message}
           </Alert>
         ) : (
           ""
-        )}
+        )} */}
         <TextField
           margin="normal"
           fullWidth
