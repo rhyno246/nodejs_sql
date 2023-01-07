@@ -1,13 +1,9 @@
 import * as React from "react";
-import Layout from "../../components/client/Layout";
+import Layout from "../../components/backend/Layout";
 interface DashBoardProps {}
 
 const DashBoard: React.FunctionComponent<DashBoardProps> = () => {
-  return (
-    <Layout>
-      <p>dash board</p>
-    </Layout>
-  );
+  return <Layout>dssadsdsddsa</Layout>;
 };
 
 export default DashBoard;

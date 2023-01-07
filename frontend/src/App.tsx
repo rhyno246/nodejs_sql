@@ -22,7 +22,7 @@ const App: React.FunctionComponent<AppProps> = () => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
   return (
     <ThemeProvider theme={switchTheme ? darkTheme : lightTheme}>
-      <Paper style={{ height: "100vh" }}>
+      <Paper style={{ height: "100vh", borderRadius: 0 }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />

@@ -2,8 +2,9 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import Layout from "../../../components/client/Layout";
-import { registerUser } from "../../../redux/reducer/users.slice";
+import { ClearError, registerUser } from "../../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
 interface RegisterProps {}
 
@@ -31,7 +32,12 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     dispatch(registerUser(dataCreateUser));
   };
 
-  console.log(error);
+  React.useLayoutEffect(() => {
+    if (error) {
+      toast.error(error.message);
+      dispatch(ClearError());
+    }
+  }, [error, dispatch]);
   return (
     <Layout>
       <Typography
@@ -47,13 +53,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
         className="form-auth"
         onSubmit={handleRegister}
       >
-        {/* {error?.success === false ? (
-          <Alert severity="error" color="error" sx={{ margin: "10px 0" }}>
-            {error?.message}
-          </Alert>
-        ) : (
-          ""
-        )} */}
         <TextField
           margin="normal"
           fullWidth
@@ -131,6 +130,18 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           </Grid>
         </Grid>
       </Box>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2500}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme={switchTheme ? "dark" : "light"}
+      />
     </Layout>
   );
 };

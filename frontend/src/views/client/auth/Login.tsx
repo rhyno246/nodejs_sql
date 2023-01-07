@@ -4,7 +4,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
-import { loginUser } from "../../../redux/reducer/users.slice";
+import { ClearError, loginUser } from "../../../redux/reducer/users.slice";
 import { ToastContainer, toast } from "react-toastify";
 interface LoginProps {}
 
@@ -29,9 +29,10 @@ const Login: React.FunctionComponent<LoginProps> = () => {
 
   React.useLayoutEffect(() => {
     if (error) {
-      toast(error.data);
+      toast.error(error.data);
+      dispatch(ClearError());
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   return (
     <Layout>
@@ -102,7 +103,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
       </Box>
       <ToastContainer
         position="bottom-center"
-        autoClose={1000}
+        autoClose={2500}
         hideProgressBar
         newestOnTop={false}
         closeOnClick
