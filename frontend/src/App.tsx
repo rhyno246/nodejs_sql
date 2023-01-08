@@ -16,6 +16,7 @@ import Settings from "./views/admin/Settings";
 import ProtectedRouting from "./route/ProtectedRouting";
 import PublicRoutes from "./route/PublicRoutes";
 import Register from "./views/client/auth/Register";
+import Post from "./views/admin/Post";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -40,6 +41,7 @@ const App: React.FunctionComponent<AppProps> = () => {
                 element={<Navigate replace to="dashboard" />}
               />
               <Route path="dashboard" element={<DashBoard />} />
+              <Route path="post" element={<Post />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 

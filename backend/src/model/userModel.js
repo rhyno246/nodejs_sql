@@ -3,7 +3,7 @@ const pool = require('../utils/db');
 module.exports = {
     create : (data, callBack) => {
         pool.query(
-            `insert into register(firstName, lastName, gender, email, password , phone) values(?,?,?,?,?,?)` ,
+            `insert into users(firstName, lastName, gender, email, password , phone) values(?,?,?,?,?,?)` ,
             [
                 data.first_name,
                 data.last_name,
@@ -23,7 +23,7 @@ module.exports = {
     },
     getUser : callBack => {
         pool.query(
-            `select id ,firstName, lastName, gender, email, password , phone , role from register`,
+            `select id ,firstName, lastName, gender, email, password , phone , role from users`,
             [],
             (error, results , fields) => {
                 if(error){
@@ -35,7 +35,7 @@ module.exports = {
     },
     getUserById : (id , callBack) => {
         pool.query(
-            `select id ,firstName, lastName, gender, email, password , phone , role from register where id = ?`,
+            `select id ,firstName, lastName, gender, email, password , phone , role from users where id = ?`,
             [id],
             (error, results , fields) => {
                 if(error){
@@ -47,7 +47,7 @@ module.exports = {
     },
     updateUser : (data, callBack) => {
         pool.query(
-            `update register set firstName=?, lastName=?, gender=?, email=?, password=?, phone=? , role=? where id = ?`,
+            `update users set firstName=?, lastName=?, gender=?, email=?, password=?, phone=? , role=? where id = ?`,
             [
                 data.first_name,
                 data.last_name,
@@ -68,7 +68,7 @@ module.exports = {
     },
     deleteUser : (data, callBack) => {
         pool.query(
-            `delete from register where id = ?`,
+            `delete from users where id = ?`,
             [
                 data.id
             ],
@@ -82,7 +82,7 @@ module.exports = {
     },
     login : (email , callBack) => {
         pool.query(
-            `select * from register where email = ? `,
+            `select * from users where email = ? `,
             [email],
             (error , results , fields) => {
                 if(error){
@@ -94,7 +94,7 @@ module.exports = {
     },
     forgotPassword : (email , callBack) => {
         pool.query(
-            `select * from register where email = ? `,
+            `select * from users where email = ? `,
             [email],
             (error , results , fields) => {
                 if(error){
@@ -106,7 +106,7 @@ module.exports = {
     },
     resetPassword : (email , password , callBack) => {
         pool.query(
-            ` update register set password = ? where email = ? `,
+            ` update users set password = ? where email = ? `,
             [password , email],
             (error , results , fields) => {
                 if(error){

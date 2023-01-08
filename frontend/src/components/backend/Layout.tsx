@@ -15,14 +15,17 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import SwitchButton from "../SwitchButton";
 import { Avatar, Box, Menu, MenuItem, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { LogoutUser } from "../../redux/reducer/users.slice";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
+import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import CategoryIcon from "@mui/icons-material/Category";
 
 interface LayoutProps {
   children: any;
@@ -128,6 +131,37 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     setAnchorElUser(null);
   };
 
+  const menu = [
+    {
+      text: "Dashboard",
+      link: "/admin",
+      icon: <DashboardIcon />,
+    },
+    {
+      text: "Post",
+      link: "/admin/post",
+      icon: <NewspaperIcon />,
+    },
+    {
+      text: "Video",
+      link: "/admin/video",
+      icon: <SlowMotionVideoIcon />,
+    },
+  ];
+
+  const manager = [
+    {
+      text: "Users",
+      link: "/admin/users",
+      icon: <ManageAccountsIcon />,
+    },
+    {
+      text: "Category",
+      link: "/admin/category",
+      icon: <CategoryIcon />,
+    },
+  ];
+
   return (
     <div className="layout-admin">
       <MetaData title="Admin Panel" />
@@ -150,8 +184,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             <Typography
               variant="h6"
               noWrap
-              component="a"
-              href="/admin"
+              component={Link}
+              to="/admin"
               sx={{
                 mr: 2,
                 display: { md: "flex" },
@@ -220,7 +254,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                 </MenuItem>
                 <MenuItem>
                   <Link
-                    to="/"
+                    to="/admin/settings"
                     style={{
                       textDecoration: "none",
                       textTransform: "capitalize",
@@ -259,8 +293,15 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           </DrawerHeader>
           <Divider />
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+            {menu.map((menu, index) => (
+              <ListItem
+                button
+                component={Link}
+                to={menu.link}
+                key={index}
+                disablePadding
+                sx={{ display: "block" }}
+              >
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -275,17 +316,29 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                       justifyContent: "center",
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {menu.icon}
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+
+                  <Typography component={Link} to={menu.link}></Typography>
+                  <ListItemText
+                    primary={menu.text}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
                 </ListItemButton>
               </ListItem>
             ))}
           </List>
           <Divider />
           <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+            {manager.map((manager, index) => (
+              <ListItem
+                button
+                component={Link}
+                to={manager.link}
+                key={index}
+                disablePadding
+                sx={{ display: "block" }}
+              >
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -300,9 +353,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                       justifyContent: "center",
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {manager.icon}
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  <ListItemText
+                    primary={manager.text}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
                 </ListItemButton>
               </ListItem>
             ))}

@@ -17,9 +17,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { LogoutUser } from "../../redux/reducer/users.slice";
-
-const settings = ["profile", "admin"];
-
 const Header = () => {
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.users);
@@ -109,22 +106,37 @@ const Header = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    {settings.map((setting) => (
-                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">
+                        <Link
+                          to="/"
+                          style={{
+                            textDecoration: "none",
+                            textTransform: "capitalize",
+                            color: switchTheme ? "#e5e5e5" : "#222",
+                          }}
+                        >
+                          Trang cá nhân
+                        </Link>
+                      </Typography>
+                    </MenuItem>
+                    {user?.user?.role === "admin" && (
+                      <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">
                           <Link
-                            to={`/${setting}`}
+                            to="/admin"
                             style={{
                               textDecoration: "none",
                               textTransform: "capitalize",
                               color: switchTheme ? "#e5e5e5" : "#222",
                             }}
                           >
-                            {setting}
+                            Admin Panel
                           </Link>
                         </Typography>
                       </MenuItem>
-                    ))}
+                    )}
+
                     <MenuItem onClick={handleLogoutUser}>Đăng xuất</MenuItem>
                   </Menu>
                 </Box>
