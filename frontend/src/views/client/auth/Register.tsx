@@ -1,17 +1,24 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Layout from "../../../components/client/Layout";
-import { ClearError, registerUser } from "../../../redux/reducer/users.slice";
+import {
+  ClearError,
+  ClearSuccess,
+  registerUser,
+} from "../../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
 interface RegisterProps {}
 
 const Register: React.FunctionComponent<RegisterProps> = () => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
-  const error = useSelector((state: RootState) => state.users.error);
+  const { error, success, loading } = useSelector(
+    (state: RootState) => state.users
+  );
   const dispatch = useAppDispatch();
+  const history = useNavigate();
   const [dataCreateUser, setDataCreateUser] = React.useState({
     firstName: "",
     lastName: "",
@@ -32,12 +39,16 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     dispatch(registerUser(dataCreateUser));
   };
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (error) {
       toast.error(error.message);
       dispatch(ClearError());
     }
-  }, [error, dispatch]);
+    if (success) {
+      history("/login");
+      dispatch(ClearSuccess());
+    }
+  }, [error, dispatch, success, history]);
   return (
     <Layout>
       <Typography
@@ -112,6 +123,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
+          disabled={loading ? true : false}
         >
           Đăng ký tài khoản
         </Button>

@@ -23,9 +23,9 @@ module.exports = {
             })
         }
     },
-    checkRole : (...roles) => {
+    checkRole : (...role) => {
         return (req, res, next) => {
-            if(!roles.includes(req.user.role)){
+            if(!role.includes(req.decoded.role)){
                 return res.json({
                     success : false,
                     message : `Role : ${req.user.role} is not allowed to access this resouce`

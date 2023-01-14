@@ -7,7 +7,7 @@ interface UserState {
     loading : boolean,
     error : any,
     user : any,
-    success : any
+    success : any,
 }
 export const getAllUsers = createAsyncThunk<Users[]>(
     "users/getAllUsers",
@@ -21,15 +21,17 @@ export const getAllUsers = createAsyncThunk<Users[]>(
     }
 );
 
-export const loginUser = createAsyncThunk<User , any>('users/loginUser' , async(data, thunkAPI) => {
+
+
+export const loginUser = createAsyncThunk<User , any>('loginUser' , async(data, thunkAPI) => {
     try {
-        const response = await axiosConfig.post('users/login' , data);
+        const response = await axiosConfig.post('/login' , data);
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error)
     }
 });
-export const registerUser = createAsyncThunk<Users , any>('/users/CreateUsers' , async(data, thunkAPI) => {
+export const registerUser = createAsyncThunk<Users , any>('/CreateUsers' , async(data, thunkAPI) => {
     try {
        const response = await axiosConfig.post('/users', data);
        return response.data;
@@ -38,6 +40,20 @@ export const registerUser = createAsyncThunk<Users , any>('/users/CreateUsers' ,
     }
 });
 
+//admin
+
+export const getAllUsersAdmin = createAsyncThunk<Users[]>(
+    "/admin/getAllUsers",
+    async (_, thunkAPI) => {
+        try {
+            const response = await axiosConfig.get("/admin/users");
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
 
 
 const initialState : UserState = {
@@ -45,7 +61,7 @@ const initialState : UserState = {
     loading : false,
     error : null,
     user : getItem('user') || null,
-    success : null
+    success : null,
 }
 const userSlice = createSlice({
     name : "users",
@@ -57,6 +73,9 @@ const userSlice = createSlice({
         },
         ClearError : (state) => {
             state.error = null
+        },
+        ClearSuccess : (state) => {
+            state.success = null
         }
     },
     extraReducers(builder) {
@@ -78,18 +97,28 @@ const userSlice = createSlice({
                 state.error = action.payload;
             }
         }).addCase(loginUser.rejected , (state, action : any) => {
-            console.log(action.payload.data)
             state.error = action.payload.data
+            state.loading = false
         }).addCase(registerUser.pending , (state) => {
             state.loading = true
         }).addCase(registerUser.fulfilled, (state, action) => {
+            state.loading = false
             state.success = action.payload.success
         }).addCase(registerUser.rejected , (state, action : any) => {
+            state.loading = false
             state.error = action.payload.data
+        }).addCase(getAllUsersAdmin.pending , (state) => {
+            state.loading = true
+        }).addCase(getAllUsersAdmin.fulfilled, (state, action) => {
+            state.loading = false
+            state.users = action.payload
+        }).addCase(getAllUsersAdmin.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
         })
     }
 })
 
-export const {  LogoutUser , ClearError } =  userSlice.actions;
+export const {  LogoutUser , ClearError , ClearSuccess } =  userSlice.actions;
 const userReducer = userSlice.reducer;
 export default userReducer

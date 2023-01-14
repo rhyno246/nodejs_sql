@@ -17,6 +17,9 @@ import ProtectedRouting from "./route/ProtectedRouting";
 import PublicRoutes from "./route/PublicRoutes";
 import Register from "./views/client/auth/Register";
 import Post from "./views/admin/Post";
+import NewPost from "./views/admin/NewPost";
+import DetailPost from "./views/admin/DetailPost";
+import Users from "./views/admin/Users";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -41,7 +44,13 @@ const App: React.FunctionComponent<AppProps> = () => {
                 element={<Navigate replace to="dashboard" />}
               />
               <Route path="dashboard" element={<DashBoard />} />
-              <Route path="post" element={<Post />} />
+
+              <Route path="post">
+                <Route index element={<Post />} />
+                <Route path="add-new" element={<NewPost />} />
+                <Route path=":id" element={<DetailPost />} />
+              </Route>
+              <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 

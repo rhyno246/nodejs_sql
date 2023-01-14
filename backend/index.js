@@ -10,7 +10,7 @@ const userRouter = require('./src/routes/userRoute');
 
 app.use(express.json());
 app.use(cors());
-app.use('/api/users' , userRouter);
+app.use('/api/v1' , userRouter);
 
 
 
