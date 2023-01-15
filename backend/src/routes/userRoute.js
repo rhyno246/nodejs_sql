@@ -3,7 +3,6 @@ const express = require('express');
 const { checkAuthorization , checkRole } = require('../middleware/auth');
 const router = express.Router();
 router.route('/users').
-    get(getUser).
     post(createUser).
     patch(updateUser).
     delete(checkAuthorization,deleteUser);

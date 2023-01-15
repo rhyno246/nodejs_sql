@@ -9,20 +9,6 @@ interface UserState {
     user : any,
     success : any,
 }
-export const getAllUsers = createAsyncThunk<Users[]>(
-    "users/getAllUsers",
-    async (_, thunkAPI) => {
-        try {
-            const response = await axiosConfig.get("/users");
-            return response.data;
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error);
-        }
-    }
-);
-
-
-
 export const loginUser = createAsyncThunk<User , any>('loginUser' , async(data, thunkAPI) => {
     try {
         const response = await axiosConfig.post('/login' , data);
@@ -43,7 +29,7 @@ export const registerUser = createAsyncThunk<Users , any>('/CreateUsers' , async
 //admin
 
 export const getAllUsersAdmin = createAsyncThunk<Users[]>(
-    "/admin/getAllUsers",
+    "/admin/getAllAdminUsers",
     async (_, thunkAPI) => {
         try {
             const response = await axiosConfig.get("/admin/users");
@@ -79,15 +65,7 @@ const userSlice = createSlice({
         }
     },
     extraReducers(builder) {
-        builder.addCase(getAllUsers.pending , (state) => {
-            state.loading = true
-        }).addCase(getAllUsers.fulfilled, (state, action) => {
-            state.users = action.payload;
-            state.loading = false
-        }).addCase(getAllUsers.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        }).addCase(loginUser.pending , (state) => {
+        builder.addCase(loginUser.pending , (state) => {
             state.loading = true
         }).addCase(loginUser.fulfilled , (state, action) => {
             if(action.payload.success){
@@ -109,9 +87,9 @@ const userSlice = createSlice({
             state.error = action.payload.data
         }).addCase(getAllUsersAdmin.pending , (state) => {
             state.loading = true
-        }).addCase(getAllUsersAdmin.fulfilled, (state, action) => {
+        }).addCase(getAllUsersAdmin.fulfilled, (state, action : any) => {
             state.loading = false
-            state.users = action.payload
+            state.users = action.payload.data
         }).addCase(getAllUsersAdmin.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;

@@ -9,8 +9,11 @@ export interface Users {
     role : string,
     success : string
 }
-
-
+export interface DialogTitleProps {
+    id: string;
+    children?: React.ReactNode;
+    onClose: () => void;
+}
 
 export interface User {
     email : string,
