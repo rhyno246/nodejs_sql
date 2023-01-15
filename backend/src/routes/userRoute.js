@@ -1,4 +1,13 @@
-const { createUser, getUser , getUserById , updateUser , deleteUser, userLogin , forgotPassword , resetPassword  } = require('../controller/userController');
+const { 
+    createUser, 
+    getUser , 
+    getUserById , 
+    updateUser , 
+    deleteUser, 
+    userLogin , 
+    forgotPassword , 
+    resetPassword  
+} = require('../controller/userController');
 const express = require('express');
 const { checkAuthorization , checkRole } = require('../middleware/auth');
 const router = express.Router();
