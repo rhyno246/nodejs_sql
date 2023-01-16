@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 import UserModal from "../../components/backend/UserModal";
 import CreateUser from "../../components/backend/user/CreateUser";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { Box } from "@mui/system";
 
 interface UsersProps {}
 
@@ -73,15 +74,21 @@ const Users: React.FunctionComponent<UsersProps> = () => {
       minWidth: 150,
       type: "number",
       sortable: false,
-      renderCell: (params: any) => {
+      renderCell: (params: GridValueGetterParams) => {
         return (
           <>
-            <Button>
-              <EditIcon />
-            </Button>
-            <Button>
-              <DeleteIcon />
-            </Button>
+            {params.row.role === "content" || params.row.role === "user" ? (
+              <Box>
+                <Button>
+                  <EditIcon />
+                </Button>
+                <Button>
+                  <DeleteIcon />
+                </Button>
+              </Box>
+            ) : (
+              ""
+            )}
           </>
         );
       },
