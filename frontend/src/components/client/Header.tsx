@@ -120,7 +120,8 @@ const Header = () => {
                         </Link>
                       </Typography>
                     </MenuItem>
-                    {user?.user?.role === "admin" && (
+                    {user?.user?.role === "admin" ||
+                    user?.user?.role === "content" ? (
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">
                           <Link
@@ -135,6 +136,8 @@ const Header = () => {
                           </Link>
                         </Typography>
                       </MenuItem>
+                    ) : (
+                      ""
                     )}
 
                     <MenuItem onClick={handleLogoutUser}>Đăng xuất</MenuItem>

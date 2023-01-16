@@ -3,18 +3,20 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { RootState } from "../redux/store";
 interface ProtectedRoutingProps {
-  roleRequired: "admin" | "content";
+  roleAdminRequired?: string;
+  roleContentRequired?: string;
 }
 const ProtectedRouting: React.FunctionComponent<ProtectedRoutingProps> = (
   props: ProtectedRoutingProps
 ) => {
   const { user } = useSelector((state: RootState) => state.users);
-  if (props.roleRequired) {
+  if (props.roleAdminRequired || props.roleContentRequired) {
     return user ? (
-      props.roleRequired === user.user.role ? (
+      props.roleAdminRequired === user.user.role ||
+      props.roleContentRequired === user.user.role ? (
         <Outlet />
       ) : (
-        <Navigate to="/" />
+        <Navigate to="/admin" />
       )
     ) : (
       <Navigate to="/login" />

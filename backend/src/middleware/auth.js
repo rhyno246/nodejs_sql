@@ -28,7 +28,7 @@ module.exports = {
             if(!role.includes(req.decoded.role)){
                 return res.json({
                     success : false,
-                    message : `Role : ${req.user.role} is not allowed to access this resouce`
+                    message : `Role : ${req.decoded.role} is not allowed to access this resouce`
                 })
             }
             next();

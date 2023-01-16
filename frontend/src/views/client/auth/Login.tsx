@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { ClearError, loginUser } from "../../../redux/reducer/users.slice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
@@ -101,18 +101,6 @@ const Login: React.FunctionComponent<LoginProps> = () => {
           </Grid>
         </Grid>
       </Box>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={2500}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme={switchTheme ? "dark" : "light"}
-      />
     </Layout>
   );
 };

@@ -87,17 +87,7 @@ const Users: React.FunctionComponent<UsersProps> = () => {
       },
     },
   ];
-  const rows: any = [
-    // {
-    //   id: 1,
-    //   lastName: "Snow",
-    //   firstName: "Jon",
-    //   phone: "052",
-    //   email: "nsdkfj@gmail.com",
-    //   gender: "m",
-    //   role: "admin",
-    // },
-  ];
+  const rows: any = [];
   Object.values(users) &&
     Object.values(users).forEach((item: any) => {
       rows.push({

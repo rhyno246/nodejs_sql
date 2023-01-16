@@ -20,6 +20,7 @@ import Post from "./views/admin/Post";
 import NewPost from "./views/admin/NewPost";
 import DetailPost from "./views/admin/DetailPost";
 import Users from "./views/admin/Users";
+import { ToastContainer } from "react-toastify";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -37,7 +38,12 @@ const App: React.FunctionComponent<AppProps> = () => {
 
             <Route
               path="/admin"
-              element={<ProtectedRouting roleRequired="admin" />}
+              element={
+                <ProtectedRouting
+                  roleAdminRequired="admin"
+                  roleContentRequired="content"
+                />
+              }
             >
               <Route
                 path="/admin"
@@ -50,7 +56,13 @@ const App: React.FunctionComponent<AppProps> = () => {
                 <Route path="add-new" element={<NewPost />} />
                 <Route path=":id" element={<DetailPost />} />
               </Route>
-              <Route path="users" element={<Users />} />
+
+              <Route
+                path="users"
+                element={<ProtectedRouting roleContentRequired="admin" />}
+              >
+                <Route index element={<Users />} />
+              </Route>
               <Route path="settings" element={<Settings />} />
             </Route>
 
@@ -66,6 +78,18 @@ const App: React.FunctionComponent<AppProps> = () => {
           </Routes>
         </BrowserRouter>
       </Paper>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2500}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme={switchTheme ? "dark" : "light"}
+      />
     </ThemeProvider>
   );
 };

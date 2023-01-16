@@ -68,6 +68,7 @@ const userSlice = createSlice({
         builder.addCase(loginUser.pending , (state) => {
             state.loading = true
         }).addCase(loginUser.fulfilled , (state, action) => {
+            state.loading = false
             if(action.payload.success){
                 state.user = action.payload
                 setItem('user', state.user)

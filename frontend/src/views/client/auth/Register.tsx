@@ -2,7 +2,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Layout from "../../../components/client/Layout";
 import {
   ClearError,
@@ -142,18 +142,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           </Grid>
         </Grid>
       </Box>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={2500}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme={switchTheme ? "dark" : "light"}
-      />
     </Layout>
   );
 };
