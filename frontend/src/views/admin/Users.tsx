@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 import Layout from "../../components/backend/Layout";
-import Loading from "../../components/Loading";
 import { getAllUsersAdmin } from "../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import EditIcon from "@mui/icons-material/Edit";
@@ -11,15 +10,19 @@ import UserModal from "../../components/backend/UserModal";
 import CreateUser from "../../components/backend/user/CreateUser";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
+import EditUser from "../../components/backend/user/EditUser";
 
 interface UsersProps {}
 
 const Users: React.FunctionComponent<UsersProps> = () => {
-  const { users, loading } = useSelector((state: RootState) => state.users);
+  const { users, success } = useSelector((state: RootState) => state.users);
   const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(getAllUsersAdmin());
-  }, [dispatch]);
+    if (success) {
+      dispatch(getAllUsersAdmin());
+    }
+  }, [dispatch, success]);
   const columns: GridColDef[] = [
     { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
 
@@ -79,7 +82,7 @@ const Users: React.FunctionComponent<UsersProps> = () => {
           <>
             {params.row.role === "content" || params.row.role === "user" ? (
               <Box>
-                <Button>
+                <Button onClick={openModalEditUser}>
                   <EditIcon />
                 </Button>
                 <Button>
@@ -108,34 +111,37 @@ const Users: React.FunctionComponent<UsersProps> = () => {
       });
     });
   const [open, setOpen] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
   const openModalAddNewUser = () => {
     setOpen(true);
   };
 
+  const openModalEditUser = () => {
+    setOpenEdit(true);
+  };
+
   return (
     <Layout>
-      {loading ? (
-        <Loading loading={loading} />
-      ) : (
-        <>
-          <Button variant="contained" onClick={openModalAddNewUser}>
-            Add new user
-          </Button>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10]}
-            disableSelectionOnClick
-            getRowId={(row) => row.id}
-            autoHeight
-            sx={{ marginTop: 3 }}
-          />
-          <UserModal open={open} setOpen={setOpen} addTitle="Add New User">
-            <CreateUser />
-          </UserModal>
-        </>
-      )}
+      <Button variant="contained" onClick={openModalAddNewUser}>
+        Add new user
+      </Button>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        disableSelectionOnClick
+        getRowId={(row) => row.id}
+        autoHeight
+        sx={{ marginTop: 3 }}
+      />
+      <UserModal open={open} setOpen={setOpen} addTitle="Add New User">
+        <CreateUser setOpen={setOpen} />
+      </UserModal>
+
+      <UserModal open={openEdit} setOpen={setOpenEdit} addTitle="Edit User">
+        <EditUser setOpen={setOpenEdit} />
+      </UserModal>
     </Layout>
   );
 };

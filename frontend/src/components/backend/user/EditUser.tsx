@@ -1,28 +1,20 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField/TextField";
-import Button from "@mui/material/Button/Button";
 import {
+  Box,
+  Button,
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
+  TextField,
 } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../../redux/store";
-import {
-  ClearError,
-  ClearSuccess,
-  CreateUsersAdmin,
-} from "../../../redux/reducer/users.slice";
-import { toast } from "react-toastify";
-interface CreateUserProps {
+import * as React from "react";
+interface EditUserProps {
   setOpen: any;
 }
 
-const CreateUser: React.FunctionComponent<CreateUserProps> = ({
+const EditUser: React.FunctionComponent<EditUserProps> = ({
   setOpen,
-}: CreateUserProps) => {
+}: EditUserProps) => {
   const [dataCreateUser, setDataCreateUser] = React.useState({
     first_name: "",
     last_name: "",
@@ -32,60 +24,28 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
     phone: "",
     role: "content",
   });
-  const { error, success, loading } = useSelector(
-    (state: RootState) => state.users
-  );
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-      dispatch(ClearError());
-    }
-    if (success?.success) {
-      toast.success(success.message);
-      dispatch(ClearSuccess());
-      setOpen(false);
-    }
-    if (success?.warning) {
-      toast.warning(success.message);
-      dispatch(ClearSuccess());
-      setOpen(false);
-    }
-  }, [success, error, dispatch, setOpen]);
-
   const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDataCreateUser({
       ...dataCreateUser,
       [e.target.name]: e.target.value,
     });
   };
-  const handleCreateUser = (e: React.FormEvent<HTMLElement>): void => {
+  const handleEditUser = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
-    dispatch(CreateUsersAdmin(dataCreateUser));
-    setDataCreateUser({
-      first_name: "",
-      last_name: "",
-      gender: "",
-      email: "",
-      password: "",
-      phone: "",
-      role: "content",
-    });
   };
+
   return (
     <Box
       component="form"
       sx={{ width: "100%", minWidth: "500px", margin: "0 auto" }}
       className="form-auth"
-      onSubmit={handleCreateUser}
+      onSubmit={handleEditUser}
     >
       <TextField
         margin="normal"
         fullWidth
         label="first_name"
         name="first_name"
-        value={dataCreateUser.first_name}
         onChange={handleChangeInputData}
       />
       <TextField
@@ -93,7 +53,6 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         fullWidth
         label="last_name"
         name="last_name"
-        value={dataCreateUser.last_name}
         onChange={handleChangeInputData}
       />
 
@@ -111,7 +70,6 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         fullWidth
         label="email"
         name="email"
-        value={dataCreateUser.email}
         onChange={handleChangeInputData}
       />
       <TextField
@@ -120,7 +78,6 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         name="password"
         label="password"
         type="password"
-        value={dataCreateUser.password}
         onChange={handleChangeInputData}
       />
 
@@ -131,7 +88,6 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         label="phone"
         type="number"
         autoComplete="number"
-        value={dataCreateUser.phone}
         onChange={handleChangeInputData}
       />
 
@@ -157,7 +113,7 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
-        disabled={loading ? true : false}
+        //   disabled={loading ? true : false}
       >
         Create User
       </Button>
@@ -165,4 +121,4 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
   );
 };
 
-export default CreateUser;
+export default EditUser;

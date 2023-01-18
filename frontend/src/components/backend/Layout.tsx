@@ -130,7 +130,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     dispatch(LogoutUser());
     setAnchorElUser(null);
   };
-
   const menu = [
     {
       text: "Dashboard",
@@ -329,6 +328,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             ))}
           </List>
           <Divider />
+          {/* {user?.user?.role === "admin" && ( */}
           <List>
             {manager.map((manager, index) => (
               <ListItem
@@ -363,6 +363,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               </ListItem>
             ))}
           </List>
+          {/* )} */}
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />

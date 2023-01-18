@@ -40,6 +40,20 @@ export const getAllUsersAdmin = createAsyncThunk<Users[]>(
     }
 );
 
+export const CreateUsersAdmin = createAsyncThunk<Users , any>(
+    "/admin/CreateUsersAdmin",
+    async (data, thunkAPI) => {
+        try {
+            const response = await axiosConfig.post("/admin/users" , data);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+
+
 
 
 const initialState : UserState = {
@@ -94,6 +108,14 @@ const userSlice = createSlice({
         }).addCase(getAllUsersAdmin.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+        }).addCase(CreateUsersAdmin.pending , (state) => {
+            state.loading = true
+        }).addCase(CreateUsersAdmin.fulfilled, (state, action) => {
+            state.loading = false
+            state.success = action.payload
+        }).addCase(CreateUsersAdmin.rejected , (state, action : any) => {
+            state.loading = false
+            state.error = action.payload.data
         })
     }
 })

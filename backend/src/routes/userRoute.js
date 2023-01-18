@@ -6,7 +6,8 @@ const {
     deleteUser, 
     userLogin , 
     forgotPassword , 
-    resetPassword  
+    resetPassword,  
+    createUserAdmin
 } = require('../controller/userController');
 const express = require('express');
 const { checkAuthorization , checkRole } = require('../middleware/auth');
@@ -22,7 +23,9 @@ router.route('/:id').get(getUserById);
 
 //admin
 
-router.route('/admin/users').get(checkAuthorization , checkRole('admin') , getUser);
+router.route('/admin/users')
+.get(checkAuthorization , checkRole('admin', 'content') , getUser)
+.post(checkAuthorization , checkRole('admin') , createUserAdmin);
 
 
 

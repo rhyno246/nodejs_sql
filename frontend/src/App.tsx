@@ -57,12 +57,7 @@ const App: React.FunctionComponent<AppProps> = () => {
                 <Route path=":id" element={<DetailPost />} />
               </Route>
 
-              <Route
-                path="users"
-                element={<ProtectedRouting roleContentRequired="admin" />}
-              >
-                <Route index element={<Users />} />
-              </Route>
+              <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 

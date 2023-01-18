@@ -16,7 +16,7 @@ const ProtectedRouting: React.FunctionComponent<ProtectedRoutingProps> = (
       props.roleContentRequired === user.user.role ? (
         <Outlet />
       ) : (
-        <Navigate to="/admin" />
+        <Navigate to="/" />
       )
     ) : (
       <Navigate to="/login" />

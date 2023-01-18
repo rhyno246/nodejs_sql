@@ -21,6 +21,29 @@ module.exports = {
             }
         )
     },
+
+    createUserAdmin : (data, callBack) => {
+        pool.query(
+            `insert into users(firstName, lastName, gender, email, password , phone, role) values(?,?,?,?,?,?,?)` ,
+            [
+                data.first_name,
+                data.last_name,
+                data.gender,
+                data.email,
+                data.password,
+                data.phone,
+                data.role
+
+            ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    },
+
     getUser : callBack => {
         pool.query(
             `select id ,firstName, lastName, gender, email, password , phone , role from users`,

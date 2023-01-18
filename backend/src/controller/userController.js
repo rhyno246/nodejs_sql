@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync, compareSync, hash} = require('bcryptjs');
-const { create, getUserById , getUser , deleteUser , updateUser , login , forgotPassword , resetPassword }  = require('../model/userModel');
+const { create, getUserById , getUser , deleteUser , updateUser , login , forgotPassword , resetPassword, createUserAdmin }  = require('../model/userModel');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendMail');
 
@@ -24,6 +24,31 @@ module.exports = {
             return res.status(200).json({
                 success : true,
                 message : 'Tạo tài khoản thành công',
+                data : results
+            })
+        })
+    },
+
+    createUserAdmin : (req, res) => {
+        const body = req.body;
+        const salt = genSaltSync(10);
+        body.password = hashSync(body.password, salt);
+        createUserAdmin(body,(error , results) => {
+            if(!results) {
+                return res.status(409).json({ 
+                    success : false , message : "The account already exists or you have not filled in enough information !" 
+                })
+            }
+            if(error){
+                console.log(error);
+                return res.status(500).json({
+                    success : false,
+                    message : 'Database connection error'
+                });
+            }
+            return res.status(200).json({
+                success : true,
+                message : 'Create account successfully',
                 data : results
             })
         })

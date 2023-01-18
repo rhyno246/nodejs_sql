@@ -20,8 +20,8 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
   const [dataCreateUser, setDataCreateUser] = React.useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     gender: "",
     email: "",
     password: "",
@@ -34,7 +34,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     });
   };
 
-  const handleRegister = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleRegister = (e: React.FormEvent<HTMLInputElement>): void => {
     e.preventDefault();
     dispatch(registerUser(dataCreateUser));
   };
@@ -69,7 +69,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           fullWidth
           label="Họ"
           name="first_name"
-          autoComplete="first_name"
           onChange={handleChangeInputData}
         />
         <TextField
@@ -77,7 +76,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           fullWidth
           label="Tên"
           name="last_name"
-          autoComplete="last_name"
           onChange={handleChangeInputData}
         />
 
@@ -95,7 +93,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           fullWidth
           label="Địa chỉ email"
           name="email"
-          autoComplete="email"
           onChange={handleChangeInputData}
         />
         <TextField
@@ -104,7 +101,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           name="password"
           label="Mật Khẩu"
           type="password"
-          autoComplete="current-password"
           onChange={handleChangeInputData}
         />
 
@@ -114,7 +110,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           name="phone"
           label="Số điện thoại"
           type="number"
-          autoComplete="number"
           onChange={handleChangeInputData}
         />
 
