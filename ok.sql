@@ -26,8 +26,11 @@ CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `categoryUserId_idx` (`userId`),
+  CONSTRAINT `categoryUserId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -180,7 +183,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +192,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'nguyen','man','m','nguyentrongminhman95@gmail.com','$2a$10$eladKaBuJbgQDGKCfG3/7ugJ9rESvr2lpzOPo60Sx94NOwXYf1NKK',908096448,NULL,NULL,'admin'),(12,'Man','Nguyen','m','quangthanhliet@gmail.com','$2a$10$ktYIBxbV49LAxXNG9ZrwUeJusL8AdQLCP6CAnvfwrnDAK1C1CgaYu',908096448,NULL,NULL,'content'),(15,'dsds','dssadasd','nnn','hehe@gmail.com','$2a$10$TueP/G/suTd3XICWn0gi3uJm5CpPrwZGfijDu.O7laSlbr8Pdmr3u',123456789,NULL,NULL,'user'),(17,'sdadsa','23321321','3fds','dsads@gmail.com','$2a$10$1z1wRgsH9ORBDE6ApxLjIurvfhF3Yl4D/b7LpSJJowLje..Itv6TG',123456789,NULL,NULL,'user'),(18,'asddas','dsadsadsa','213','hehe222@gmail.com','$2a$10$dRaWvLdERieExwZyrKOZ/uAS6Nx9b7m7CKjotXzCetGP7Yn.EEXuC',2133321,NULL,NULL,'user'),(19,'sasadds','sdsaads','dsadsaads','hehe2222222@gmail.com','$2a$10$eol1kB7fqwlxHUQC7uq04O4S16CsuY.QD1mhO0Ma/WSOJrWjEnMfa',2113213231,NULL,NULL,'user'),(21,'nman','safdioio','minh','miknasd@gmail.com','$2a$10$J6ffEMayP/8nVrO4bBiay.VbK1hHUYft6VtmG8RMSnbhsq1/d15h.',12345789,NULL,NULL,'user'),(23,'sasadds','dasdsa','212231','heh22313223132e@gmail.com','$2a$10$xk3Vxmz1OXybduxsWOPHReaZ5C8k5UODyUX09usHOlzITlb2ACPAK',2313131321,NULL,NULL,'user'),(25,'rweerwre','erewerwrewew','23321321','ewqqwqwqeewq@gmail.com','$2a$10$gjHPEBY6sF.Pa.738MLTpObyO1Eq2eiviMdiaG1JM.1W6n3sFWcua',32131321,NULL,NULL,'user'),(26,'ngu','ngu','sfdokhsdfo','okhsdfho@gmail.com','$2a$10$GhKEuO7qmQSCshtuX8Rw9evDDBomEkOtiH6b09jgsk5OaclUzpz7q',12345789,NULL,NULL,'user'),(27,'dsadsaads','dasdasads','asddsasad','hehe111@gmail.com','$2a$10$nYy9J2UZWBV.oUpfjTMWMO7GrpKKS8Yqd2leTdpY4Y8mhANi7rluq',1312321,NULL,NULL,'user'),(30,'sasadds','dsadasads','21321321','hehe1112231321@gmail.com','$2a$10$GdhUnjjaFoEsD8JSn1kET.hv4lVgezKSgTqrzpGxPMCcVe.IHaeG.',2231123,NULL,NULL,'user'),(31,'nguyen','man','m','nguyentrongminman15@gmail.com','$2a$10$TuJjUKNOjGtxol.jvnKjhuraqxabAYHgriZBi3q2w51JddZUTrX3S',908096448,NULL,NULL,'user');
+INSERT INTO `users` VALUES (1,'nguyen','man','m','nguyentrongminhman95@gmail.com','$2a$10$eladKaBuJbgQDGKCfG3/7ugJ9rESvr2lpzOPo60Sx94NOwXYf1NKK',908096448,NULL,NULL,'admin'),(12,'Man','Nguyen','m','quangthanhliet@gmail.com','$2a$10$ktYIBxbV49LAxXNG9ZrwUeJusL8AdQLCP6CAnvfwrnDAK1C1CgaYu',908096448,NULL,NULL,'content'),(54,'user','nguyen','m','user@gmail.com','$2a$10$HbS58f43fqQ2.2Cg.6t0LuTbK/n6pcgyMuH/Eqd43V8IiPcOM4MQW',908096448,NULL,NULL,'user');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -202,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-16 22:45:44
+-- Dump completed on 2023-01-18 23:22:20
