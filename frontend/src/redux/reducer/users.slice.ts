@@ -8,6 +8,7 @@ interface UserState {
     error : any,
     user : any,
     success : any,
+    imageUrl : any
 }
 export const loginUser = createAsyncThunk<User , any>('loginUser' , async(data, thunkAPI) => {
     try {
@@ -25,6 +26,19 @@ export const registerUser = createAsyncThunk<Users , any>('/CreateUsers' , async
         return thunkAPI.rejectWithValue(error)
     }
 });
+
+//upload avartar
+
+export const uploadAvatar = createAsyncThunk<any , any>("uploadAvatar" ,async (data, thunkAPI) => {
+    try {
+        const response =  await axiosConfig.post('/upload', data)
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})  
+
+
 
 //admin
 
@@ -62,6 +76,7 @@ const initialState : UserState = {
     error : null,
     user : getItem('user') || null,
     success : null,
+    imageUrl : null
 }
 const userSlice = createSlice({
     name : "users",
@@ -116,6 +131,13 @@ const userSlice = createSlice({
         }).addCase(CreateUsersAdmin.rejected , (state, action : any) => {
             state.loading = false
             state.error = action.payload.data
+        }).addCase(uploadAvatar.pending , (state) => {
+            state.loading = true
+        }).addCase(uploadAvatar.fulfilled , (state, action : any) => {
+            state.loading = false
+            state.imageUrl = action.payload
+        }).addCase(uploadAvatar.rejected, (state, action : any) => {
+            state.error = action.payload
         })
     }
 })

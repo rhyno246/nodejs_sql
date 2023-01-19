@@ -7,7 +7,8 @@ export interface Users {
     password : string,
     phone : number,
     role : string,
-    success : string
+    success : string,
+    coverPic : string
 }
 export interface DialogTitleProps {
     id: string;

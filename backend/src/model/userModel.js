@@ -3,14 +3,15 @@ const pool = require('../utils/db');
 module.exports = {
     create : (data, callBack) => {
         pool.query(
-            `insert into users(firstName, lastName, gender, email, password , phone) values(?,?,?,?,?,?)` ,
+            `insert into users(firstName, lastName, gender, email, password , phone , coverPic) values(?,?,?,?,?,?,?)` ,
             [
                 data.first_name,
                 data.last_name,
                 data.gender,
                 data.email,
                 data.password,
-                data.phone
+                data.phone,
+                data.cover_pic
 
             ],
             (error , results , fields) => {

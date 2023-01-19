@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { LogoutUser } from "../../redux/reducer/users.slice";
+import { idolTokuDa } from "../../utils/baseAvartar";
 const Header = () => {
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.users);
@@ -84,7 +85,7 @@ const Header = () => {
                   >
                     <Avatar
                       alt="Remy Sharp"
-                      src="https://cafebiz.cafebizcdn.vn/2019/1/2/photo-1-15464020829431420592113.png"
+                      src={ idolTokuDa }
                     />
                     <Typography
                       sx={{ color: "#fff", marginLeft: 1 }}

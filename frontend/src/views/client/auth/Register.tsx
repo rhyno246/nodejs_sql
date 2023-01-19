@@ -1,13 +1,14 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography , Avatar } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Layout from "../../../components/client/Layout";
 import {
   ClearError,
   ClearSuccess,
   registerUser,
+  uploadAvatar,
 } from "../../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
 interface RegisterProps {}
@@ -19,6 +20,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
   );
   const dispatch = useAppDispatch();
   const history = useNavigate();
+  const [avatar, setAvartar] = React.useState(null)
   const [dataCreateUser, setDataCreateUser] = React.useState({
     first_name: "",
     last_name: "",
@@ -27,17 +29,42 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     password: "",
     phone: "",
   });
-  const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) : void => {
     setDataCreateUser({
       ...dataCreateUser,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleRegister = (e: React.FormEvent<HTMLInputElement>): void => {
+  
+
+  // const onchangeAvartar = (e : React.ChangeEvent<HTMLInputElement>) : void =>{
+  //   if(e.target.name === "cover_pic"){
+  //     setAvartar(e?.target?.files[0]);
+  //   }else{
+  //     setDataCreateUser({ ...dataCreateUser,
+  //       [e.target.name]: e.target.value})
+  //   }
+  // }
+ 
+
+
+  const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(registerUser(dataCreateUser));
+    const myForm = new FormData();
+    myForm.append("file", avatar);
+    dispatch(uploadAvatar(myForm));
+
+    // myForm.set("first_name", dataCreateUser.first_name);
+    // myForm.set("last_name", dataCreateUser.last_name);
+    // myForm.set('gender' , dataCreateUser.gender);
+    // myForm.set('email', dataCreateUser.email);
+    // myForm.set('password', dataCreateUser.password);
+    // myForm.set('phone', dataCreateUser.phone)
+    // myForm.set("cover_pic", avatar);
+    // dispatch(registerUser(myForm));
   };
+
 
   React.useEffect(() => {
     if (error) {
@@ -62,7 +89,9 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
         component="form"
         sx={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
         className="form-auth"
+        encType="multipart/form-data"
         onSubmit={handleRegister}
+        method ="POST"
       >
         <TextField
           margin="normal"
@@ -112,6 +141,20 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           type="number"
           onChange={handleChangeInputData}
         />
+
+        <Box sx={{ display : "flex" , alignItems : "center", mt : 2 }}>
+          <Button variant="contained" component="label">
+            Chọn avatar
+            <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  name="image"
+                  onChange={(e) => setAvartar(e?.target?.files[0])}
+                />
+          </Button>
+          { avatar && <Avatar src={URL.createObjectURL(avatar)} sx={{ marginLeft: "10px" }} />} 
+        </Box>
 
         <Button
           type="submit"
