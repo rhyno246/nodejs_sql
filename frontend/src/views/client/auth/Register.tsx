@@ -1,7 +1,14 @@
-import { Box, Button, Grid, TextField, Typography , Avatar } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Avatar,
+} from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import {  Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Layout from "../../../components/client/Layout";
 import {
@@ -20,7 +27,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
   );
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  const [avatar, setAvartar] = React.useState(null)
+  const [avatar, setAvartar] = React.useState<File>(null);
   const [dataCreateUser, setDataCreateUser] = React.useState({
     first_name: "",
     last_name: "",
@@ -28,44 +35,38 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     email: "",
     password: "",
     phone: "",
+    image: "",
   });
-  const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) : void => {
+  const handleChangeInputData = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     setDataCreateUser({
       ...dataCreateUser,
       [e.target.name]: e.target.value,
     });
   };
 
-  
+  const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      var file = event.target.files[0];
+      setAvartar(file);
+    }
+  };
 
-  // const onchangeAvartar = (e : React.ChangeEvent<HTMLInputElement>) : void =>{
-  //   if(e.target.name === "cover_pic"){
-  //     setAvartar(e?.target?.files[0]);
-  //   }else{
-  //     setDataCreateUser({ ...dataCreateUser,
-  //       [e.target.name]: e.target.value})
-  //   }
-  // }
- 
-
+  const upload = () => {
+    const formData = new FormData();
+    formData.set("image", avatar);
+    if (avatar) {
+      dispatch(uploadAvatar(formData));
+      dataCreateUser.image = avatar.name;
+    }
+  };
 
   const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const myForm = new FormData();
-    myForm.append("file", avatar);
-    dispatch(uploadAvatar(myForm));
-
-    // myForm.set("first_name", dataCreateUser.first_name);
-    // myForm.set("last_name", dataCreateUser.last_name);
-    // myForm.set('gender' , dataCreateUser.gender);
-    // myForm.set('email', dataCreateUser.email);
-    // myForm.set('password', dataCreateUser.password);
-    // myForm.set('phone', dataCreateUser.phone)
-    // myForm.set("cover_pic", avatar);
-    // dispatch(registerUser(myForm));
+    upload();
+    dispatch(registerUser(dataCreateUser));
   };
-
-
   React.useEffect(() => {
     if (error) {
       toast.error(error.message);
@@ -87,11 +88,10 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
       </Typography>
       <Box
         component="form"
-        sx={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
-        className="form-auth"
         encType="multipart/form-data"
         onSubmit={handleRegister}
-        method ="POST"
+        sx={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
+        className="form-auth"
       >
         <TextField
           margin="normal"
@@ -99,6 +99,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           label="Họ"
           name="first_name"
           onChange={handleChangeInputData}
+          autoComplete="first_name"
         />
         <TextField
           margin="normal"
@@ -106,6 +107,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           label="Tên"
           name="last_name"
           onChange={handleChangeInputData}
+          autoComplete="last_name"
         />
 
         <TextField
@@ -122,6 +124,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           fullWidth
           label="Địa chỉ email"
           name="email"
+          autoComplete="email"
           onChange={handleChangeInputData}
         />
         <TextField
@@ -130,6 +133,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           name="password"
           label="Mật Khẩu"
           type="password"
+          autoComplete="current-password"
           onChange={handleChangeInputData}
         />
 
@@ -142,18 +146,24 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           onChange={handleChangeInputData}
         />
 
-        <Box sx={{ display : "flex" , alignItems : "center", mt : 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
           <Button variant="contained" component="label">
             Chọn avatar
             <input
-                  type="file"
-                  hidden
-                  accept="image/*"
-                  name="image"
-                  onChange={(e) => setAvartar(e?.target?.files[0])}
-                />
+              type="file"
+              id="file"
+              hidden
+              accept="image/*"
+              name="image"
+              onChange={handleSelectFile}
+            />
           </Button>
-          { avatar && <Avatar src={URL.createObjectURL(avatar)} sx={{ marginLeft: "10px" }} />} 
+          {avatar && (
+            <Avatar
+              src={URL.createObjectURL(avatar)}
+              sx={{ marginLeft: "10px" }}
+            />
+          )}
         </Box>
 
         <Button

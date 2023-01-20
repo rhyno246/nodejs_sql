@@ -28,7 +28,7 @@ class Http {
             baseURL : apiUrl,
             timeout : 10000,
             headers : {
-                "content-type": "application/json",
+              contentType: "application/json"
             }
         });
         this.instance.interceptors.request.use(injectToken, (error) => Promise.reject(error));

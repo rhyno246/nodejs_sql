@@ -11,8 +11,7 @@ module.exports = {
                 data.email,
                 data.password,
                 data.phone,
-                data.cover_pic
-
+                data.image
             ],
             (error , results , fields) => {
                 if(error){

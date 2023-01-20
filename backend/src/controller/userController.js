@@ -3,10 +3,11 @@ const { create, getUserById , getUser , deleteUser , updateUser , login , forgot
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendMail');
 
+
 module.exports = {
-    createUser : (req , res) => {
+    createUser : async (req , res) => {
         const body = req.body;
-        const salt = genSaltSync(10);
+        const salt =  genSaltSync(10);
         body.password = hashSync(body.password, salt);
         create(body,(error , results) => {
             if(!results) {
