@@ -85,7 +85,11 @@ const Header = () => {
                   >
                     <Avatar
                       alt="Remy Sharp"
-                      src={ idolTokuDa }
+                      src={
+                        user?.user?.coverPic
+                          ? "/upload/" + user?.user?.coverPic
+                          : idolTokuDa
+                      }
                     />
                     <Typography
                       sx={{ color: "#fff", marginLeft: 1 }}

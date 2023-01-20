@@ -26,6 +26,7 @@ import NewspaperIcon from "@mui/icons-material/Newspaper";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CategoryIcon from "@mui/icons-material/Category";
+import { idolTokuDa } from "../../utils/baseAvartar";
 
 interface LayoutProps {
   children: any;
@@ -211,7 +212,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               >
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://cafebiz.cafebizcdn.vn/2019/1/2/photo-1-15464020829431420592113.png"
+                  src={
+                    user?.user?.coverPic
+                      ? "/upload/" + user?.user?.coverPic
+                      : idolTokuDa
+                  }
                 />
                 <Typography
                   sx={{
@@ -328,7 +333,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             ))}
           </List>
           <Divider />
-          {/* {user?.user?.role === "admin" && ( */}
           <List>
             {manager.map((manager, index) => (
               <ListItem
@@ -363,7 +367,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               </ListItem>
             ))}
           </List>
-          {/* )} */}
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
