@@ -8,6 +8,7 @@ interface UserState {
     error : any,
     user : any,
     success : any,
+    userById : any
 }
 export const loginUser = createAsyncThunk<User , any>('loginUser' , async(data, thunkAPI) => {
     try {
@@ -65,6 +66,18 @@ export const CreateUsersAdmin = createAsyncThunk<Users , any>(
     }
 );
 
+export const GetUserById =  createAsyncThunk<Users , any>(
+    "/admin/getUserById",
+    async (id, thunkAPI) => {
+        try {
+            const response = await axiosConfig.get(`/admin/users/${id}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
 
 
 
@@ -74,7 +87,8 @@ const initialState : UserState = {
     loading : false,
     error : null,
     user : getItem('user') || null,
-    success : null
+    success : null,
+    userById : null
 }
 const userSlice = createSlice({
     name : "users",
@@ -129,6 +143,14 @@ const userSlice = createSlice({
         }).addCase(CreateUsersAdmin.rejected , (state, action : any) => {
             state.loading = false
             state.error = action.payload.data
+        }).addCase(GetUserById.pending , (state) => {
+            state.loading = true
+        }).addCase(GetUserById.fulfilled , (state , action) => {
+            state.loading = false
+            state.userById = action.payload
+        }).addCase(GetUserById.rejected , (state, action) => {
+            state.loading = false
+            state.error = action.payload
         })
     }
 })

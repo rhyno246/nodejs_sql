@@ -8,6 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import * as React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 interface EditUserProps {
   setOpen: any;
 }
@@ -15,6 +17,9 @@ interface EditUserProps {
 const EditUser: React.FunctionComponent<EditUserProps> = ({
   setOpen,
 }: EditUserProps) => {
+  const { error, success, loading, userById } = useSelector(
+    (state: RootState) => state.users
+  );
   const [dataCreateUser, setDataCreateUser] = React.useState({
     first_name: "",
     last_name: "",
@@ -30,6 +35,7 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
       [e.target.name]: e.target.value,
     });
   };
+
   const handleEditUser = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
   };
@@ -46,7 +52,9 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         fullWidth
         label="first_name"
         name="first_name"
+        autoComplete="first_name"
         onChange={handleChangeInputData}
+        value={userById?.data?.firstName}
       />
       <TextField
         margin="normal"
@@ -54,6 +62,8 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         label="last_name"
         name="last_name"
         onChange={handleChangeInputData}
+        autoComplete="last_name"
+        value={userById?.data?.lastName}
       />
 
       <TextField
@@ -61,7 +71,8 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         fullWidth
         label="gender"
         name="gender"
-        value={dataCreateUser.gender}
+        autoComplete="gender"
+        value={userById?.data?.gender}
         onChange={handleChangeInputData}
       />
 
@@ -70,7 +81,9 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         fullWidth
         label="email"
         name="email"
+        autoComplete="email"
         onChange={handleChangeInputData}
+        value={userById?.data?.email}
       />
       <TextField
         margin="normal"
@@ -78,6 +91,8 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         name="password"
         label="password"
         type="password"
+        autoComplete="current-password"
+        value={userById?.data?.password}
         onChange={handleChangeInputData}
       />
 
@@ -87,7 +102,8 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         name="phone"
         label="phone"
         type="number"
-        autoComplete="number"
+        autoComplete="phone"
+        value={userById?.data?.phone}
         onChange={handleChangeInputData}
       />
 
@@ -115,7 +131,7 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         sx={{ mt: 3, mb: 2 }}
         //   disabled={loading ? true : false}
       >
-        Create User
+        Update
       </Button>
     </Box>
   );

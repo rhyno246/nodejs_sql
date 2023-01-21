@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 import Layout from "../../components/backend/Layout";
-import { getAllUsersAdmin } from "../../redux/reducer/users.slice";
+import { getAllUsersAdmin, GetUserById } from "../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,6 +17,7 @@ interface UsersProps {}
 const Users: React.FunctionComponent<UsersProps> = () => {
   const { users, success } = useSelector((state: RootState) => state.users);
   const dispatch = useAppDispatch();
+  const [userId, setUserId] = React.useState("");
   React.useEffect(() => {
     dispatch(getAllUsersAdmin());
     if (success) {
@@ -82,7 +83,7 @@ const Users: React.FunctionComponent<UsersProps> = () => {
           <>
             {params.row.role === "content" || params.row.role === "user" ? (
               <Box>
-                <Button onClick={openModalEditUser}>
+                <Button onClick={() => openModalEditUser(params.id)}>
                   <EditIcon />
                 </Button>
                 <Button>
@@ -97,6 +98,18 @@ const Users: React.FunctionComponent<UsersProps> = () => {
       },
     },
   ];
+  const [open, setOpen] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const openModalAddNewUser = () => {
+    setOpen(true);
+  };
+
+  const openModalEditUser = (id: any) => {
+    setOpenEdit(true);
+    setUserId(id);
+    dispatch(GetUserById(id));
+  };
+
   const rows: any = [];
   Object.values(users) &&
     Object.values(users).forEach((item: any) => {
@@ -110,16 +123,6 @@ const Users: React.FunctionComponent<UsersProps> = () => {
         role: item.role,
       });
     });
-  const [open, setOpen] = React.useState(false);
-  const [openEdit, setOpenEdit] = React.useState(false);
-  const openModalAddNewUser = () => {
-    setOpen(true);
-  };
-
-  const openModalEditUser = () => {
-    setOpenEdit(true);
-  };
-
   return (
     <Layout>
       <Button variant="contained" onClick={openModalAddNewUser}>
@@ -139,7 +142,11 @@ const Users: React.FunctionComponent<UsersProps> = () => {
         <CreateUser setOpen={setOpen} />
       </UserModal>
 
-      <UserModal open={openEdit} setOpen={setOpenEdit} addTitle="Edit User">
+      <UserModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        addTitle={`Edit User ${userId}`}
+      >
         <EditUser setOpen={setOpenEdit} />
       </UserModal>
     </Layout>

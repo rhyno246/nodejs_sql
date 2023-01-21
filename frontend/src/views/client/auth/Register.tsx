@@ -53,18 +53,23 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     }
   };
 
-  const upload = () => {
+  // const upload = () => {
+  //   const formData = new FormData();
+  //   formData.set("image", avatar);
+  //   if (avatar) {
+  //     dispatch(uploadAvatar(formData));
+  //     dataCreateUser.image = avatar.name;
+  //   }
+  // };
+
+  const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
     const formData = new FormData();
     formData.set("image", avatar);
     if (avatar) {
       dispatch(uploadAvatar(formData));
       dataCreateUser.image = avatar.name;
     }
-  };
-
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    upload();
     dispatch(registerUser(dataCreateUser));
   };
   React.useEffect(() => {
