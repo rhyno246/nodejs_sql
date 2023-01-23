@@ -9,6 +9,7 @@ module.exports = {
         const body = req.body;
         const salt =  genSaltSync(10);
         body.password = hashSync(body.password, salt);
+        console.log(body)
         create(body,(error , results) => {
             if(!results) {
                 return res.status(409).json({ 

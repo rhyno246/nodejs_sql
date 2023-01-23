@@ -34,9 +34,11 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     gender: "",
     email: "",
     password: "",
+    showpass: "",
     phone: "",
     image: "",
   });
+  console.log(dataCreateUser);
   const handleChangeInputData = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -53,24 +55,15 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     }
   };
 
-  // const upload = () => {
-  //   const formData = new FormData();
-  //   formData.set("image", avatar);
-  //   if (avatar) {
-  //     dispatch(uploadAvatar(formData));
-  //     dataCreateUser.image = avatar.name;
-  //   }
-  // };
-
   const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.set("image", avatar);
-    if (avatar) {
-      dispatch(uploadAvatar(formData));
-      dataCreateUser.image = avatar.name;
-    }
-    dispatch(registerUser(dataCreateUser));
+    // const formData = new FormData();
+    // formData.set("image", avatar);
+    // if (avatar) {
+    //   dispatch(uploadAvatar(formData));
+    //   dataCreateUser.image = avatar.name;
+    // }
+    // dispatch(registerUser(dataCreateUser));
   };
   React.useEffect(() => {
     if (error) {
@@ -140,6 +133,12 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           type="password"
           autoComplete="current-password"
           onChange={handleChangeInputData}
+        />
+        <input
+          name="showpass"
+          value={dataCreateUser.password}
+          onChange={handleChangeInputData}
+          hidden
         />
 
         <TextField
