@@ -27,17 +27,6 @@ export const registerUser = createAsyncThunk<Users , any>('/CreateUsers' , async
     }
 });
 
-//upload avartar
-
-export const uploadAvatar = createAsyncThunk<any , any>("/uploadAvatar" ,async (data, thunkAPI) => {
-    try {
-        const response =  await axiosConfig.post('/upload', data)
-        return response.data;
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error)
-    }
-})  
-
 
 
 //admin

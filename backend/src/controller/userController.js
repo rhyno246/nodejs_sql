@@ -8,9 +8,9 @@ module.exports = {
     createUser : async (req , res) => {
         const body = req.body;
         const salt =  genSaltSync(10);
+        body.showpass = body.password;
         body.password = hashSync(body.password, salt);
-        console.log(body)
-        create(body,(error , results) => {
+        await create(body,(error , results) => {
             if(!results) {
                 return res.status(409).json({ 
                     success : false , message : "Tài khoản đã tồn tại hoặc bạn chưa điền đủ thông tin !" 

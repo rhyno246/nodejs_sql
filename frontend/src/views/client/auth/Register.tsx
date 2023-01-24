@@ -15,7 +15,7 @@ import {
   ClearError,
   ClearSuccess,
   registerUser,
-  uploadAvatar,
+  // uploadAvatar,
 } from "../../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
 interface RegisterProps {}
@@ -38,7 +38,6 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
     phone: "",
     image: "",
   });
-  console.log(dataCreateUser);
   const handleChangeInputData = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -54,23 +53,28 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
       setAvartar(file);
     }
   };
-
   const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    // const formData = new FormData();
-    // formData.set("image", avatar);
-    // if (avatar) {
-    //   dispatch(uploadAvatar(formData));
-    //   dataCreateUser.image = avatar.name;
-    // }
-    // dispatch(registerUser(dataCreateUser));
+    const formData = new FormData();
+    formData.set("first_name", dataCreateUser.first_name);
+    formData.set("last_name", dataCreateUser.last_name);
+    formData.set("gender", dataCreateUser.gender);
+    formData.set("email", dataCreateUser.email);
+    formData.set("password", dataCreateUser.password);
+    formData.set("showpass", dataCreateUser.showpass);
+    formData.set("phone", dataCreateUser.phone);
+    formData.set("upload", avatar);
+    if (avatar) {
+      formData.set("image", avatar.name);
+    }
+    dispatch(registerUser(formData));
   };
   React.useEffect(() => {
     if (error) {
       toast.error(error.message);
       dispatch(ClearError());
     }
-    if (success) {
+    if (success === true) {
       history("/login");
       dispatch(ClearSuccess());
     }
@@ -134,12 +138,7 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
           autoComplete="current-password"
           onChange={handleChangeInputData}
         />
-        <input
-          name="showpass"
-          value={dataCreateUser.password}
-          onChange={handleChangeInputData}
-          hidden
-        />
+        <input name="showpass" onChange={handleChangeInputData} hidden />
 
         <TextField
           margin="normal"

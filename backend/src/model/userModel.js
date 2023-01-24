@@ -59,7 +59,7 @@ module.exports = {
     },
     getUserById : (id , callBack) => {
         pool.query(
-            `select id ,firstName, lastName, gender, email, password , phone , role from users where id = ?`,
+            `select id ,firstName, lastName, gender, email, password , showpass , phone , role from users where id = ?`,
             [id],
             (error, results , fields) => {
                 if(error){
