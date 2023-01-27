@@ -14,7 +14,7 @@ const { checkAuthorization , checkRole } = require('../middleware/auth');
 const { upload } = require('../middleware/uploadImage');
 const router = express.Router();
 router.route('/users').
-    post(upload.single('upload') , createUser).
+    post(upload.single('file') , createUser).
     patch(updateUser).
     delete(checkAuthorization,deleteUser);
 router.route('/login').post(userLogin);

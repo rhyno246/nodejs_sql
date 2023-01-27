@@ -15,7 +15,6 @@ import {
   ClearError,
   ClearSuccess,
   registerUser,
-  // uploadAvatar,
 } from "../../../redux/reducer/users.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
 interface RegisterProps {}
@@ -55,26 +54,26 @@ const Register: React.FunctionComponent<RegisterProps> = () => {
   };
   const handleRegister = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.set("first_name", dataCreateUser.first_name);
-    formData.set("last_name", dataCreateUser.last_name);
-    formData.set("gender", dataCreateUser.gender);
-    formData.set("email", dataCreateUser.email);
-    formData.set("password", dataCreateUser.password);
-    formData.set("showpass", dataCreateUser.showpass);
-    formData.set("phone", dataCreateUser.phone);
-    formData.set("upload", avatar);
+    const form = new FormData();
+    form.append("first_name", dataCreateUser.first_name);
+    form.append("last_name", dataCreateUser.last_name);
+    form.append("gender", dataCreateUser.gender);
+    form.append("email", dataCreateUser.email);
+    form.append("password", dataCreateUser.password);
+    form.append("showpass", dataCreateUser.showpass);
+    form.append("phone", dataCreateUser.phone);
     if (avatar) {
-      formData.set("image", avatar.name);
+      form.append("file", avatar);
+      form.append("image", avatar.name);
     }
-    dispatch(registerUser(formData));
+    dispatch(registerUser(form));
   };
   React.useEffect(() => {
     if (error) {
       toast.error(error.message);
       dispatch(ClearError());
     }
-    if (success === true) {
+    if (success) {
       history("/login");
       dispatch(ClearSuccess());
     }
