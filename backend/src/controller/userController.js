@@ -34,6 +34,7 @@ module.exports = {
     createUserAdmin : (req, res) => {
         const body = req.body;
         const salt = genSaltSync(10);
+        body.showpass = body.password;
         body.password = hashSync(body.password, salt);
         createUserAdmin(body,(error , results) => {
             if(!results) {

@@ -25,16 +25,16 @@ module.exports = {
 
     createUserAdmin : (data, callBack) => {
         pool.query(
-            `insert into users(firstName, lastName, gender, email, password , showpass , phone, role) values(?,?,?,?,?,?,?)` ,
+            `insert into users(firstName, lastName, gender, email, password , showpass , phone, role) values(?,?,?,?,?,?,?,?)` ,
             [
                 data.first_name,
                 data.last_name,
                 data.gender,
                 data.email,
                 data.password,
+                data.showpass,
                 data.phone,
                 data.role
-
             ],
             (error , results , fields) => {
                 if(error){

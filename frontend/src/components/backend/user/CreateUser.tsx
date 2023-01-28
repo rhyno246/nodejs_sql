@@ -64,16 +64,16 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
   const handleCreateUser = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
     dispatch(CreateUsersAdmin(dataCreateUser));
-    setDataCreateUser({
-      first_name: "",
-      last_name: "",
-      gender: "",
-      email: "",
-      password: "",
-      showpass: "",
-      phone: "",
-      role: "content",
-    });
+    // setDataCreateUser({
+    //   first_name: "",
+    //   last_name: "",
+    //   gender: "",
+    //   email: "",
+    //   password: "",
+    //   showpass: "",
+    //   phone: "",
+    //   role: "content",
+    // });
   };
   return (
     <Box
