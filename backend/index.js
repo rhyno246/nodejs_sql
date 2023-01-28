@@ -9,6 +9,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ 
   extended: true 
 }));
+//get static link folder upload
+app.use(express.static("upload"))
 
 app.use('/api/v1' , userRouter);
 

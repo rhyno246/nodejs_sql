@@ -9,8 +9,12 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import Loading from "../../Loading";
+import { toast } from "react-toastify";
+import {
+  ClearSuccess,
+  UpdatedAdminUser,
+} from "../../../redux/reducer/users.slice";
+import { RootState, useAppDispatch } from "../../../redux/store";
 interface EditUserProps {
   setOpen: any;
 }
@@ -18,9 +22,15 @@ interface EditUserProps {
 const EditUser: React.FunctionComponent<EditUserProps> = ({
   setOpen,
 }: EditUserProps) => {
-  const { error, success, loading, userById } = useSelector(
-    (state: RootState) => state.users
-  );
+  const { success, userById } = useSelector((state: RootState) => state.users);
+  const dispatch = useAppDispatch();
+
+  const role = [
+    { label: "Admin", value: "admin" },
+    { label: "Content", value: "content" },
+    { label: "User", value: "user" },
+  ];
+
   const [dataCreateUser, setDataCreateUser] = React.useState({
     first_name: "",
     last_name: "",
@@ -28,7 +38,8 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
     email: "",
     password: "",
     phone: "",
-    role: "content",
+    role: "",
+    id: "",
   });
   const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDataCreateUser({
@@ -39,7 +50,46 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
 
   const handleEditUser = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
+    dispatch(UpdatedAdminUser(dataCreateUser));
   };
+
+  React.useEffect(() => {
+    if (userById) {
+      setDataCreateUser({
+        first_name: userById?.data.firstName,
+        last_name: userById?.data?.lastName,
+        gender: userById?.data?.gender,
+        email: userById?.data?.email,
+        password: userById?.data?.showpass,
+        phone: userById?.data?.phone,
+        role: userById?.data?.role,
+        id: userById?.data?.id,
+      });
+    }
+    if (success) {
+      toast.success(success);
+      dispatch(ClearSuccess());
+      setOpen(false);
+    }
+    if (success?.warning) {
+      toast.warning(success.message);
+      dispatch(ClearSuccess());
+      setOpen(false);
+    }
+  }, [
+    userById,
+    userById?.data?.firstName,
+    userById?.data?.lastName,
+    userById?.data?.gender,
+    userById?.data?.email,
+    userById?.data?.showpass,
+    userById?.data?.phone,
+    userById?.data?.role,
+    userById?.data?.id,
+    dispatch,
+    success,
+    setOpen,
+  ]);
 
   return (
     <Box
@@ -48,102 +98,97 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
       className="form-auth"
       onSubmit={handleEditUser}
     >
-      {loading ? (
-        <Loading loading={loading} />
-      ) : (
-        <>
-          <TextField
-            margin="normal"
-            fullWidth
-            label="first_name"
-            name="first_name"
-            autoComplete="first_name"
-            onChange={handleChangeInputData}
-            value={userById.data.firstName}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="last_name"
-            name="last_name"
-            onChange={handleChangeInputData}
-            autoComplete="last_name"
-            value={userById.data.lastName}
-          />
+      <>
+        <TextField
+          margin="normal"
+          fullWidth
+          label="first_name"
+          name="first_name"
+          autoComplete="first_name"
+          value={dataCreateUser.first_name}
+          onChange={handleChangeInputData}
+        />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="last_name"
+          name="last_name"
+          autoComplete="last_name"
+          value={dataCreateUser.last_name}
+          onChange={handleChangeInputData}
+        />
 
-          <TextField
-            margin="normal"
-            fullWidth
-            label="gender"
-            name="gender"
-            autoComplete="gender"
-            value={userById.data.gender}
-            onChange={handleChangeInputData}
-          />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="gender"
+          name="gender"
+          autoComplete="gender"
+          value={dataCreateUser.gender}
+          onChange={handleChangeInputData}
+        />
 
-          <TextField
-            margin="normal"
-            fullWidth
-            label="email"
-            name="email"
-            autoComplete="email"
-            onChange={handleChangeInputData}
-            value={userById.data.email}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            name="password"
-            label="password"
-            type="password"
-            autoComplete="current-password"
-            value={userById.data.showpass}
-            onChange={handleChangeInputData}
-          />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="email"
+          name="email"
+          autoComplete="email"
+          value={dataCreateUser.email}
+          onChange={handleChangeInputData}
+        />
+        <TextField
+          margin="normal"
+          fullWidth
+          name="password"
+          label="password"
+          type="password"
+          autoComplete="current-password"
+          value={dataCreateUser.password}
+          onChange={handleChangeInputData}
+        />
 
-          <TextField
-            margin="normal"
-            fullWidth
-            name="phone"
-            label="phone"
-            type="number"
-            autoComplete="phone"
-            value={userById.data.phone}
+        <TextField
+          margin="normal"
+          fullWidth
+          name="phone"
+          label="phone"
+          type="number"
+          autoComplete="phone"
+          value={dataCreateUser.phone}
+          onChange={handleChangeInputData}
+        />
+
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            name="role"
             onChange={handleChangeInputData}
-          />
-
-          <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="content"
-              name="role"
-              onChange={handleChangeInputData}
-            >
-              <FormControlLabel
-                value="admin"
-                control={<Radio />}
-                label="Admin"
-              />
-              <FormControlLabel
-                value="content"
-                control={<Radio />}
-                label="Content"
-              />
-              <FormControlLabel value="user" control={<Radio />} label="User" />
-            </RadioGroup>
-          </FormControl>
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            //   disabled={loading ? true : false}
           >
-            Update
-          </Button>
-        </>
-      )}
+            {role.map((item, index) => (
+              <FormControlLabel
+                key={index}
+                value={item.value}
+                control={
+                  <Radio
+                    checked={dataCreateUser.role === item.value ? true : false}
+                  />
+                }
+                label={item.label}
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Update
+        </Button>
+      </>
     </Box>
   );
 };

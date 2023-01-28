@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync, compareSync, hash} = require('bcryptjs');
-const { create, getUserById , getUser , deleteUser , updateUser , login , forgotPassword , resetPassword, createUserAdmin }  = require('../model/userModel');
+const { create, getUserById , getUser , deleteUser , updateAdminUser , login , forgotPassword , resetPassword, createUserAdmin }  = require('../model/userModel');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendMail');
 
@@ -86,18 +86,18 @@ module.exports = {
             })
         });
     },
-    updateUser : (req , res) => {
+    updateAdminUser : (req , res) => {
         const body = req.body;
         const salt = genSaltSync(10);
         body.password = hashSync(body.password , salt);
-        updateUser(body , (error) => {
+        updateAdminUser(body , (error) => {
             if(error){
                 console.log(error);
                 return;
             }
             return res.json({
                 success : true,
-                massage : "Cập nhật thành công"
+                message : "Cập nhật thành công"
             })
         })
     },

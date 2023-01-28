@@ -25,7 +25,7 @@ module.exports = {
 
     createUserAdmin : (data, callBack) => {
         pool.query(
-            `insert into users(firstName, lastName, gender, email, password , phone, role) values(?,?,?,?,?,?,?)` ,
+            `insert into users(firstName, lastName, gender, email, password , showpass , phone, role) values(?,?,?,?,?,?,?)` ,
             [
                 data.first_name,
                 data.last_name,
@@ -69,7 +69,7 @@ module.exports = {
             }
         )
     },
-    updateUser : (data, callBack) => {
+    updateAdminUser : (data, callBack) => {
         pool.query(
             `update users set firstName=?, lastName=?, gender=?, email=?, password=?, phone=? , role=? where id = ?`,
             [

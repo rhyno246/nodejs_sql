@@ -67,6 +67,18 @@ export const GetUserById =  createAsyncThunk<Users , any>(
     }
 );
 
+export const UpdatedAdminUser = createAsyncThunk<Users , any>(
+    "/admin/UpdatedAdminUser",
+    async (data, thunkAPI) => {
+        try {
+            const response = await axiosConfig.patch("/admin/users" , data);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+)
+
 
 
 
@@ -140,6 +152,10 @@ const userSlice = createSlice({
         }).addCase(GetUserById.rejected , (state, action) => {
             state.loading = false
             state.error = action.payload
+        }).addCase(UpdatedAdminUser.fulfilled , (state, action : any) => {
+            state.success = action.payload.message;
+        }).addCase(UpdatedAdminUser.rejected , (state , action : any) => {
+            state.error = action.payload.data
         })
     }
 })

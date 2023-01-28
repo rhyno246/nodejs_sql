@@ -27,6 +27,7 @@ import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CategoryIcon from "@mui/icons-material/Category";
 import { idolTokuDa } from "../../utils/baseAvartar";
+import { backend_Url } from "../../utils/apiUrl";
 
 interface LayoutProps {
   children: any;
@@ -214,7 +215,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                   alt="Remy Sharp"
                   src={
                     user?.user?.coverPic
-                      ? "/upload/" + user?.user?.coverPic
+                      ? backend_Url + "/" + user?.user?.coverPic
                       : idolTokuDa
                   }
                 />

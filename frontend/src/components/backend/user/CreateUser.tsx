@@ -30,6 +30,7 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
     email: "",
     password: "",
     phone: "",
+    showpass: "",
     role: "content",
   });
   const { error, success, loading } = useSelector(
@@ -69,6 +70,7 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
       gender: "",
       email: "",
       password: "",
+      showpass: "",
       phone: "",
       role: "content",
     });
@@ -80,11 +82,13 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
       className="form-auth"
       onSubmit={handleCreateUser}
     >
+      <input name="showpass" onChange={handleChangeInputData} hidden />
       <TextField
         margin="normal"
         fullWidth
         label="first_name"
         name="first_name"
+        autoComplete="first_name"
         value={dataCreateUser.first_name}
         onChange={handleChangeInputData}
       />
@@ -93,6 +97,7 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         fullWidth
         label="last_name"
         name="last_name"
+        autoComplete="last_name"
         value={dataCreateUser.last_name}
         onChange={handleChangeInputData}
       />
@@ -102,6 +107,7 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         fullWidth
         label="gender"
         name="gender"
+        autoComplete="gender"
         value={dataCreateUser.gender}
         onChange={handleChangeInputData}
       />
@@ -111,6 +117,7 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         fullWidth
         label="email"
         name="email"
+        autoComplete="email"
         value={dataCreateUser.email}
         onChange={handleChangeInputData}
       />
@@ -120,6 +127,7 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
         name="password"
         label="password"
         type="password"
+        autoComplete="current-password"
         value={dataCreateUser.password}
         onChange={handleChangeInputData}
       />
