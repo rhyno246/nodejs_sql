@@ -8,7 +8,8 @@ interface UserState {
     error : any,
     user : any,
     success : any,
-    userById : any
+    userById : any,
+    deleteSuccess : any,
 }
 export const loginUser = createAsyncThunk<User , any>('loginUser' , async(data, thunkAPI) => {
     try {
@@ -79,6 +80,19 @@ export const UpdatedAdminUser = createAsyncThunk<Users , any>(
     }
 )
 
+export const DeleteAdminUser = createAsyncThunk<Users , any>(
+    "/admin/DeleteAdminUser",
+    async (data, thunkAPI) => {
+        try {
+            const response = await axiosConfig.delete("/admin/users" , data);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+)
+
+
 
 
 
@@ -89,7 +103,8 @@ const initialState : UserState = {
     error : null,
     user : getItem('user') || null,
     success : null,
-    userById : null
+    userById : null,
+    deleteSuccess : null
 }
 const userSlice = createSlice({
     name : "users",
@@ -104,6 +119,9 @@ const userSlice = createSlice({
         },
         ClearSuccess : (state) => {
             state.success = null
+        },
+        ClearDelete : (state) => {
+            state.deleteSuccess = null
         }
     },
     extraReducers(builder) {
@@ -132,7 +150,7 @@ const userSlice = createSlice({
             state.loading = true
         }).addCase(getAllUsersAdmin.fulfilled, (state, action : any) => {
             state.loading = false
-            state.users = action.payload.data
+            state.users = action.payload.data;
         }).addCase(getAllUsersAdmin.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
@@ -156,10 +174,14 @@ const userSlice = createSlice({
             state.success = action.payload.message;
         }).addCase(UpdatedAdminUser.rejected , (state , action : any) => {
             state.error = action.payload.data
+        }).addCase(DeleteAdminUser.fulfilled , (state, action : any) => {
+            state.deleteSuccess = action.payload.message;
+        }).addCase(DeleteAdminUser.rejected, (state , action : any) => {
+            state.error = action.payload.data
         })
     }
 })
 
-export const {  LogoutUser , ClearError , ClearSuccess } =  userSlice.actions;
+export const {  LogoutUser , ClearError , ClearSuccess , ClearDelete } =  userSlice.actions;
 const userReducer = userSlice.reducer;
 export default userReducer

@@ -77,7 +77,7 @@ const Login: React.FunctionComponent<LoginProps> = () => {
         <Grid container>
           <Grid item xs>
             <Link
-              to="/"
+              to="/forgot-pass"
               style={{
                 textDecoration: "none",
                 color: `${switchTheme ? "#e5e5e5" : "#222"}`,

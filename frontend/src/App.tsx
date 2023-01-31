@@ -21,6 +21,8 @@ import NewPost from "./views/admin/NewPost";
 import DetailPost from "./views/admin/DetailPost";
 import Users from "./views/admin/Users";
 import { ToastContainer } from "react-toastify";
+import ForgotPass from "./views/client/auth/ForgotPass";
+import ResetPass from "./views/client/auth/ResetPass";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -67,6 +69,13 @@ const App: React.FunctionComponent<AppProps> = () => {
 
             <Route path="register" element={<PublicRoutes />}>
               <Route path="/register" element={<Register />} />
+            </Route>
+            <Route path="forgot-pass" element={<PublicRoutes />}>
+              <Route path="/forgot-pass" element={<ForgotPass />} />
+            </Route>
+
+            <Route path="reset-pass" element={<PublicRoutes />}>
+              <Route path="/reset-pass" element={<ResetPass />} />
             </Route>
 
             <Route path="*" element={<p>There's nothing here: 404!</p>} />

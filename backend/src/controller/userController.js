@@ -98,7 +98,7 @@ module.exports = {
             }
             return res.json({
                 success : true,
-                message : "Cập nhật thành công"
+                message : "Updated success"
             })
         })
     },
@@ -111,7 +111,7 @@ module.exports = {
             }
             return res.json({
                 success : true,
-                massage : "Xóa thành công"
+                message : "Delete success"
             })
         })
     },
