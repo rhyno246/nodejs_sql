@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Users , User } from "../../types/type";
-import axiosConfig from "../../utils/axiosConfig";
+import axiosConfig from "../axiosConfig/axiosConfig";
 import { getItem, removeItem, setItem } from "../../utils/useLocalStorage";
 interface UserState {
     users : Users[],
@@ -10,6 +10,7 @@ interface UserState {
     success : any,
     userById : any,
     deleteSuccess : any,
+    tokenExpiredError : any
 }
 export const loginUser = createAsyncThunk<User , any>('loginUser' , async(data, thunkAPI) => {
     try {
@@ -104,7 +105,8 @@ const initialState : UserState = {
     user : getItem('user') || null,
     success : null,
     userById : null,
-    deleteSuccess : null
+    deleteSuccess : null,
+    tokenExpiredError : null
 }
 const userSlice = createSlice({
     name : "users",
@@ -122,6 +124,9 @@ const userSlice = createSlice({
         },
         ClearDelete : (state) => {
             state.deleteSuccess = null
+        },
+        CleartokenExpiredError : (state) => {
+            state.tokenExpiredError = null
         }
     },
     extraReducers(builder) {
@@ -130,7 +135,7 @@ const userSlice = createSlice({
         }).addCase(loginUser.fulfilled , (state, action) => {
             state.loading = false
             if(action.payload.success){
-                state.user = action.payload
+                state.user = action.payload;
                 setItem('user', state.user)
             }else{
                 state.error = action.payload;
@@ -151,9 +156,9 @@ const userSlice = createSlice({
         }).addCase(getAllUsersAdmin.fulfilled, (state, action : any) => {
             state.loading = false
             state.users = action.payload.data;
-        }).addCase(getAllUsersAdmin.rejected, (state, action) => {
+        }).addCase(getAllUsersAdmin.rejected, (state, action : any) => {
             state.loading = false;
-            state.error = action.payload;
+            state.tokenExpiredError = action.payload.data.name;
         }).addCase(CreateUsersAdmin.pending , (state) => {
             state.loading = true
         }).addCase(CreateUsersAdmin.fulfilled, (state, action) => {
@@ -161,27 +166,27 @@ const userSlice = createSlice({
             state.success = action.payload
         }).addCase(CreateUsersAdmin.rejected , (state, action : any) => {
             state.loading = false
-            state.error = action.payload.data
+            state.tokenExpiredError = action.payload.data.name
         }).addCase(GetUserById.pending , (state) => {
             state.loading = true
         }).addCase(GetUserById.fulfilled , (state , action) => {
             state.loading = false
             state.userById = action.payload
-        }).addCase(GetUserById.rejected , (state, action) => {
+        }).addCase(GetUserById.rejected , (state, action : any) => {
             state.loading = false
-            state.error = action.payload
+            state.tokenExpiredError = action.payload.data.name;
         }).addCase(UpdatedAdminUser.fulfilled , (state, action : any) => {
             state.success = action.payload.message;
         }).addCase(UpdatedAdminUser.rejected , (state , action : any) => {
-            state.error = action.payload.data
+            state.tokenExpiredError = action.payload.data.name
         }).addCase(DeleteAdminUser.fulfilled , (state, action : any) => {
             state.deleteSuccess = action.payload.message;
         }).addCase(DeleteAdminUser.rejected, (state , action : any) => {
-            state.error = action.payload.data
+            state.tokenExpiredError = action.payload.data.name
         })
     }
 })
 
-export const {  LogoutUser , ClearError , ClearSuccess , ClearDelete } =  userSlice.actions;
+export const {  LogoutUser , ClearError , ClearSuccess , ClearDelete , CleartokenExpiredError } =  userSlice.actions;
 const userReducer = userSlice.reducer;
 export default userReducer

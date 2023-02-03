@@ -1,7 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { apiUrl } from "./apiUrl";
-import { getItem } from "./useLocalStorage";
-
+import { getItem } from "../../utils/useLocalStorage";
+import { LogoutUser } from "../reducer/users.slice";
+import { store } from "../store";
 enum StatusCode {
     Unauthorized = 401,
     Forbidden = 403,
@@ -20,6 +21,7 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
       throw new Error(error);
     }
 };
+
 
 class Http {
     instance : AxiosInstance 
@@ -41,7 +43,6 @@ class Http {
     }
     private handleError(error : any) {
         const { status } = error;
-    
         switch (status) {
           case StatusCode.InternalServerError: {
             break;
@@ -50,6 +51,7 @@ class Http {
             break;
           }
           case StatusCode.Unauthorized: {
+            store.dispatch(LogoutUser())
             break;
           }
           case StatusCode.TooManyRequests: {

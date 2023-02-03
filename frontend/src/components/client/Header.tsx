@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { LogoutUser } from "../../redux/reducer/users.slice";
 import { idolTokuDa } from "../../utils/baseAvartar";
-import { backend_Url } from "../../utils/apiUrl";
+import { backend_Url } from "../../redux/axiosConfig/apiUrl";
 const Header = () => {
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.users);

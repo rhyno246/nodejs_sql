@@ -4,13 +4,20 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
-import { ClearError, loginUser } from "../../../redux/reducer/users.slice";
+import {
+  ClearError,
+  CleartokenExpiredError,
+  loginUser,
+} from "../../../redux/reducer/users.slice";
 import { toast } from "react-toastify";
 interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = () => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
   const error = useSelector((state: RootState) => state.users.error);
+  const tokenExpiredError = useSelector(
+    (state: RootState) => state.users.tokenExpiredError
+  );
   const dispatch = useAppDispatch();
   const [user, setUser] = React.useState({
     email: "",
@@ -32,7 +39,11 @@ const Login: React.FunctionComponent<LoginProps> = () => {
       toast.error(error.data);
       dispatch(ClearError());
     }
-  }, [error, dispatch]);
+    if (tokenExpiredError) {
+      toast.error(tokenExpiredError);
+      dispatch(CleartokenExpiredError());
+    }
+  }, [error, dispatch, tokenExpiredError]);
 
   return (
     <Layout>

@@ -27,7 +27,7 @@ import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CategoryIcon from "@mui/icons-material/Category";
 import { idolTokuDa } from "../../utils/baseAvartar";
-import { backend_Url } from "../../utils/apiUrl";
+import { backend_Url } from "../../redux/axiosConfig/apiUrl";
 
 interface LayoutProps {
   children: any;

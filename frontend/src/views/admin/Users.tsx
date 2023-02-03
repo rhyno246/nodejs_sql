@@ -29,8 +29,6 @@ const Users: React.FunctionComponent<UsersProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openCfm, setOpenCfm] = React.useState(false);
-
-  console.log(deleteSuccess);
   React.useEffect(() => {
     dispatch(getAllUsersAdmin());
     dispatch(GetUserById(userId));
@@ -43,6 +41,7 @@ const Users: React.FunctionComponent<UsersProps> = () => {
       setOpenCfm(false);
     }
   }, [dispatch, success, userId, deleteSuccess]);
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
 

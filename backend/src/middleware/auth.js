@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 module.exports = {
     checkAuthorization : (req, res , next) => {
         const authHeader = req.header("Authorization");
@@ -7,10 +6,7 @@ module.exports = {
         if(token){
             jwt.verify(token , process.env.ACCESS_TOKEN, (error , decoded) => {
                 if(error){
-                    return res.json({
-                        success : false,
-                        message : "Invalid token"
-                    });
+                     return res.status(401).send(error)
                 }else{
                     req.decoded = decoded;
                     next();
