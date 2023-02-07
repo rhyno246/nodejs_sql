@@ -150,7 +150,7 @@ module.exports = {
                 })
             }else{
                 hash(body.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
-                    const resetPasswordUrl = `${process.env.CLIENT}/password/reset?email=${body.email}&token=${hashedEmail}"`;
+                    const resetPasswordUrl = `${process.env.CLIENT}/reset-pass?email=${body.email}&token=${hashedEmail}"`;
                     const message = `Reset mật khẩu mới của bạn có token là :- \n\n ${resetPasswordUrl} \n\n Nếu có bất cứ câu hỏi nào vui lòng gửi mail về địa chỉ mail trên hệ thống của chúng tôi.`;
                     sendEmail({
                         email: body.email,
@@ -160,7 +160,7 @@ module.exports = {
                 })
                 return res.json({
                     success : true,
-                    message : "Gửi mail thành cmn công"
+                    message : "Gửi mail thành công vui lòng kiểm tra mail"
                 })
             }
         })
@@ -171,16 +171,16 @@ module.exports = {
         if(!password){
             return res.json({
                 success : false,
-                message : "Chưa nhập email"
+                message : "Chưa nhập password hoặc link đã hết hạn"
             })
         }else{
             hash(password, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedPassword) => {
-                resetPassword(email , hashedPassword , (error , results) => {
+                resetPassword(email , hashedPassword , password , (error , results) => {
                     if(error) return
                     if(results){
                         return res.json({
                             success : true,
-                            message : "Reset mật khẩu thành  cmn công"
+                            message : "Reset mật khẩu thành công"
                         })
                     }
                 })

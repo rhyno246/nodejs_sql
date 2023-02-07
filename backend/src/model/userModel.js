@@ -69,6 +69,9 @@ module.exports = {
             }
         )
     },
+
+    
+
     updateAdminUser : (data, callBack) => {
         pool.query(
             `update users set firstName=?, lastName=?, gender=?, email=?, password=?, phone=? , role=? where id = ?`,
@@ -128,10 +131,10 @@ module.exports = {
             }
         )
     },
-    resetPassword : (email , password , callBack) => {
+    resetPassword : (email , password , showpass , callBack) => {
         pool.query(
-            ` update users set password = ? where email = ? `,
-            [password , email],
+            `update users set password = ?, showpass = ? where email = ?`,
+            [password , showpass ,  email],
             (error , results , fields) => {
                 if(error){
                     return callBack(error)
