@@ -1,0 +1,16 @@
+.main-profile{
+    position: relative;
+    .profile-pic-cover{
+        position: relative;
+        overflow: hidden;
+        padding-top: 56.5%;
+        border-radius: 0 0 5px 5px;
+        img{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            object-fit: cover;
+        }
+    }
+}

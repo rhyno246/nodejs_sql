@@ -29,6 +29,27 @@ export const registerUser = createAsyncThunk<Users , any>('/CreateUsers' , async
     }
 });
 
+export const forgotPassword = createAsyncThunk<User , any>('forgotPassword' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.post('/forgot-password' , data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const resetPassword = createAsyncThunk<User , any>('resetPassword' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.post(`/reset-password/${data.email}` , data.password);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+
+
+
 
 
 //admin
@@ -183,6 +204,18 @@ const userSlice = createSlice({
             state.deleteSuccess = action.payload.message;
         }).addCase(DeleteAdminUser.rejected, (state , action : any) => {
             state.tokenExpiredError = action.payload.data.name
+        }).addCase(forgotPassword.pending , (state) => {
+            state.loading = true;
+        }).addCase(forgotPassword.fulfilled , (state, action : any) => {
+            state.success = action.payload;
+        }).addCase(forgotPassword.rejected , (state, action : any) => {
+            state.error = action.payload.data;
+        }).addCase(resetPassword.pending , (state) => {
+            state.loading = true;
+        }).addCase(resetPassword.fulfilled , (state, action : any) => {
+            state.success = action.payload;
+        }).addCase(resetPassword.rejected , (state, action : any) => {
+            state.error = action.payload.data;
         })
     }
 })

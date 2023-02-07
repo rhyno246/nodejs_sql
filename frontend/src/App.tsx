@@ -23,6 +23,7 @@ import Users from "./views/admin/Users";
 import { ToastContainer } from "react-toastify";
 import ForgotPass from "./views/client/auth/ForgotPass";
 import ResetPass from "./views/client/auth/ResetPass";
+import ProFile from "./views/client/user/ProFile";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -37,7 +38,6 @@ const App: React.FunctionComponent<AppProps> = () => {
               <Route index element={<News />} />
               <Route path=":id" element={<NewsDetail />} />
             </Route>
-
             <Route
               path="/admin"
               element={
@@ -75,7 +75,11 @@ const App: React.FunctionComponent<AppProps> = () => {
             </Route>
 
             <Route path="reset-pass" element={<PublicRoutes />}>
-              <Route path="/reset-pass" element={<ResetPass />} />
+              <Route path="/reset-pass" index element={<ResetPass />} />
+            </Route>
+
+            <Route path="user">
+              <Route index element={<ProFile />} />
             </Route>
 
             <Route path="*" element={<p>There's nothing here: 404!</p>} />

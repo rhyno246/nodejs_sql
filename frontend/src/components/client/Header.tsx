@@ -115,7 +115,7 @@ const Header = () => {
                     <MenuItem onClick={handleCloseUserMenu}>
                       <Typography textAlign="center">
                         <Link
-                          to="/"
+                          to="/user"
                           style={{
                             textDecoration: "none",
                             textTransform: "capitalize",
