@@ -16,12 +16,11 @@ import {
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { LogoutUser } from "../../redux/reducer/users.slice";
+import { GetUserByEmail, LogoutUser } from "../../redux/reducer/users.slice";
 import { idolTokuDa } from "../../utils/baseAvartar";
-import { backend_Url } from "../../redux/axiosConfig/apiUrl";
 const Header = () => {
   const dispatch = useAppDispatch();
-  const { user } = useSelector((state: RootState) => state.users);
+  const { user, userByEmail } = useSelector((state: RootState) => state.users);
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -38,6 +37,10 @@ const Header = () => {
     dispatch(LogoutUser());
     setAnchorElUser(null);
   };
+
+  React.useEffect(() => {
+    dispatch(GetUserByEmail(user?.user?.email));
+  }, [dispatch, user?.user?.email]);
 
   return (
     <div className="client-header">
@@ -87,14 +90,14 @@ const Header = () => {
                     <Avatar
                       alt="Remy Sharp"
                       src={
-                        user?.user?.coverPic
-                          ? backend_Url + "/" + user?.user?.coverPic
+                        userByEmail?.coverPic
+                          ? userByEmail?.coverPic
                           : idolTokuDa
                       }
                     />
                     <Typography
                       sx={{ color: "#fff", marginLeft: 1 }}
-                    >{`${user?.user?.firstName} ${user?.user?.lastName}`}</Typography>
+                    >{`${userByEmail?.firstName} ${userByEmail?.lastName}`}</Typography>
                   </Box>
                   <Menu
                     sx={{ mt: "45px" }}
@@ -126,8 +129,8 @@ const Header = () => {
                         </Link>
                       </Typography>
                     </MenuItem>
-                    {user?.user?.role === "admin" ||
-                    user?.user?.role === "content" ? (
+                    {userByEmail?.role === "admin" ||
+                    userByEmail?.role === "content" ? (
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">
                           <Link

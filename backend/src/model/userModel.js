@@ -69,18 +69,31 @@ module.exports = {
             }
         )
     },
-
     
+    getUserByEmail : (email , callBack) => {
+        pool.query(
+            `select id , firstName, lastName, gender, email, password , showpass , phone , coverPic , profilePic , role from users where email = ?`,
+            [email],
+            (error, results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results[0])
+            }
+        )
+    },
+
 
     updateAdminUser : (data, callBack) => {
         pool.query(
-            `update users set firstName=?, lastName=?, gender=?, email=?, password=?, phone=? , role=? where id = ?`,
+            `update users set firstName=?, lastName=?, gender=?, email=?, password=? , showpass=?, phone=? , role=? where id = ?`,
             [
                 data.first_name,
                 data.last_name,
                 data.gender,
                 data.email,
                 data.password,
+                data.showpass,
                 data.phone,
                 data.role,
                 data.id
@@ -93,6 +106,48 @@ module.exports = {
             }
         )
     },
+
+
+    updateUser : (data, callBack) => {
+        pool.query(
+            `update users set firstName=?, lastName=?, gender=?, email=?, password=? , showpass=?, phone=?,coverPic=? where id = ?`,
+            [
+                data.first_name,
+                data.last_name,
+                data.gender,
+                data.email,
+                data.password,
+                data.showpass,
+                data.phone,
+                data.image,
+                data.id,
+            ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    },
+
+    updateProfilePic : (data, callBack) => {
+        pool.query(
+            `update users set profilePic=? where id = ?`,
+            [
+                data.image,
+                data.id,
+            ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    },
+
+
     deleteUser : (data, callBack) => {
         pool.query(
             `delete from users where id = ?`,

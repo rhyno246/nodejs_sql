@@ -20,14 +20,13 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import SwitchButton from "../SwitchButton";
 import { Avatar, Box, Menu, MenuItem, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { LogoutUser } from "../../redux/reducer/users.slice";
+import { GetUserByEmail, LogoutUser } from "../../redux/reducer/users.slice";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CategoryIcon from "@mui/icons-material/Category";
 import { idolTokuDa } from "../../utils/baseAvartar";
-import { backend_Url } from "../../redux/axiosConfig/apiUrl";
 
 interface LayoutProps {
   children: any;
@@ -109,7 +108,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     null
   );
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
-  const { user } = useSelector((state: RootState) => state.users);
+  const { user, userByEmail } = useSelector((state: RootState) => state.users);
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -132,6 +131,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     dispatch(LogoutUser());
     setAnchorElUser(null);
   };
+
+  React.useEffect(() => {
+    dispatch(GetUserByEmail(user?.user?.email));
+  }, [dispatch, user?.user?.email]);
+
   const menu = [
     {
       text: "Dashboard",
@@ -214,9 +218,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                 <Avatar
                   alt="Remy Sharp"
                   src={
-                    user?.user?.coverPic
-                      ? backend_Url + "/" + user?.user?.coverPic
-                      : idolTokuDa
+                    userByEmail?.coverPic ? userByEmail?.coverPic : idolTokuDa
                   }
                 />
                 <Typography
@@ -225,7 +227,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                     marginLeft: 1,
                     display: { xs: "none", md: "block" },
                   }}
-                >{`${user?.user?.firstName} ${user?.user?.lastName}`}</Typography>
+                >{`${userByEmail?.firstName} ${userByEmail?.lastName}`}</Typography>
               </Box>
               <Menu
                 sx={{ mt: "45px" }}
@@ -271,7 +273,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                 </MenuItem>
                 <MenuItem>
                   <Link
-                    to="/"
+                    to="/user"
                     style={{
                       textDecoration: "none",
                       textTransform: "capitalize",

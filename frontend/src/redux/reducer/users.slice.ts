@@ -10,7 +10,8 @@ interface UserState {
     success : any,
     userById : any,
     deleteSuccess : any,
-    tokenExpiredError : any
+    tokenExpiredError : any,
+    userByEmail : any
 }
 export const loginUser = createAsyncThunk<User , any>('loginUser' , async(data, thunkAPI) => {
     try {
@@ -46,6 +47,37 @@ export const resetPassword = createAsyncThunk<User , any>('resetPassword' , asyn
         return thunkAPI.rejectWithValue(error)
     }
 });
+
+export const updateProfile = createAsyncThunk<User , any>('updateProfile' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.patch("/update-profile" , data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const GetUserByEmail =  createAsyncThunk<Users , any>(
+    "GetUserByEmail",
+    async (email, thunkAPI) => {
+        try {
+            const response = await axiosConfig.get(`user/${email}` , );
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+export const updateProfilePic = createAsyncThunk<User , any>('updateProfilePic' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.post("/image-profile" , data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
 
 
 
@@ -127,7 +159,8 @@ const initialState : UserState = {
     success : null,
     userById : null,
     deleteSuccess : null,
-    tokenExpiredError : null
+    tokenExpiredError : null,
+    userByEmail : null
 }
 const userSlice = createSlice({
     name : "users",
@@ -216,6 +249,31 @@ const userSlice = createSlice({
             state.success = action.payload;
         }).addCase(resetPassword.rejected , (state, action : any) => {
             state.error = action.payload.data;
+        }).addCase(updateProfile.pending , (state) => {
+            state.loading = true
+        }).addCase(updateProfile.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.success = action.payload.message
+        }).addCase(updateProfile.rejected , (state, action : any) => {
+            state.loading = false
+            state.error = action.payload.data
+        }).addCase(GetUserByEmail.pending , (state) => {
+            state.loading = true
+        }).addCase(GetUserByEmail.fulfilled , (state , action : any) => {
+            state.loading = false
+            state.userByEmail = action.payload.data
+            setItem('userbyemail', state.userByEmail);
+        }).addCase(GetUserByEmail.rejected , (state, action : any) => {
+            state.loading = false
+            state.error = action.payload.data;
+        }).addCase(updateProfilePic.pending , (state) => {
+            state.loading = true
+        }).addCase(updateProfilePic.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.success = action.payload.message
+        }).addCase(updateProfilePic.rejected , (state, action : any) => {
+            state.loading = false
+            state.error = action.payload.data
         })
     }
 })

@@ -1,18 +1,44 @@
 import * as React from "react";
-import { Button, Avatar } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import { idolTokuDa } from "../../../utils/baseAvartar";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Box } from "@mui/system";
-import { RootState } from "../../../redux/store";
+import { RootState, useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import { backend_Url } from "../../../redux/axiosConfig/apiUrl";
+import UserModal from "../../../components/backend/UserModal";
+import { toast } from "react-toastify";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  ClearError,
+  ClearSuccess,
+  GetUserByEmail,
+} from "../../../redux/reducer/users.slice";
+import UpdateUser from "./UpdateUser";
+import ChangeProFilePic from "./ChangeProFilePic";
+import { idolTokuDa } from "../../../utils/baseAvartar";
 interface ProFileProps {}
 
 const ProFile: React.FunctionComponent<ProFileProps> = () => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
-  const { user } = useSelector((state: RootState) => state.users);
+  const { userByEmail, user, error, success } = useSelector(
+    (state: RootState) => state.users
+  );
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const dispatch = useAppDispatch();
+  const openModalEditUser = (): void => {
+    setOpenEdit(true);
+  };
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+      dispatch(ClearError());
+    }
+    if (success) {
+      dispatch(ClearSuccess());
+    }
+    dispatch(GetUserByEmail(user?.user?.email));
+  }, [error, success, dispatch, user]);
 
   return (
     <div className="profile">
@@ -33,44 +59,57 @@ const ProFile: React.FunctionComponent<ProFileProps> = () => {
       <div className="container">
         <div className="main-profile">
           <div className="profile-pic-cover">
-            <img src={idolTokuDa} alt="" className="img-res" />
-            <Button
-              variant="outlined"
-              startIcon={<CameraAltIcon />}
-              sx={{ position: "absolute", bottom: "10px", right: "10px" }}
-            >
-              Chỉnh sửa ảnh bìa
-            </Button>
+            <img
+              src={
+                userByEmail?.profilePic ? userByEmail?.profilePic : idolTokuDa
+              }
+              alt=""
+              className="img-res"
+            />
           </div>
-          <Avatar
-            alt="Remy Sharp"
-            src={
-              user?.user?.coverPic
-                ? backend_Url + "/" + user?.user?.coverPic
-                : idolTokuDa
-            }
-            sx={{
-              width: 200,
-              height: 200,
-              position: "absolute",
-              bottom: "-120px",
-              left: "50px",
-              zIndex: "9",
-            }}
-          />
+
+          <ChangeProFilePic data={userByEmail} />
           <Box
             sx={{
               position: "absolute",
-              bottom: "-50px",
+              bottom: "-105px",
               left: "270px",
               fontSize: "25px",
               textTransform: "capitalize",
             }}
           >
-            {user?.user?.firstName + " " + user?.user?.lastName}
+            <Button
+              startIcon={<EditIcon />}
+              variant="outlined"
+              onClick={openModalEditUser}
+            >
+              Chỉnh sửa thông tin cá nhân
+            </Button>
           </Box>
         </div>
+        <Box sx={{ paddingTop: "150px" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              textTransform: "capitalize",
+              paddingBottom: "10px",
+              borderBottom: "1px solid #0072E5",
+            }}
+          >
+            Hoạt động bình luận
+          </Typography>
+        </Box>
       </div>
+
+      <UserModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        addTitle={`Thay đổi thông tin ${
+          userByEmail && userByEmail.firstName + " " + userByEmail.lastName
+        }`}
+      >
+        <UpdateUser data={userByEmail} setOpenEdit={setOpenEdit} />
+      </UserModal>
     </div>
   );
 };

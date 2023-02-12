@@ -7,7 +7,10 @@ const {
     userLogin , 
     forgotPassword , 
     resetPassword,  
-    createUserAdmin
+    createUserAdmin,
+    updateUser,
+    getUserByEmail,
+    updateProfilePic
 } = require('../controller/userController');
 const express = require('express');
 const { checkAuthorization , checkRole } = require('../middleware/auth');
@@ -17,7 +20,9 @@ router.route('/users').post(upload.single('file') , createUser)
 router.route('/login').post(userLogin);
 router.route('/forgot-password').post(forgotPassword);
 router.route('/reset-password/:email').post(resetPassword);
-
+router.route('/update-profile').patch(upload.single('file') , updateUser);
+router.route('/user/:email').get(getUserByEmail);
+router.route('/image-profile').post(upload.single('file'), updateProfilePic);
 //admin
 
 router.route('/admin/users')

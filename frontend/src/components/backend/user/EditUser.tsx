@@ -37,6 +37,7 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
     gender: "",
     email: "",
     password: "",
+    showpass: "",
     phone: "",
     role: "",
     id: "",
@@ -64,6 +65,7 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
         phone: userById?.data?.phone,
         role: userById?.data?.role,
         id: userById?.data?.id,
+        showpass: "",
       });
     }
     if (success) {
@@ -147,6 +149,7 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
           value={dataCreateUser.password}
           onChange={handleChangeInputData}
         />
+        <input name="showpass" onChange={handleChangeInputData} hidden />
 
         <TextField
           margin="normal"

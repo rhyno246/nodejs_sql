@@ -1,7 +1,9 @@
 const { genSaltSync, hashSync, compareSync, hash} = require('bcryptjs');
-const { create, getUserById , getUser , deleteUser , updateAdminUser , login , forgotPassword , resetPassword, createUserAdmin }  = require('../model/userModel');
+const { create, getUserById , getUser , deleteUser , updateAdminUser , login , forgotPassword , resetPassword, createUserAdmin, updateUser, getUserByEmail, updateProfilePic }  = require('../model/userModel');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendMail');
+
+
 
 
 module.exports = {
@@ -10,6 +12,9 @@ module.exports = {
         const salt =  genSaltSync(10);
         body.showpass = body.password;
         body.password = hashSync(body.password, salt);
+        if(body.image){
+            body.image = `${req.protocol}://${req.get("host")}/${ body.image}`;
+        }
         create(body,(error , results) => {
             if(!results) {
                 return res.status(409).json({ 
@@ -87,8 +92,30 @@ module.exports = {
             })
         });
     },
+    getUserByEmail : (req, res) => {
+        const email = req.params.email;
+        getUserByEmail(email, (error , results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    success : false,
+                    message : "Không tìm thấy tài khoản"
+                })
+            }
+            return res.json({
+                success : true,
+                data : results
+            })
+        });
+    },
+
+
     updateAdminUser : (req , res) => {
         const body = req.body;
+        body.showpass = body.password;
         const salt = genSaltSync(10);
         body.password = hashSync(body.password , salt);
         updateAdminUser(body , (error) => {
@@ -102,6 +129,46 @@ module.exports = {
             })
         })
     },
+
+
+    updateUser : (req , res) => {
+        const body = req.body;
+        body.showpass = body.password;
+        const salt = genSaltSync(10);
+        body.password = hashSync(body.password , salt);
+        if(req.file){
+            body.image = `${req.protocol}://${req.get("host")}/${ body.image}`
+        }
+        updateUser(body , (error , results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Cập nhật thành công",
+            })
+        })
+    },
+
+    updateProfilePic : (req, res) => {
+        const body = req.body;
+        if(req.file){
+            body.image = `${req.protocol}://${req.get("host")}/${ body.image}`
+        }
+        updateProfilePic(body, (error, results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Cập nhật thành công",
+            })
+        })
+    },
+
+
     deleteUser : (req, res) => {
         const data = req.body;
         deleteUser(data , (error) => {

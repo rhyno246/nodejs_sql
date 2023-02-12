@@ -78,7 +78,7 @@ const App: React.FunctionComponent<AppProps> = () => {
               <Route path="/reset-pass" index element={<ResetPass />} />
             </Route>
 
-            <Route path="user">
+            <Route path="user" element={<ProtectedRouting />}>
               <Route index element={<ProFile />} />
             </Route>
 
