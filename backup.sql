@@ -113,16 +113,18 @@ DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `content` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `userId` int NOT NULL,
   `status` int NOT NULL DEFAULT '1',
-  `ishome` int NOT NULL DEFAULT '0',
-  `createAt` datetime DEFAULT NULL,
+  `category` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `userId_idx` (`userId`),
   CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,6 +133,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` VALUES (2,'title 1','image 1','description 1','content 1',230,0,'bongda','2023-02-12 22:20:34'),(3,'title 1','image 1','description 1','content 1',230,0,'bongda','2023-02-12 22:21:40');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,6 +179,7 @@ CREATE TABLE `users` (
   `gender` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `showpass` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `phone` double NOT NULL,
   `coverPic` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `profilePic` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -183,7 +187,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=231 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +196,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'nguyen','man','m','nguyentrongminhman95@gmail.com','$2a$10$eladKaBuJbgQDGKCfG3/7ugJ9rESvr2lpzOPo60Sx94NOwXYf1NKK',908096448,NULL,NULL,'admin'),(12,'Man','Nguyen','m','quangthanhliet@gmail.com','$2a$10$ktYIBxbV49LAxXNG9ZrwUeJusL8AdQLCP6CAnvfwrnDAK1C1CgaYu',908096448,NULL,NULL,'content'),(54,'user','nguyen','m','user@gmail.com','$2a$10$HbS58f43fqQ2.2Cg.6t0LuTbK/n6pcgyMuH/Eqd43V8IiPcOM4MQW',908096448,NULL,NULL,'user');
+INSERT INTO `users` VALUES (228,'liet','quang 1','m','quangthanhliet@gmail.com','$2a$10$0NUHRc8fUutryGUES/lCEuwz.wvifmMxLkbrqkGdP8yNbwZjcfhha','admin',908096448,'http://localhost:8000/Mangekyou_Sharingan_Itachi.svg.png','http://localhost:8000/vfvfff.jpeg','admin'),(229,'fđs','sdffds','fsdfsd','fdssd','$2a$10$FLrEW7Y2GATGnHFmzx8DGOGxvs.Qb45aZK1tAoNYEEBUBJ5cC28mi','fdsdsf',23223,NULL,NULL,'user'),(230,'man','nguyen','m','nguyentrongminhman95@gmail.com','$2a$10$xdvqP2iHHQYS7qnWGAw9OeRncaV1hrew/BSuUDTZ9SSP5CYbFl.7K','admin',908096448,NULL,'http://localhost:8000/vfvfff.jpeg','admin');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -205,4 +209,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-18 23:22:20
+-- Dump completed on 2023-02-12 22:24:28

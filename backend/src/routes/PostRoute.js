@@ -4,8 +4,7 @@ const { upload } = require("../middleware/uploadImage");
 const express = require('express');
 const router = express.Router();
 //admin post
-router.route('/admin/post')
-.post(upload.single('file') , checkAuthorization , checkRole('admin', 'content') , createPost)
+router.route('/admin/post').post(checkAuthorization , checkRole('admin', 'content') , createPost)
 .get(checkAuthorization , checkRole('admin', 'content'), getAdminPost)
 
 
