@@ -20,6 +20,16 @@ export const createPosts = createAsyncThunk<Posts , any>('/admin/createPosts' , 
 });
 
 
+export const getAdminPost = createAsyncThunk<Posts[]>('/admin/getAdminPost' , async(_, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get('/admin/post');
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+
 const initialState : PostState = {
     posts : [],
     loading : false,
@@ -50,6 +60,14 @@ const postSlice = createSlice({
         }).addCase(createPosts.rejected , (state, action : any) => {
             state.loading = false
             state.error = action.payload.data
+        }).addCase(getAdminPost.pending , (state) => {
+            state.loading = true
+        }).addCase(getAdminPost.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.posts = action.payload.data;
+        }).addCase(getAdminPost.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
         })
     }
 })
