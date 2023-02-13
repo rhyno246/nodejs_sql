@@ -10,6 +10,21 @@ export interface Users {
     success : string,
     coverPic : string
 }
+
+
+export interface Posts {
+    id : number,
+    title : string,
+    image : string,
+    description : string,
+    content : string,
+    userId : number,
+    status : string,
+    category : string,
+    createdAt : Date,
+    success : string,
+}
+
 export interface DialogTitleProps {
     id: string;
     children?: React.ReactNode;

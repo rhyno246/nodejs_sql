@@ -2,16 +2,17 @@ const pool = require('../utils/db');
 const monent =  require('moment');
 module.exports = {
     createPost : (data, callBack) => {
+        console.log(data)
         pool.query(
-            `insert into posts(title, image, description, content, userId , status , category, createdAt) values (?,?,?,?,?,?,?,?)`,
+            `insert into posts(title, description , content, userId , status , category, image, createdAt) values (?,?,?,?,?,?,?,?)`,
             [
                 data.title,
-                data.image,
                 data.description,
                 data.content,
                 data.id,
                 data.status,
                 data.category,
+                data.image,
                 monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
             ],
             (error , results , fields) => {
