@@ -2,7 +2,6 @@ const pool = require('../utils/db');
 const monent =  require('moment');
 module.exports = {
     createPost : (data, callBack) => {
-        console.log(data)
         pool.query(
             `insert into posts(title, description , content, userId , status , category, image, createdAt) values (?,?,?,?,?,?,?,?)`,
             [
@@ -25,7 +24,7 @@ module.exports = {
     },
     getAdminPost : callBack => {
         pool.query(
-            `select post.*, user.id as userId, firstName, lastName, coverPic from posts as post join users user on (user.id = post.userId)
+            `select post.*,  user.id as userId, firstName, lastName, coverPic , role from posts as post join users as user on (user.id = post.userId)
             order by post.createdAt desc
             `,
             [],

@@ -8,13 +8,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { getAdminPost } from "../../redux/reducer/posts.slice";
 import { useSelector } from "react-redux";
+import { idolTokuDa } from "../../utils/baseAvartar";
+import * as moment from "moment";
 interface PostProps {}
 
 const Post: React.FunctionComponent<PostProps> = () => {
   const dispatch = useAppDispatch();
   const { userByEmail } = useSelector((state: RootState) => state.users);
   const { posts } = useSelector((state: RootState) => state.posts);
-  console.log(userByEmail);
+
   React.useEffect(() => {
     dispatch(getAdminPost());
   }, [dispatch]);
@@ -32,18 +34,30 @@ const Post: React.FunctionComponent<PostProps> = () => {
       headerName: "Image",
       minWidth: 150,
       flex: 0.5,
+      renderCell: (params: GridValueGetterParams) => {
+        return (
+          <>
+            {params.value ? (
+              <img
+                src={params.value}
+                style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                alt={params.value}
+              />
+            ) : (
+              <img
+                src={idolTokuDa}
+                style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                alt={idolTokuDa}
+              />
+            )}
+          </>
+        );
+      },
     },
 
     {
       field: "category",
       headerName: "Category",
-      minWidth: 150,
-      flex: 0.5,
-    },
-
-    {
-      field: "status",
-      headerName: "Status",
       minWidth: 150,
       flex: 0.5,
     },
@@ -54,13 +68,26 @@ const Post: React.FunctionComponent<PostProps> = () => {
       flex: 0.5,
     },
     {
+      field: "userCreated",
+      headerName: "userCreated",
+      minWidth: 150,
+      flex: 0.5,
+      renderCell: (params: GridValueGetterParams) => {
+        return (
+          <>
+            <span style={{ textTransform: "capitalize" }}>{params.value}</span>
+          </>
+        );
+      },
+    },
+    {
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
       minWidth: 150,
       type: "number",
       sortable: false,
-      renderCell: (params: GridValueGetterParams) => {
+      renderCell: () => {
         return (
           <>
             {userByEmail.role === "admin" || userByEmail.role === "content" ? (
@@ -84,13 +111,14 @@ const Post: React.FunctionComponent<PostProps> = () => {
   const rows: any = [];
   posts &&
     posts.forEach((item: any) => {
-      rows.unshift({
+      rows.push({
         id: item.id,
         title: item.title,
         image: item.image,
         category: item.category,
         status: item.status,
-        createdAt: item.createdAt,
+        userCreated: item.role,
+        createdAt: moment(item.createdAt).format("DD-MM-YYYY"),
       });
     });
   return (
