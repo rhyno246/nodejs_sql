@@ -36,4 +36,28 @@ module.exports = {
             }
         )
     },
+    deletePost : (id, callBack) => {
+        pool.query(
+            `delete from posts where id = ?`,
+            [id],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results[0])
+            }
+        )
+    },
+    getPostById : (id , callBack) => {
+        pool.query(
+            `select id , title , image, description , content, userId , status , category from posts where id = ?`,
+            [id],
+            (error, results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results[0])
+            }
+        )
+    },
 }

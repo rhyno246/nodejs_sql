@@ -6,20 +6,44 @@ import Layout from "../../components/backend/Layout";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { getAdminPost } from "../../redux/reducer/posts.slice";
+import {
+  ClearError,
+  ClearSuccess,
+  DeleteAdminPost,
+  getAdminPost,
+} from "../../redux/reducer/posts.slice";
 import { useSelector } from "react-redux";
 import { idolTokuDa } from "../../utils/baseAvartar";
 import * as moment from "moment";
+import DialogConFirm from "../../components/backend/DialogConfirm";
+import { toast } from "react-toastify";
 interface PostProps {}
 
 const Post: React.FunctionComponent<PostProps> = () => {
   const dispatch = useAppDispatch();
   const { userByEmail } = useSelector((state: RootState) => state.users);
-  const { posts } = useSelector((state: RootState) => state.posts);
-
+  const { posts, success, error } = useSelector(
+    (state: RootState) => state.posts
+  );
+  const [postId, setPostId] = React.useState("");
+  const [openCfm, setOpenCfm] = React.useState(false);
   React.useEffect(() => {
     dispatch(getAdminPost());
-  }, [dispatch]);
+    if (error) {
+      toast.error(error.message);
+      dispatch(ClearError());
+    }
+    if (success?.success) {
+      toast.success(success.message);
+      dispatch(ClearSuccess());
+      setOpenCfm(false);
+    }
+    if (success?.warning) {
+      toast.warning(success.message);
+      dispatch(ClearSuccess());
+      setOpenCfm(false);
+    }
+  }, [dispatch, success, error]);
   const columns: GridColDef[] = [
     { field: "id", headerName: "postId", minWidth: 100, flex: 0.8 },
 
@@ -87,15 +111,15 @@ const Post: React.FunctionComponent<PostProps> = () => {
       minWidth: 150,
       type: "number",
       sortable: false,
-      renderCell: () => {
+      renderCell: (params: GridValueGetterParams) => {
         return (
           <>
             {userByEmail.role === "admin" || userByEmail.role === "content" ? (
               <Box>
-                <Button>
+                <Button component={Link} to={`/admin/post/${params.id}`}>
                   <EditIcon />
                 </Button>
-                <Button>
+                <Button onClick={() => handleOpenCfm(params.id)}>
                   <DeleteIcon />
                 </Button>
               </Box>
@@ -107,6 +131,18 @@ const Post: React.FunctionComponent<PostProps> = () => {
       },
     },
   ];
+
+  const handleOpenCfm = (id: any): void => {
+    setOpenCfm(true);
+    setPostId(id);
+  };
+  const handleCloseCfm = (): void => {
+    setOpenCfm(false);
+  };
+
+  const handleDeleteUser = (): void => {
+    dispatch(DeleteAdminPost(postId));
+  };
 
   const rows: any = [];
   posts &&
@@ -135,6 +171,12 @@ const Post: React.FunctionComponent<PostProps> = () => {
         getRowId={(row) => row.id}
         autoHeight
         sx={{ marginTop: 3 }}
+      />
+      <DialogConFirm
+        open={openCfm}
+        onClose={handleCloseCfm}
+        id={postId}
+        onDelete={handleDeleteUser}
       />
     </Layout>
   );

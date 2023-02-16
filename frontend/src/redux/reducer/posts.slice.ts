@@ -8,6 +8,8 @@ interface PostState {
     error : any,
     success : any,
     deleteSuccess : any,
+    tokenExpiredError : any,
+    postById : any,
 }
 
 export const createPosts = createAsyncThunk<Posts , any>('/admin/createPosts' , async(data, thunkAPI) => {
@@ -29,6 +31,31 @@ export const getAdminPost = createAsyncThunk<Posts[]>('/admin/getAdminPost' , as
     }
 });
 
+export const DeleteAdminPost = createAsyncThunk<Posts , any>(
+    "/admin/DeleteAdminPost",
+    async (id, thunkAPI) => {
+        try {
+            const response = await axiosConfig.delete(`/admin/post/${id}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+)
+
+export const GetPostAdminById =  createAsyncThunk<Posts , any>(
+    "/admin/GetPostAdminById",
+    async (id, thunkAPI) => {
+        try {
+            const response = await axiosConfig.get(`/admin/post/${id}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+
 
 const initialState : PostState = {
     posts : [],
@@ -36,6 +63,8 @@ const initialState : PostState = {
     error : null,
     success : null,
     deleteSuccess : null,
+    tokenExpiredError : null,
+    postById : null
 }
 const postSlice = createSlice({
     name : "posts",
@@ -59,7 +88,7 @@ const postSlice = createSlice({
             state.success = action.payload
         }).addCase(createPosts.rejected , (state, action : any) => {
             state.loading = false
-            state.error = action.payload.data
+            state.tokenExpiredError = action.payload.data.name
         }).addCase(getAdminPost.pending , (state) => {
             state.loading = true
         }).addCase(getAdminPost.fulfilled, (state, action : any) => {
@@ -68,6 +97,18 @@ const postSlice = createSlice({
         }).addCase(getAdminPost.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
+        }).addCase(DeleteAdminPost.fulfilled , (state, action : any) => {
+            state.success = action.payload;
+        }).addCase(DeleteAdminPost.rejected, (state , action : any) => {
+            state.tokenExpiredError = action.payload.data.name
+        }).addCase(GetPostAdminById.pending , (state) => {
+            state.loading = true
+        }).addCase(GetPostAdminById.fulfilled , (state , action) => {
+            state.loading = false
+            state.postById = action.payload
+        }).addCase(GetPostAdminById.rejected , (state, action : any) => {
+            state.loading = false
+            state.tokenExpiredError = action.payload.data.name;
         })
     }
 })

@@ -1,4 +1,4 @@
-const { getAdminPost, createPost } = require("../model/PostModel");
+const { getAdminPost, createPost, deletePost, getPostById } = require("../model/PostModel");
 const path = require('path');
 
 module.exports = {
@@ -51,5 +51,38 @@ module.exports = {
                 data : results
             })
         })
-    }
+    },
+
+    deletePost : (req, res) => {
+        const id = req.params.id;
+        deletePost(id , (error) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Delete success"
+            })
+        })
+    },
+    getPostById : (req , res) => {
+        const id = req.params.id;
+        getPostById(id, (error , results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    success : false,
+                    message : "Post not found"
+                })
+            }
+            return res.json({
+                success : true,
+                data : results
+            })
+        });
+    },
 }
