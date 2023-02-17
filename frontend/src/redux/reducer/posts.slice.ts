@@ -55,6 +55,15 @@ export const GetPostAdminById =  createAsyncThunk<Posts , any>(
     }
 );
 
+export const updateAdminPost = createAsyncThunk<Posts , any>('/admin/updateAdminPost' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.patch('/admin/post' , data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
 
 
 const initialState : PostState = {
@@ -109,6 +118,14 @@ const postSlice = createSlice({
         }).addCase(GetPostAdminById.rejected , (state, action : any) => {
             state.loading = false
             state.tokenExpiredError = action.payload.data.name;
+        }).addCase(updateAdminPost.pending , (state) => {
+            state.loading = true
+        }).addCase(updateAdminPost.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.success = action.payload
+        }).addCase(updateAdminPost.rejected , (state, action : any) => {
+            state.loading = false
+            state.tokenExpiredError = action.payload.data.name
         })
     }
 })

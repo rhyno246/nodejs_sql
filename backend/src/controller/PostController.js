@@ -1,4 +1,4 @@
-const { getAdminPost, createPost, deletePost, getPostById } = require("../model/PostModel");
+const { getAdminPost, createPost, deletePost, getPostById, updateAdminPost } = require("../model/PostModel");
 const path = require('path');
 
 module.exports = {
@@ -85,4 +85,20 @@ module.exports = {
             })
         });
     },
+    updateAdminPost : (req, res) => {
+        const body = req.body;
+        if(req.file){
+            body.image = `${req.protocol}://${req.get("host")}/${ body.image}`
+        }
+        updateAdminPost(body , (error) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Updated success"
+            })
+        })
+    }
 }

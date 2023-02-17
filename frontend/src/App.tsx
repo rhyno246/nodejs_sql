@@ -56,7 +56,7 @@ const App: React.FunctionComponent<AppProps> = () => {
               <Route path="post">
                 <Route index element={<Post />} />
                 <Route path="add-new" element={<NewPost />} />
-                <Route path=":id" element={<DetailPost />} />
+                <Route path=":postId" element={<DetailPost />} />
               </Route>
 
               <Route path="users" element={<Users />} />

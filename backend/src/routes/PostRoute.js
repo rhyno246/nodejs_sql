@@ -1,4 +1,4 @@
-const { createPost, getAdminPost, contentUploadImage, deletePost, getPostById } = require("../controller/PostController");
+const { createPost, getAdminPost, contentUploadImage, deletePost, getPostById, updateAdminPost } = require("../controller/PostController");
 const { checkAuthorization, checkRole } = require("../middleware/auth");
 const { upload } = require("../middleware/uploadImage");
 const express = require('express');
@@ -6,6 +6,7 @@ const router = express.Router();
 //admin post
 router.route('/admin/post').post(upload.single('file') , checkAuthorization , checkRole('admin', 'content') , createPost)
 .get(checkAuthorization , checkRole('admin', 'content'), getAdminPost)
+.patch(upload.single('file') , checkAuthorization , checkRole('admin', 'content'), updateAdminPost)
 
 router.route('/admin/post/:id').delete(checkAuthorization , checkRole('admin'), deletePost)
 .get(checkAuthorization , checkRole('admin', 'content'), getPostById)

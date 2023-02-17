@@ -50,7 +50,7 @@ module.exports = {
     },
     getPostById : (id , callBack) => {
         pool.query(
-            `select id , title , image, description , content, userId , status , category from posts where id = ?`,
+            `select id , title , image, description , content, userId , status , category , createdAt from posts where id = ?`,
             [id],
             (error, results , fields) => {
                 if(error){
@@ -60,4 +60,26 @@ module.exports = {
             }
         )
     },
+    updateAdminPost : (data, callBack) => {
+        pool.query(
+            `update posts set title=?, image=?, description=?, content=?, userId=?, status=?, category=? , createdAt=? where id = ? `,
+            [
+                data.title,
+                data.image,
+                data.description,
+                data.content,
+                data.userId,
+                data.status,
+                data.category,
+                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+                data.id
+            ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    }
 }
