@@ -24,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import ForgotPass from "./views/client/auth/ForgotPass";
 import ResetPass from "./views/client/auth/ResetPass";
 import ProFile from "./views/client/user/ProFile";
+import Category from "./views/admin/Category";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -57,6 +58,10 @@ const App: React.FunctionComponent<AppProps> = () => {
                 <Route index element={<Post />} />
                 <Route path="add-new" element={<NewPost />} />
                 <Route path=":postId" element={<DetailPost />} />
+              </Route>
+
+              <Route path="category">
+                <Route index element={<Category />} />
               </Route>
 
               <Route path="users" element={<Users />} />

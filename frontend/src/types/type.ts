@@ -25,6 +25,14 @@ export interface Posts {
     success : string,
 }
 
+
+export interface Category {
+    id : number,
+    name : string,
+    userId : string,
+    createdAt : Date
+}   
+
 export interface DialogTitleProps {
     id: string;
     children?: React.ReactNode;
