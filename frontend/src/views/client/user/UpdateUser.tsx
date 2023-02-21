@@ -8,6 +8,7 @@ import {
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { idolTokuDa } from "../../../utils/baseAvartar";
 
 interface UpdateUserProps {
   data: any;
@@ -80,7 +81,7 @@ const UpdateUser: React.FunctionComponent<UpdateUserProps> = ({
       form.append("file", avatar);
       form.append("image", avatar.name);
     } else {
-      form.append("image", data.coverPic);
+      form.append("image", data.coverPic ? data.coverPic : idolTokuDa);
     }
     dispatch(updateProfile(form));
   };

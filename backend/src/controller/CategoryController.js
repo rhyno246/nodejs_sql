@@ -1,4 +1,4 @@
-const { CreateCategory } = require("../model/CategoryModel");
+const { CreateCategory, getAdminCategory, deleteCategory, getCategoryById } = require("../model/CategoryModel");
 
 module.exports = {
     CreateCategory : (req,res) => {
@@ -22,5 +22,49 @@ module.exports = {
                     data : results
                 })
             })
+    },
+    getAdminCategory : (req, res) => {
+        getAdminCategory((error , results)=> {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                data : results
+            })
+        })
+    },
+    deleteCategory : (req, res) => {
+        const id = req.params.id;
+        deleteCategory(id , (error) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Delete success"
+            })
+        })
+    },
+    getCategoryById : (req, res) => {
+        const id = req.params.id;
+        getCategoryById(id, (error , results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    success : false,
+                    message : "Category not found"
+                })
+            }
+            return res.json({
+                success : true,
+                data : results
+            })
+        });
     }
 }

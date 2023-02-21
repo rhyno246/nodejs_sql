@@ -10,6 +10,7 @@ interface CategoryState {
     deleteSuccess : any,
     tokenExpiredError : any,
     CategoryById : any,
+    
 }
 
 
@@ -31,6 +32,39 @@ export const createCategory = createAsyncThunk<Category , any>('/admin/createCat
         return thunkAPI.rejectWithValue(error)
     }
 });
+
+export const getAdminCategory = createAsyncThunk<Category[]>('/admin/getAdminCategory' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get('/admin/category');
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const DeleteAdminCategory = createAsyncThunk<Category , any>(
+    "/admin/DeleteAdminCategory",
+    async (id, thunkAPI) => {
+        try {
+            const response = await axiosConfig.delete(`/admin/category/${id}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+)
+
+export const GetCategoryById =  createAsyncThunk<Category , any>(
+    "/admin/GetCategoryById",
+    async (id, thunkAPI) => {
+        try {
+            const response = await axiosConfig.get(`/admin/category/${id}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
 
 
 
@@ -57,6 +91,26 @@ const CategorySlice = createSlice({
         }).addCase(createCategory.rejected , (state, action : any) => {
             state.loading = false
             state.tokenExpiredError = action.payload.data.name
+        }).addCase(getAdminCategory.pending , (state) => {
+            state.loading = true
+        }).addCase(getAdminCategory.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.category = action.payload.data;
+        }).addCase(getAdminCategory.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(DeleteAdminCategory.fulfilled , (state, action : any) => {
+            state.success = action.payload;
+        }).addCase(DeleteAdminCategory.rejected, (state , action : any) => {
+            state.tokenExpiredError = action.payload.data.name
+        }).addCase(GetCategoryById.pending , (state) => {
+            state.loading = true
+        }).addCase(GetCategoryById.fulfilled , (state , action) => {
+            state.loading = false
+            state.CategoryById = action.payload
+        }).addCase(GetCategoryById.rejected , (state, action : any) => {
+            state.loading = false
+            state.tokenExpiredError = action.payload.data.name;
         })
     }
 })

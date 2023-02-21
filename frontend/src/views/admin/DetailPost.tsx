@@ -102,7 +102,10 @@ const DetailPost: React.FunctionComponent<DetailPostProps> = () => {
       form.append("file", imageUrl);
       form.append("image", imageUrl.name);
     } else {
-      form.append("image", postById?.data.image);
+      form.append(
+        "image",
+        postById?.data.image ? postById?.data.image : idolTokuDa
+      );
     }
     dispatch(updateAdminPost(form));
   };

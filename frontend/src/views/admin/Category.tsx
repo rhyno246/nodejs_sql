@@ -6,24 +6,32 @@ import CreateCategory from "../../components/backend/category/CreateCategory";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { toast } from "react-toastify";
-import { ClearError, ClearSuccess } from "../../redux/reducer/category.slice";
+import {
+  ClearError,
+  ClearSuccess,
+  DeleteAdminCategory,
+  getAdminCategory,
+  GetCategoryById,
+} from "../../redux/reducer/category.slice";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as moment from "moment";
+import DialogConFirm from "../../components/backend/DialogConfirm";
+import EditCategory from "../../components/backend/category/EditCategory";
 interface CategoryProps {}
 
 const Category: React.FunctionComponent<CategoryProps> = () => {
   const [openCreate, setOpenCreate] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
   const { userByEmail } = useSelector((state: RootState) => state.users);
+  const [catId, setCatId] = React.useState("");
+  const [openCfm, setOpenCfm] = React.useState(false);
+
   const { success, error, category } = useSelector(
     (state: RootState) => state.category
   );
   const dispatch = useAppDispatch();
-  const openModalEditUser = (): void => {
-    setOpenCreate(true);
-  };
-
   const columns: GridColDef[] = [
     { field: "id", headerName: "CategoryId", minWidth: 100, flex: 0.8 },
 
@@ -70,10 +78,10 @@ const Category: React.FunctionComponent<CategoryProps> = () => {
           <>
             {userByEmail.role === "admin" || userByEmail.role === "content" ? (
               <Box>
-                <Button>
+                <Button onClick={() => openModalEditCategory(params.id)}>
                   <EditIcon />
                 </Button>
-                <Button>
+                <Button onClick={() => handleOpenCfm(params.id)}>
                   <DeleteIcon />
                 </Button>
               </Box>
@@ -86,31 +94,59 @@ const Category: React.FunctionComponent<CategoryProps> = () => {
     },
   ];
 
+  const openModalEditUser = (): void => {
+    setOpenCreate(true);
+  };
+
+  const handleOpenCfm = (id: any): void => {
+    setOpenCfm(true);
+    setCatId(id);
+  };
+
+  const handleCloseCfm = (): void => {
+    setOpenCfm(false);
+  };
+
+  const openModalEditCategory = (id: any): void => {
+    setOpenEdit(true);
+    setCatId(id);
+  };
+
+  const handleDeleteCategory = (): void => {
+    dispatch(DeleteAdminCategory(catId));
+  };
+
   const rows: any = [];
   category &&
     category.forEach((item: any) => {
       rows.push({
         id: item.id,
-        title: item.title,
-        image: item.image,
-        category: item.category,
-        status: item.status,
+        name: item.name,
+        slug: item.slug,
         userCreated: item.role,
         createdAt: moment(item.createdAt).format("DD-MM-YYYY"),
       });
     });
 
   React.useEffect(() => {
+    dispatch(GetCategoryById(catId));
+    dispatch(getAdminCategory());
     if (success) {
+      setOpenCfm(false);
+    }
+    if (success?.success) {
       toast.success(success.message);
-      setOpenCreate(false);
+      dispatch(ClearSuccess());
+    }
+    if (success?.warning) {
+      toast.warning(success.message);
       dispatch(ClearSuccess());
     }
     if (error) {
       toast.error(error.message);
       dispatch(ClearError());
     }
-  }, [success, error, dispatch]);
+  }, [success, error, dispatch, catId]);
 
   return (
     <Layout>
@@ -136,6 +172,21 @@ const Category: React.FunctionComponent<CategoryProps> = () => {
       >
         <CreateCategory />
       </UserModal>
+
+      <UserModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        addTitle={`Edit Category ${catId}`}
+      >
+        <EditCategory setOpen={setOpenEdit} />
+      </UserModal>
+
+      <DialogConFirm
+        open={openCfm}
+        onClose={handleCloseCfm}
+        id={catId}
+        onDelete={handleDeleteCategory}
+      />
     </Layout>
   );
 };
