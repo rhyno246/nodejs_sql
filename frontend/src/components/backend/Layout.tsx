@@ -148,8 +148,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       icon: <NewspaperIcon />,
     },
     {
-      text: "Video",
-      link: "/admin/video",
+      text: "Stories Post",
+      link: "/admin/stories",
       icon: <SlowMotionVideoIcon />,
     },
   ];

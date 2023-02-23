@@ -5,6 +5,7 @@ import Button from "@mui/material/Button/Button";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { createCategory } from "../../../redux/reducer/category.slice";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 interface CreateCategoryProps {}
 
 const CreateCategory: React.FunctionComponent<CreateCategoryProps> = () => {
@@ -24,6 +25,10 @@ const CreateCategory: React.FunctionComponent<CreateCategoryProps> = () => {
 
   const handleCreateCategory = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
+    if (dataCreateCategory.name === "") {
+      toast.error("You have not entered data");
+      return;
+    }
     dispatch(createCategory(dataCreateCategory));
   };
 

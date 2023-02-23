@@ -90,6 +90,10 @@ const DetailPost: React.FunctionComponent<DetailPostProps> = () => {
 
   const hanleUpdatedPost = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
+    if (dataCreatePost.title === "") {
+      toast.error("You have not entered data");
+      return;
+    }
     const form = new FormData();
     form.append("title", dataCreatePost.title);
     form.append("description", dataCreatePost.description);

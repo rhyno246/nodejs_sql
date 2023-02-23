@@ -63,6 +63,16 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = ({
   };
   const handleCreateUser = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
+    if (
+      dataCreateUser.first_name === "" ||
+      dataCreateUser.last_name === "" ||
+      dataCreateUser.email === "" ||
+      dataCreateUser.password === "" ||
+      dataCreateUser.phone === ""
+    ) {
+      toast.error("You have not entered data");
+      return;
+    }
     dispatch(CreateUsersAdmin(dataCreateUser));
   };
   return (

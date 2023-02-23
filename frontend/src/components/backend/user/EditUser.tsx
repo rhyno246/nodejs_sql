@@ -51,6 +51,16 @@ const EditUser: React.FunctionComponent<EditUserProps> = ({
 
   const handleEditUser = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
+    if (
+      dataCreateUser.first_name === "" ||
+      dataCreateUser.last_name === "" ||
+      dataCreateUser.email === "" ||
+      dataCreateUser.password === "" ||
+      dataCreateUser.phone === ""
+    ) {
+      toast.error("You have not entered data");
+      return;
+    }
     dispatch(UpdatedAdminUser(dataCreateUser));
   };
 

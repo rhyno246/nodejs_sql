@@ -2,8 +2,10 @@ import { Box } from "@mui/system";
 import TextField from "@mui/material/TextField/TextField";
 import Button from "@mui/material/Button/Button";
 import * as React from "react";
-import { RootState } from "../../../redux/store";
+import { RootState, useAppDispatch } from "../../../redux/store";
 import { useSelector } from "react-redux";
+import { updateAdminCategory } from "../../../redux/reducer/category.slice";
+import { toast } from "react-toastify";
 interface EditCategoryProps {
   setOpen: any;
 }
@@ -16,7 +18,11 @@ const EditCategory: React.FunctionComponent<EditCategoryProps> = ({
   const [dataCreateCategory, setDataCreateCategory] = React.useState({
     name: "",
     id: "",
+    userId: "",
   });
+
+  const dispatch = useAppDispatch();
+
   const handleChangeInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDataCreateCategory({
       ...dataCreateCategory,
@@ -24,16 +30,23 @@ const EditCategory: React.FunctionComponent<EditCategoryProps> = ({
     });
   };
 
-  const handleUpdateCategory = (e: React.FormEvent<HTMLElement>): void => {
-    e.preventDefault();
-  };
-
   React.useEffect(() => {
     setDataCreateCategory({
+      id: CategoryById?.data?.id,
       name: CategoryById?.data?.name,
-      id: userByEmail?.id,
+      userId: userByEmail?.id,
     });
-  }, [userByEmail?.id, CategoryById?.data?.name]);
+  }, [userByEmail?.id, CategoryById?.data?.name, CategoryById?.data?.id]);
+
+  const handleUpdateCategory = (e: React.FormEvent<HTMLElement>): void => {
+    e.preventDefault();
+    if (dataCreateCategory.name === "") {
+      toast.error("You have not entered data");
+      return;
+    }
+    dispatch(updateAdminCategory(dataCreateCategory));
+    setOpen(false);
+  };
 
   return (
     <Box

@@ -1,5 +1,6 @@
 import * as React from "react";
-import logo from "../../logo.svg";
+import logoLight from "../../logo/sabasports.svg";
+import logoDark from "../../logo/logo-footer.png";
 import SearchIcon from "@mui/icons-material/Search";
 import SwitchButton from "../SwitchButton";
 import { NavLink } from "react-router-dom";
@@ -48,7 +49,12 @@ const Header = () => {
         <div className="container">
           <div className="group-logo">
             <NavLink to="/">
-              <img src={logo} width={50} height={50} alt="logo" />
+              <img
+                src={switchTheme ? logoDark : logoLight}
+                width={100}
+                height={45}
+                alt="logo"
+              />
             </NavLink>
             <div className="box-search">
               <Box component="form">

@@ -68,6 +68,17 @@ export const GetCategoryById =  createAsyncThunk<Category , any>(
 
 
 
+export const updateAdminCategory = createAsyncThunk<Category , any>('/admin/updateAdminCategory' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.patch('/admin/category' , data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+
+
 const CategorySlice = createSlice({
     name : "category",
     initialState : initialState,
@@ -111,6 +122,14 @@ const CategorySlice = createSlice({
         }).addCase(GetCategoryById.rejected , (state, action : any) => {
             state.loading = false
             state.tokenExpiredError = action.payload.data.name;
+        }).addCase(updateAdminCategory.pending , (state) => {
+            state.loading = true
+        }).addCase(updateAdminCategory.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.success = action.payload
+        }).addCase(updateAdminCategory.rejected , (state, action : any) => {
+            state.loading = false
+            state.tokenExpiredError = action.payload.data.name
         })
     }
 })
