@@ -31,7 +31,14 @@ export interface Category {
     name : string,
     userId : string,
     createdAt : Date
-}   
+} 
+
+export interface Stories {
+    id : number,
+    image : string,
+    userId : number,
+    createdAt : Date
+}
 
 export interface DialogTitleProps {
     id: string;

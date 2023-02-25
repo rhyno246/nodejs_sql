@@ -6,6 +6,7 @@ const app = express();
 const userRouter = require('./src/routes/userRoute');
 const postRouter = require('./src/routes/PostRoute');
 const categoryRouter = require('./src/routes/CategoryRoute')
+const storiesRouter = require('./src/routes/StoriesRoute');
 app.use(express.json());              
 app.use(cors());
 app.use(bodyParser.urlencoded({ 
@@ -17,6 +18,7 @@ app.use(express.static("upload"))
 app.use('/api/v1' , userRouter);
 app.use('/api/v1' , postRouter);
 app.use('/api/v1' , categoryRouter);
+app.use('/api/v1' , storiesRouter);
 
 
 const PORT = process.env.PORT || 8000;
