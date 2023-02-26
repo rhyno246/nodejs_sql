@@ -1,46 +1,59 @@
-import { Box, Button } from "@mui/material";
-import * as React from "react";
+import { Box, Button, TextField } from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
-import { useSelector } from "react-redux";
+import * as React from "react";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { toast } from "react-toastify";
 import {
   ClearError,
   ClearSuccess,
-  createStories,
+  createListImage,
 } from "../../../redux/reducer/stories.slice";
-interface CreateStoriesProps {
+import { useSelector } from "react-redux";
+interface CreateDetailStoriesProps {
   setOpen: any;
+  storiesId: any;
 }
 
-const CreateStories: React.FunctionComponent<CreateStoriesProps> = ({
-  setOpen,
-}: CreateStoriesProps) => {
+const CreateDetailStories: React.FunctionComponent<
+  CreateDetailStoriesProps
+> = ({ setOpen, storiesId }: CreateDetailStoriesProps) => {
   const [imageUrl, setImageUrl] = React.useState<File>(null);
-  const { userByEmail } = useSelector((state: RootState) => state.users);
+  const [dataCreateStories, setDataCreateStories] = React.useState({
+    title: "",
+  });
   const { success, error } = useSelector((state: RootState) => state.stories);
   const dispatch = useAppDispatch();
+  const handleChangeInputData = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setDataCreateStories({
+      ...dataCreateStories,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       var file = event.target.files[0];
       setImageUrl(file);
     }
   };
-
   const hanleCreateStories = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
     const form = new FormData();
     if (imageUrl) {
+      form.append("title", dataCreateStories.title);
       form.append("file", imageUrl);
       form.append("image", imageUrl.name);
-      form.append("id", userByEmail.id);
-      dispatch(createStories(form));
+      form.append("id", storiesId);
+      dispatch(createListImage(form));
       setOpen(false);
     } else {
       toast.error("You have not entered data");
       return;
     }
   };
+
   React.useEffect(() => {
     if (success) {
       toast.success(success.message);
@@ -59,6 +72,15 @@ const CreateStories: React.FunctionComponent<CreateStoriesProps> = ({
       onSubmit={hanleCreateStories}
       className="form-auth"
     >
+      <TextField
+        margin="normal"
+        fullWidth
+        label="Title"
+        name="title"
+        onChange={handleChangeInputData}
+        autoComplete="title"
+        sx={{ marginBottom: "0px" }}
+      />
       <Box
         component="label"
         sx={{
@@ -96,4 +118,4 @@ const CreateStories: React.FunctionComponent<CreateStoriesProps> = ({
   );
 };
 
-export default CreateStories;
+export default CreateDetailStories;

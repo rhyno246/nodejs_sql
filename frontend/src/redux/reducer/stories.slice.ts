@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Stories } from "../../types/type";
+import { Stories, StoriesById } from "../../types/type";
 import axiosConfig from "../axiosConfig/axiosConfig";
 
 interface StoriesState {
@@ -9,7 +9,7 @@ interface StoriesState {
     success : any,
     deleteSuccess : any,
     tokenExpiredError : any,
-    StoriesById : any,
+    StoriesById : StoriesById[],
 }
 
 const initialState : StoriesState = {
@@ -19,12 +19,22 @@ const initialState : StoriesState = {
     success : null,
     deleteSuccess : null,
     tokenExpiredError : null,
-    StoriesById : null
+    StoriesById : []
 }
 
 export const createStories = createAsyncThunk<Stories , any>('/admin/createStories' , async(data, thunkAPI) => {
     try {
         const response = await axiosConfig.post('/admin/stories' , data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+
+export const createListImage = createAsyncThunk<StoriesById , any>('/admin/createListImage' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.post('/admin/list' , data);
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error)
@@ -39,6 +49,16 @@ export const getAdminStories = createAsyncThunk<Stories[]>('/admin/getAdminStori
         return thunkAPI.rejectWithValue(error)
     }
 });
+
+export const getAdminListImage = createAsyncThunk<StoriesById[], string>('/admin/getAdminListImage' , async( id , thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/admin/list/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
 
 
 
@@ -72,6 +92,22 @@ const StoriesSlice = createSlice({
             state.loading = false
             state.stories = action.payload.data;
         }).addCase(getAdminStories.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(createListImage.pending , (state) => {
+            state.loading = true
+        }).addCase(createListImage.fulfilled , (state, action) => {
+            state.loading = false
+            state.success = action.payload
+        }).addCase(createListImage.rejected , (state, action : any) => {
+            state.loading = false
+            state.tokenExpiredError = action.payload.data.name
+        }).addCase(getAdminListImage.pending , (state) => {
+            state.loading = true
+        }).addCase(getAdminListImage.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.StoriesById = action.payload.data;
+        }).addCase(getAdminListImage.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
         })

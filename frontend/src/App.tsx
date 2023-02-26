@@ -26,6 +26,7 @@ import ResetPass from "./views/client/auth/ResetPass";
 import ProFile from "./views/client/user/ProFile";
 import Category from "./views/admin/Category";
 import Stories from "./views/admin/Stories";
+import StoriesDetail from "./views/admin/StoriesDetail";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -63,6 +64,7 @@ const App: React.FunctionComponent<AppProps> = () => {
 
               <Route path="stories">
                 <Route index element={<Stories />} />
+                <Route path=":storiesId" element={<StoriesDetail />} />
               </Route>
 
               <Route path="category">

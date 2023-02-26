@@ -40,6 +40,13 @@ export interface Stories {
     createdAt : Date
 }
 
+export interface StoriesById {
+    id : number,
+    title : string,
+    image : string,
+    createdAt : Date,
+}
+
 export interface DialogTitleProps {
     id: string;
     children?: React.ReactNode;
