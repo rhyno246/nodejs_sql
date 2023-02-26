@@ -1,4 +1,4 @@
-const { CreateStories, getAllAdminStories, CreateListImage, getListImage } = require("../model/StoriesModel");
+const { CreateStories, getAllAdminStories, CreateListImage, getListImage, getListImageChild, updateListImageChild, getStoriesDetail } = require("../model/StoriesModel");
 
 module.exports = {
     CreateStories : (req,res) => {
@@ -26,6 +26,23 @@ module.exports = {
             })
         })
     },
+
+    getStoriesDetail : (req, res) => {
+        const id = req.params.id;
+        getStoriesDetail(id, (error, results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                data : results
+            })
+        })
+    },
+
+
+
     CreateListImage : (req, res) => {
         const body = req.body;
         if(body.image){
@@ -73,6 +90,35 @@ module.exports = {
             return res.json({
                 success : true,
                 data : results
+            })
+        })
+    },
+    getListImageChild : (req, res) => {
+        const id = req.params.id;
+        getListImageChild(id, (error, results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                data : results[0]
+            })
+        })
+    },
+    updateListImageChild : (req, res) => {
+        const body =  req.body;
+        if(req.file){
+            body.image = `${req.protocol}://${req.get("host")}/${ body.image}`;
+        }
+        updateListImageChild(body , (error) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Updated success"
             })
         })
     }

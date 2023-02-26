@@ -17,6 +17,20 @@ module.exports = {
             }
         )
     },
+    getStoriesDetail : (id, callBack) => {
+        pool.query(
+            ` select * from stories where id = ? `,
+            [ id ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results[0])
+            }
+        )
+    },
+
+
     CreateListImage : (data, callBack) =>{
         pool.query(
             `insert into stories_image (title, image , storiesId , createdAt) values (?,?,?,?)`,
@@ -50,6 +64,35 @@ module.exports = {
         pool.query(
             ` select * from stories_image where storiesId = ? `,
             [ id ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    },
+    getListImageChild : (id, callBack) => {
+        pool.query(
+            ` select * from stories_image where id = ? `,
+            [ id ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    },
+    updateListImageChild : (data , callBack) => {
+        pool.query(
+            `update stories_image set title= ? , image= ?, createdAt=? where id = ? `,
+            [   
+                data.title,
+                data.image,
+                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+                data.id 
+            ],
             (error , results , fields) => {
                 if(error){
                    return callBack(error)

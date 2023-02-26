@@ -6,7 +6,10 @@ import UserModal from "../../components/backend/UserModal";
 import CreateDetailStories from "../../components/backend/stories/CreateDetailStories";
 import { useParams } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { getAdminListImage } from "../../redux/reducer/stories.slice";
+import {
+  getAdminListChildImage,
+  getAdminListImage,
+} from "../../redux/reducer/stories.slice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useSelector } from "react-redux";
@@ -35,6 +38,7 @@ const StoriesDetail: React.FunctionComponent<StoriesDetailProps> = () => {
   const hanleEditListImage = (id: any): void => {
     setOpenEdit(true);
     setIdListImage(id);
+    dispatch(getAdminListChildImage(id));
   };
 
   React.useEffect(() => {
@@ -115,7 +119,7 @@ const StoriesDetail: React.FunctionComponent<StoriesDetailProps> = () => {
         setOpen={setOpenEdit}
         addTitle={`Edit List Image ${idListImage}`}
       >
-        <EditDetailStories setOpen={setOpenEdit} idListImage={idListImage} />
+        <EditDetailStories setOpen={setOpenEdit} />
       </UserModal>
 
       <UserModal

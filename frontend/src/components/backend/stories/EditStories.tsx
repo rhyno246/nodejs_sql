@@ -1,33 +1,25 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import { Box, Button } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  ClearError,
-  ClearSuccess,
-  updateAdminListChildImage,
-} from "../../../redux/reducer/stories.slice";
+import { ClearError, ClearSuccess } from "../../../redux/reducer/stories.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
-interface EditDetailStoriesProps {
+interface EditStoriesProps {
   setOpen: any;
 }
 
-const EditDetailStories: React.FunctionComponent<EditDetailStoriesProps> = ({
+const EditStories: React.FunctionComponent<EditStoriesProps> = ({
   setOpen,
-}: EditDetailStoriesProps) => {
+}: EditStoriesProps) => {
   const [imageUrl, setImageUrl] = React.useState<File>(null);
-  const [dataCreateStories, setDataCreateStories] = React.useState({
-    id: "",
-    title: "",
-    image: "",
-  });
   const dispatch = useAppDispatch();
-  const { listChildImage, success, error } = useSelector(
+  const { StoriesDetail, success, error } = useSelector(
     (state: RootState) => state.stories
   );
-
+  const [dataCreateStories, setDataCreateStories] = React.useState({
+    id: "",
+    image: "",
+  });
   const handleChangeInputData = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -42,27 +34,15 @@ const EditDetailStories: React.FunctionComponent<EditDetailStoriesProps> = ({
       setImageUrl(file);
     }
   };
-
-  const hanleUpdatedListImage = (e: React.FormEvent<HTMLElement>): void => {
+  const hanleUpdatedStoriesImage = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
-    const form = new FormData();
-    form.append("title", dataCreateStories?.title);
-    form.append("id", listChildImage?.id);
-    if (imageUrl) {
-      form.append("file", imageUrl);
-      form.append("image", imageUrl.name);
-    } else {
-      form.append("image", dataCreateStories?.image);
-    }
-    dispatch(updateAdminListChildImage(form));
   };
 
   React.useEffect(() => {
-    if (listChildImage) {
+    if (StoriesDetail) {
       setDataCreateStories({
-        title: listChildImage?.title,
-        image: listChildImage?.image,
-        id: listChildImage?.id,
+        image: StoriesDetail?.image,
+        id: StoriesDetail?.id,
       });
     }
     if (success) {
@@ -75,10 +55,9 @@ const EditDetailStories: React.FunctionComponent<EditDetailStoriesProps> = ({
       dispatch(ClearError());
     }
   }, [
-    listChildImage,
-    listChildImage?.title,
-    listChildImage?.image,
-    listChildImage?.id,
+    StoriesDetail,
+    StoriesDetail?.image,
+    StoriesDetail?.id,
     success,
     error,
     dispatch,
@@ -89,19 +68,9 @@ const EditDetailStories: React.FunctionComponent<EditDetailStoriesProps> = ({
     <Box
       encType="multipart/form-data"
       component="form"
-      onSubmit={hanleUpdatedListImage}
+      onSubmit={hanleUpdatedStoriesImage}
       className="form-auth"
     >
-      <TextField
-        margin="normal"
-        fullWidth
-        label="Title"
-        name="title"
-        onChange={handleChangeInputData}
-        autoComplete="title"
-        sx={{ marginBottom: "0px" }}
-        value={dataCreateStories.title}
-      />
       <Box
         component="label"
         sx={{
@@ -111,9 +80,9 @@ const EditDetailStories: React.FunctionComponent<EditDetailStoriesProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "20px",
         }}
       >
+        <input type="text" name="id" onChange={handleChangeInputData} hidden />
         <input
           type="file"
           id="file"
@@ -131,16 +100,16 @@ const EditDetailStories: React.FunctionComponent<EditDetailStoriesProps> = ({
         ) : (
           <img
             src={dataCreateStories?.image}
-            alt={`${dataCreateStories?.title}`}
+            alt={`${dataCreateStories?.image}`}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         )}
       </Box>
       <Button type="submit" variant="contained" sx={{ marginTop: "15px" }}>
-        Update List Image
+        Update Stories Post
       </Button>
     </Box>
   );
 };
 
-export default EditDetailStories;
+export default EditStories;

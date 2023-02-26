@@ -5,11 +5,15 @@ import HideImageIcon from "@mui/icons-material/HideImage";
 import UserModal from "../../components/backend/UserModal";
 import CreateStories from "../../components/backend/stories/CreateStories";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { getAdminStories } from "../../redux/reducer/stories.slice";
+import {
+  getAdminStories,
+  getAdminStoriesDetail,
+} from "../../redux/reducer/stories.slice";
 import { useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
+import EditStories from "../../components/backend/stories/EditStories";
 interface StoriesProps {}
 
 const commonStyles = {
@@ -22,11 +26,19 @@ const commonStyles = {
 
 const Stories: React.FunctionComponent<StoriesProps> = () => {
   const [openCreate, setOpenCreate] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [idListImage, setIdListImage] = React.useState(null);
   const { stories, success } = useSelector((state: RootState) => state.stories);
   const openModalCreateStoriesPost = (): void => {
     setOpenCreate(true);
   };
   const dispatch = useAppDispatch();
+
+  const handleEditStories = (id: any): void => {
+    setIdListImage(id);
+    setOpenEdit(true);
+    dispatch(getAdminStoriesDetail(id));
+  };
 
   React.useEffect(() => {
     dispatch(getAdminStories());
@@ -53,23 +65,41 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
         >
           {stories?.map((item, i) => (
             <Box
-              component={Link}
-              to={`/admin/stories/${item.id}`}
               sx={{
-                ...commonStyles,
-                borderRadius: 1,
+                position: "relative",
+                width: "15rem",
+                height: "20rem",
               }}
-              style={{
-                backgroundImage: `url(${item.image})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-                cursor: "pointer",
-              }}
-              key={i}
             >
-              <Box sx={{ position: "absolute", top: "5px", right: "0" }}>
-                <IconButton size="small">
+              <Box
+                component={Link}
+                to={`/admin/stories/${item.id}`}
+                sx={{
+                  ...commonStyles,
+                  borderRadius: 1,
+                }}
+                style={{
+                  backgroundImage: `url(${item.image})`,
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  cursor: "pointer",
+                  display: "block",
+                }}
+                key={i}
+              />
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "5px",
+                  right: "0",
+                  zIndex: "99999999999",
+                }}
+              >
+                <IconButton
+                  size="small"
+                  onClick={() => handleEditStories(item.id)}
+                >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton size="small">
@@ -95,6 +125,15 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
           <HideImageIcon sx={{ fontSize: "50px" }} />
         </Box>
       )}
+
+      <UserModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        addTitle={`Edit Stoires Post ${idListImage}`}
+      >
+        <EditStories setOpen={setOpenEdit} />
+      </UserModal>
+
       <UserModal
         open={openCreate}
         setOpen={setOpenCreate}
