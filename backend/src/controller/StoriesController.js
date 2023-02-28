@@ -1,4 +1,4 @@
-const { CreateStories, getAllAdminStories, CreateListImage, getListImage, getListImageChild, updateListImageChild, getStoriesDetail } = require("../model/StoriesModel");
+const { CreateStories, getAllAdminStories, CreateListImage, getListImage, getListImageChild, updateListImageChild, getStoriesDetail, updateStories, deleteListImageChild, deleteStories } = require("../model/StoriesModel");
 
 module.exports = {
     CreateStories : (req,res) => {
@@ -40,6 +40,8 @@ module.exports = {
             })
         })
     },
+
+   
 
 
 
@@ -119,6 +121,50 @@ module.exports = {
             return res.json({
                 success : true,
                 message : "Updated success"
+            })
+        })
+    },
+
+
+    updateStories : (req, res) => {
+        const body = req.body;
+        if(req.file){
+            body.image = `${req.protocol}://${req.get("host")}/${ body.image}`;
+        }
+        updateStories(body , (error) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Updated success"
+            })
+        })
+    },
+    deleteListImageChild : (req , res) => {
+        const id = req.params.id;
+        deleteListImageChild(id , (error) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Delete success"
+            })
+        })
+    },
+    deleteStories : (req, res) => {
+        const id = req.params.id
+        deleteStories(id,(error) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                message : "Delete success"
             })
         })
     }

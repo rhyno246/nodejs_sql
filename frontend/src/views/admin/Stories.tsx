@@ -6,6 +6,7 @@ import UserModal from "../../components/backend/UserModal";
 import CreateStories from "../../components/backend/stories/CreateStories";
 import { RootState, useAppDispatch } from "../../redux/store";
 import {
+  deleteStories,
   getAdminStories,
   getAdminStoriesDetail,
 } from "../../redux/reducer/stories.slice";
@@ -40,6 +41,10 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
     dispatch(getAdminStoriesDetail(id));
   };
 
+  const handleDeleteStories = (id: any): void => {
+    dispatch(deleteStories(id));
+  };
+
   React.useEffect(() => {
     dispatch(getAdminStories());
     if (success) {
@@ -70,6 +75,7 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
                 width: "15rem",
                 height: "20rem",
               }}
+              key={i}
             >
               <Box
                 component={Link}
@@ -86,7 +92,6 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
                   cursor: "pointer",
                   display: "block",
                 }}
-                key={i}
               />
               <Box
                 sx={{
@@ -102,7 +107,10 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
                 >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
-                <IconButton size="small">
+                <IconButton
+                  size="small"
+                  onClick={() => handleDeleteStories(item.id)}
+                >
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
               </Box>
@@ -131,7 +139,7 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
         setOpen={setOpenEdit}
         addTitle={`Edit Stoires Post ${idListImage}`}
       >
-        <EditStories setOpen={setOpenEdit} />
+        <EditStories setOpen={setOpenEdit} idListImage={idListImage} />
       </UserModal>
 
       <UserModal

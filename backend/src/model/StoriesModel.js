@@ -100,5 +100,46 @@ module.exports = {
                 return callBack(null , results)
             }
         )
+    },
+    updateStories : (data, callBack) => {
+        pool.query(
+            `update stories set image= ?, userId =? , createdAt=? where id = ? `,
+            [   
+                data.image,
+                data.userId,
+                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+                data.id 
+            ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    },
+    deleteListImageChild : (id , callBack) => {
+        pool.query(
+            `delete from stories_image where id = ?`,
+            [id],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results[0])
+            }
+        )
+    },
+    deleteStories : (id, callBack) => {
+        pool.query(
+            `delete parent , child from stories parent join stories_image child on parent.id = child.storiesId where parent.id = ?`,
+            [id],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results[0])
+            }   
+        )
     }
 }

@@ -2,17 +2,24 @@ import { Box, Button } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { ClearError, ClearSuccess } from "../../../redux/reducer/stories.slice";
+import {
+  ClearError,
+  ClearSuccess,
+  updateAdminStories,
+} from "../../../redux/reducer/stories.slice";
 import { RootState, useAppDispatch } from "../../../redux/store";
 interface EditStoriesProps {
   setOpen: any;
+  idListImage: any;
 }
 
 const EditStories: React.FunctionComponent<EditStoriesProps> = ({
   setOpen,
+  idListImage,
 }: EditStoriesProps) => {
   const [imageUrl, setImageUrl] = React.useState<File>(null);
   const dispatch = useAppDispatch();
+  const { userByEmail } = useSelector((state: RootState) => state.users);
   const { StoriesDetail, success, error } = useSelector(
     (state: RootState) => state.stories
   );
@@ -36,6 +43,16 @@ const EditStories: React.FunctionComponent<EditStoriesProps> = ({
   };
   const hanleUpdatedStoriesImage = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
+    const form = new FormData();
+    form.append("userId", userByEmail?.id);
+    form.append("id", idListImage);
+    if (imageUrl) {
+      form.append("file", imageUrl);
+      form.append("image", imageUrl.name);
+    } else {
+      form.append("image", dataCreateStories?.image);
+    }
+    dispatch(updateAdminStories(form));
   };
 
   React.useEffect(() => {
@@ -82,7 +99,6 @@ const EditStories: React.FunctionComponent<EditStoriesProps> = ({
           justifyContent: "center",
         }}
       >
-        <input type="text" name="id" onChange={handleChangeInputData} hidden />
         <input
           type="file"
           id="file"
@@ -105,6 +121,7 @@ const EditStories: React.FunctionComponent<EditStoriesProps> = ({
           />
         )}
       </Box>
+      <input type="text" name="id" onChange={handleChangeInputData} hidden />
       <Button type="submit" variant="contained" sx={{ marginTop: "15px" }}>
         Update Stories Post
       </Button>

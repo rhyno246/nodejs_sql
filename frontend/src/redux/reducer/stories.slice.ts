@@ -90,6 +90,33 @@ export const getAdminStoriesDetail = createAsyncThunk<StoriesById[], string>('/a
     }
 });
 
+export const updateAdminStories = createAsyncThunk<StoriesById , any>('/admin/updateAdminStories' , async(data, thunkAPI) => {
+    try {
+        const response = await axiosConfig.patch('/admin/stories' , data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const deleteAdminStories = createAsyncThunk<StoriesById[], string>('/admin/deleteAdminStories' , async( id , thunkAPI) => {
+    try {
+        const response = await axiosConfig.delete(`/admin/list/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const deleteStories = createAsyncThunk<StoriesById , any>('/admin/deleteStories' , async(id, thunkAPI) => {
+    try {
+        const response = await axiosConfig.delete(`/admin/stories/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
 
 
 
@@ -165,6 +192,22 @@ const StoriesSlice = createSlice({
         }).addCase(getAdminStoriesDetail.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
+        }).addCase(updateAdminStories.pending , (state) => {
+            state.loading = true
+        }).addCase(updateAdminStories.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.success = action.payload
+        }).addCase(updateAdminStories.rejected , (state, action : any) => {
+            state.loading = false
+            state.tokenExpiredError = action.payload.data.name
+        }).addCase(deleteAdminStories.fulfilled , (state, action : any) => {
+            state.success = action.payload;
+        }).addCase(deleteAdminStories.rejected, (state , action : any) => {
+            state.tokenExpiredError = action.payload.data.name
+        }).addCase(deleteStories.fulfilled , (state, action : any) => {
+            state.success = action.payload;
+        }).addCase(deleteStories.rejected, (state , action : any) => {
+            state.tokenExpiredError = action.payload.data.name
         })
     }
 })
