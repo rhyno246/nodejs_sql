@@ -132,7 +132,7 @@ module.exports = {
     },
     deleteStories : (id, callBack) => {
         pool.query(
-            `delete parent , child from stories parent join stories_image child on parent.id = child.storiesId where parent.id = ?`,
+            `delete from stories where id = ?`,
             [id],
             (error , results , fields) => {
                 if(error){

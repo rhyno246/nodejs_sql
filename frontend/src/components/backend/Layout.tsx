@@ -261,18 +261,6 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                 </MenuItem>
                 <MenuItem>
                   <Link
-                    to="/admin/settings"
-                    style={{
-                      textDecoration: "none",
-                      textTransform: "capitalize",
-                      color: switchTheme ? "#e5e5e5" : "#222",
-                    }}
-                  >
-                    Settings
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link
                     to="/user"
                     style={{
                       textDecoration: "none",

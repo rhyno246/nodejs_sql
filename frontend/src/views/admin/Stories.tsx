@@ -6,6 +6,7 @@ import UserModal from "../../components/backend/UserModal";
 import CreateStories from "../../components/backend/stories/CreateStories";
 import { RootState, useAppDispatch } from "../../redux/store";
 import {
+  ClearSuccess,
   deleteStories,
   getAdminStories,
   getAdminStoriesDetail,
@@ -15,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import EditStories from "../../components/backend/stories/EditStories";
+import DialogConFirm from "../../components/backend/DialogConfirm";
 interface StoriesProps {}
 
 const commonStyles = {
@@ -27,6 +29,8 @@ const commonStyles = {
 
 const Stories: React.FunctionComponent<StoriesProps> = () => {
   const [openCreate, setOpenCreate] = React.useState(false);
+  const [openCfm, setOpenCfm] = React.useState(false);
+  const [listImageId, setListImageId] = React.useState("");
   const [openEdit, setOpenEdit] = React.useState(false);
   const [idListImage, setIdListImage] = React.useState(null);
   const { stories, success } = useSelector((state: RootState) => state.stories);
@@ -41,14 +45,24 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
     dispatch(getAdminStoriesDetail(id));
   };
 
-  const handleDeleteStories = (id: any): void => {
-    dispatch(deleteStories(id));
+  const handleDeleteListImage = (): void => {
+    dispatch(deleteStories(listImageId));
+  };
+
+  const handleOpenCfm = (id: any): void => {
+    setOpenCfm(true);
+    setListImageId(id);
+  };
+  const handleCloseCfm = (): void => {
+    setOpenCfm(false);
   };
 
   React.useEffect(() => {
     dispatch(getAdminStories());
     if (success) {
       dispatch(getAdminStories());
+      dispatch(ClearSuccess());
+      setOpenCfm(false);
     }
   }, [dispatch, success]);
 
@@ -107,10 +121,7 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
                 >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
-                <IconButton
-                  size="small"
-                  onClick={() => handleDeleteStories(item.id)}
-                >
+                <IconButton size="small" onClick={() => handleOpenCfm(item.id)}>
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
               </Box>
@@ -133,6 +144,13 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
           <HideImageIcon sx={{ fontSize: "50px" }} />
         </Box>
       )}
+
+      <DialogConFirm
+        open={openCfm}
+        onClose={handleCloseCfm}
+        id={listImageId}
+        onDelete={handleDeleteListImage}
+      />
 
       <UserModal
         open={openEdit}

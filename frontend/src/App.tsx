@@ -12,7 +12,6 @@ import { RootState } from "./redux/store";
 import Login from "./views/client/auth/Login";
 import "react-toastify/dist/ReactToastify.css";
 import DashBoard from "./views/admin/Dashboard";
-import Settings from "./views/admin/Settings";
 import ProtectedRouting from "./route/ProtectedRouting";
 import PublicRoutes from "./route/PublicRoutes";
 import Register from "./views/client/auth/Register";
@@ -72,7 +71,6 @@ const App: React.FunctionComponent<AppProps> = () => {
               </Route>
 
               <Route path="users" element={<Users />} />
-              <Route path="settings" element={<Settings />} />
             </Route>
 
             <Route path="login" element={<PublicRoutes />}>
