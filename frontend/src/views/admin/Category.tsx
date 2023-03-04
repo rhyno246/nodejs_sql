@@ -133,6 +133,7 @@ const Category: React.FunctionComponent<CategoryProps> = () => {
     dispatch(getAdminCategory());
     if (success) {
       setOpenCfm(false);
+      setOpenCreate(false);
     }
     if (success?.success) {
       toast.success(success.message);

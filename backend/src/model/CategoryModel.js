@@ -1,6 +1,6 @@
 const pool = require('../utils/db');
 const slug = require('slug');
-const monent =  require('moment');
+const moment =  require('moment');
 module.exports = {
     CreateCategory : (data, callBack) => {
         pool.query(
@@ -64,7 +64,7 @@ module.exports = {
                 data.name,
                 slug(data.name),
                 data.userId,
-                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+                moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
                 data.id
             ],
             (error , results , fields) => {

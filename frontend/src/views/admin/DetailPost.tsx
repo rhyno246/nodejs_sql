@@ -18,6 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Layout from "../../components/backend/Layout";
 import { apiUrl } from "../../redux/axiosConfig/apiUrl";
+import { getAdminCategory } from "../../redux/reducer/category.slice";
 import {
   ClearError,
   ClearSuccess,
@@ -39,6 +40,7 @@ const DetailPost: React.FunctionComponent<DetailPostProps> = () => {
     (state: RootState) => state.posts
   );
   const { userByEmail } = useSelector((state: RootState) => state.users);
+  const { category } = useSelector((state: RootState) => state.category);
   const [imageUrl, setImageUrl] = React.useState<File>(null);
   const [dataCreatePost, setDataCreatePost] = React.useState({
     id: null,
@@ -115,6 +117,7 @@ const DetailPost: React.FunctionComponent<DetailPostProps> = () => {
   };
 
   React.useEffect(() => {
+    dispatch(getAdminCategory());
     if (success) {
       toast.success(success.message);
       dispatch(ClearSuccess());
@@ -125,7 +128,6 @@ const DetailPost: React.FunctionComponent<DetailPostProps> = () => {
       dispatch(ClearError());
     }
   }, [success, error, dispatch, history]);
-
   return (
     <Layout>
       <Box
@@ -159,14 +161,17 @@ const DetailPost: React.FunctionComponent<DetailPostProps> = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
+            defaultValue={dataCreatePost.category}
             value={dataCreatePost.category}
             label="Category"
             onChange={handleChangeInputData}
             name="category"
           >
-            <MenuItem value="bong-da">Bong Da</MenuItem>
-            <MenuItem value="bong-ro">Bong Ro</MenuItem>
-            <MenuItem value="tennis">tennis</MenuItem>
+            {category?.map((item, i) => (
+              <MenuItem key={i} value={item.slug}>
+                {item.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 

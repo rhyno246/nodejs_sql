@@ -1,9 +1,9 @@
 const pool = require('../utils/db');
-
+const monent =  require('moment');
 module.exports = {
     create : (data, callBack) => {
         pool.query(
-            `insert into users(firstName, lastName, gender, email, password, showpass , phone , coverPic) values(?,?,?,?,?,?,?,?)` ,
+            `insert into users(firstName, lastName, gender, email, password, showpass , phone , coverPic , createdAt) values(?,?,?,?,?,?,?,?,?)` ,
             [
                 data.first_name,
                 data.last_name,
@@ -13,6 +13,7 @@ module.exports = {
                 data.showpass,
                 data.phone,
                 data.image,
+                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
             ],
             (error , results , fields) => {
                 if(error){
@@ -25,7 +26,7 @@ module.exports = {
 
     createUserAdmin : (data, callBack) => {
         pool.query(
-            `insert into users(firstName, lastName, gender, email, password , showpass , phone, role) values(?,?,?,?,?,?,?,?)` ,
+            `insert into users(firstName, lastName, gender, email, password , showpass , phone, role , createdAt) values(?,?,?,?,?,?,?,?,?)` ,
             [
                 data.first_name,
                 data.last_name,
@@ -34,7 +35,8 @@ module.exports = {
                 data.password,
                 data.showpass,
                 data.phone,
-                data.role
+                data.role,
+                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
             ],
             (error , results , fields) => {
                 if(error){
@@ -47,7 +49,7 @@ module.exports = {
 
     getUser : callBack => {
         pool.query(
-            `select id ,firstName, lastName, gender, email, password , phone , role from users`,
+            `select id ,firstName, lastName, gender, email, password , phone , role , createdAt from users`,
             [],
             (error, results , fields) => {
                 if(error){
@@ -59,7 +61,7 @@ module.exports = {
     },
     getUserById : (id , callBack) => {
         pool.query(
-            `select id ,firstName, lastName, gender, email, password , showpass , phone , role from users where id = ?`,
+            `select id ,firstName, lastName, gender, email, password , showpass , phone , role , createdAt from users where id = ?`,
             [id],
             (error, results , fields) => {
                 if(error){
@@ -72,7 +74,7 @@ module.exports = {
     
     getUserByEmail : (email , callBack) => {
         pool.query(
-            `select id , firstName, lastName, gender, email, password , showpass , phone , coverPic , profilePic , role from users where email = ?`,
+            `select id , firstName, lastName, gender, email, password , showpass , phone , coverPic , profilePic , role , createdAt from users where email = ?`,
             [email],
             (error, results , fields) => {
                 if(error){
@@ -86,7 +88,7 @@ module.exports = {
 
     updateAdminUser : (data, callBack) => {
         pool.query(
-            `update users set firstName=?, lastName=?, gender=?, email=?, password=? , showpass=?, phone=? , role=? where id = ?`,
+            `update users set firstName=?, lastName=?, gender=?, email=?, password=? , showpass=?, phone=? , role=? , createdAt=? where id = ?`,
             [
                 data.first_name,
                 data.last_name,
@@ -96,6 +98,7 @@ module.exports = {
                 data.showpass,
                 data.phone,
                 data.role,
+                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
                 data.id
             ],
             (error , results , fields) => {
@@ -110,7 +113,7 @@ module.exports = {
 
     updateUser : (data, callBack) => {
         pool.query(
-            `update users set firstName=?, lastName=?, gender=?, email=?, password=? , showpass=?, phone=?,coverPic=? where id = ?`,
+            `update users set firstName=?, lastName=?, gender=?, email=?, password=? , showpass=?, phone=?,coverPic=?, createdAt=? where id = ?`,
             [
                 data.first_name,
                 data.last_name,
@@ -120,6 +123,7 @@ module.exports = {
                 data.showpass,
                 data.phone,
                 data.image,
+                monent(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
                 data.id,
             ],
             (error , results , fields) => {

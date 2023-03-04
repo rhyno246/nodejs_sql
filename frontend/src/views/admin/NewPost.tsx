@@ -26,6 +26,7 @@ import {
 } from "../../redux/reducer/posts.slice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getAdminCategory } from "../../redux/reducer/category.slice";
 
 interface NewPostProps {}
 
@@ -34,6 +35,7 @@ const NewPost: React.FunctionComponent<NewPostProps> = () => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
   const { userByEmail } = useSelector((state: RootState) => state.users);
+  const { category } = useSelector((state: RootState) => state.category);
   const { success, error } = useSelector((state: RootState) => state.posts);
   const editorRef = React.useRef(null);
   const [imageUrl, setImageUrl] = React.useState<File>(null);
@@ -52,7 +54,6 @@ const NewPost: React.FunctionComponent<NewPostProps> = () => {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       var file = event.target.files[0];
@@ -81,6 +82,7 @@ const NewPost: React.FunctionComponent<NewPostProps> = () => {
   };
 
   React.useEffect(() => {
+    dispatch(getAdminCategory());
     if (success) {
       toast.success(success.message);
       dispatch(ClearSuccess());
@@ -129,9 +131,11 @@ const NewPost: React.FunctionComponent<NewPostProps> = () => {
             onChange={handleChangeInputData}
             name="category"
           >
-            <MenuItem value="bong-da">Bong Da</MenuItem>
-            <MenuItem value="bong-ro">Bong Ro</MenuItem>
-            <MenuItem value="tennis">tennis</MenuItem>
+            {category?.map((item, i) => (
+              <MenuItem key={i} value={item.slug}>
+                {item.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <Editor

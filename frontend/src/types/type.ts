@@ -8,7 +8,8 @@ export interface Users {
     phone : number,
     role : string,
     success : string,
-    coverPic : string
+    coverPic : string,
+    createdAt : string
 }
 
 
@@ -28,6 +29,7 @@ export interface Posts {
 
 export interface Category {
     id : number,
+    slug : string,
     name : string,
     userId : string,
     createdAt : Date
