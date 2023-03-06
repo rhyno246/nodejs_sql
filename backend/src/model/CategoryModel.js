@@ -33,6 +33,18 @@ module.exports = {
             }
         )
     },
+    getMenu : callBack => {
+        pool.query(
+            ` select * from category `,
+            [],
+            (error, results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results)
+            }
+        )
+    },
     deleteCategory : (id, callBack) => {
         pool.query(
             `delete from category where id = ?`,

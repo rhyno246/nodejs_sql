@@ -1,4 +1,4 @@
-const { getAdminPost, createPost, deletePost, getPostById, updateAdminPost } = require("../model/PostModel");
+const { getAdminPost, createPost, deletePost, getPostById, updateAdminPost, getNewsClient } = require("../model/PostModel");
 const path = require('path');
 
 module.exports = {
@@ -100,5 +100,24 @@ module.exports = {
                 message : "Updated success"
             })
         })
+    },
+    getNewsClient : (req, res) => {
+        const slug =  req.params.slug;
+        getNewsClient(slug, (error , results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    success : false,
+                    message : "Post not found"
+                })
+            }
+            return res.json({
+                success : true,
+                data : results
+            })
+        });
     }
 }

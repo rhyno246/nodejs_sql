@@ -81,5 +81,18 @@ module.exports = {
                 return callBack(null , results)
             }
         )
-    }
+    },
+    getNewsClient : (slug , callBack) => {
+        pool.query( 
+            ` select post.*,  user.id as userId, firstName, lastName, coverPic  from posts as post join users as user on (user.id = post.userId) where category = ?
+            order by post.createdAt desc`,
+            [slug],
+            (error, results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results)
+            }
+        )
+    },
 }

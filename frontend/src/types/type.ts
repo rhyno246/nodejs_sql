@@ -24,6 +24,8 @@ export interface Posts {
     category : string,
     createdAt : Date,
     success : string,
+    lastName : string,
+    firstName : string
 }
 
 

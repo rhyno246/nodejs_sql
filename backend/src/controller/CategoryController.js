@@ -1,4 +1,4 @@
-const { CreateCategory, getAdminCategory, deleteCategory, getCategoryById, updateCategory } = require("../model/CategoryModel");
+const { CreateCategory, getAdminCategory, deleteCategory, getCategoryById, updateCategory, getMenu } = require("../model/CategoryModel");
 
 module.exports = {
     CreateCategory : (req,res) => {
@@ -77,6 +77,18 @@ module.exports = {
             return res.json({
                 success : true,
                 message : "Updated success"
+            })
+        })
+    },
+    getMenu : (req, res) => {
+        getMenu((error , results)=> {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                data : results
             })
         })
     }

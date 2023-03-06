@@ -8,7 +8,7 @@ import { ThemeProvider } from "@mui/material";
 import { Paper } from "@mui/material";
 import { darkTheme, lightTheme } from "./utils/theme";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { RootState } from "./redux/store";
+import { RootState, useAppDispatch } from "./redux/store";
 import Login from "./views/client/auth/Login";
 import "react-toastify/dist/ReactToastify.css";
 import DashBoard from "./views/admin/Dashboard";
@@ -26,20 +26,37 @@ import ProFile from "./views/client/user/ProFile";
 import Category from "./views/admin/Category";
 import Stories from "./views/admin/Stories";
 import StoriesDetail from "./views/admin/StoriesDetail";
+import { getMenu } from "./redux/reducer/category.slice";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
+  const dispatch = useAppDispatch();
+  React.useEffect(() => {
+    dispatch(getMenu());
+  }, [dispatch]);
+
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
+  const { category } = useSelector((state: RootState) => state.category);
+
   return (
     <ThemeProvider theme={switchTheme ? darkTheme : lightTheme}>
-      <Paper style={{ height: "100vh", borderRadius: 0 }}>
+      <Paper
+        style={{
+          height: "100vh",
+          borderRadius: 0,
+        }}
+      >
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/news">
-              <Route index element={<News />} />
-              <Route path=":id" element={<NewsDetail />} />
-            </Route>
+
+            {category?.map((item, i) => (
+              <Route path={`/${item.slug}`} key={i}>
+                <Route index element={<News />} />
+                <Route path=":id" element={<NewsDetail />} />
+              </Route>
+            ))}
+
             <Route
               path="/admin"
               element={

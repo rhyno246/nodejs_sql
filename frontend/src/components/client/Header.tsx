@@ -19,10 +19,12 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { GetUserByEmail, LogoutUser } from "../../redux/reducer/users.slice";
 import { idolTokuDa } from "../../utils/baseAvartar";
+import { getMenu } from "../../redux/reducer/category.slice";
 const Header = () => {
   const dispatch = useAppDispatch();
   const { user, userByEmail } = useSelector((state: RootState) => state.users);
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
+  const { category } = useSelector((state: RootState) => state.category);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -41,6 +43,7 @@ const Header = () => {
 
   React.useEffect(() => {
     dispatch(GetUserByEmail(user?.user?.email));
+    dispatch(getMenu());
   }, [dispatch, user?.user?.email]);
 
   return (
@@ -76,9 +79,11 @@ const Header = () => {
               <li>
                 <NavLink to="/">Trang chủ</NavLink>
               </li>
-              <li>
-                <NavLink to="/news">Tin tức</NavLink>
-              </li>
+              {category?.map((item, i) => (
+                <li key={i}>
+                  <NavLink to={`/${item.slug}`}>{item.name}</NavLink>
+                </li>
+              ))}
             </ul>
             <div className="auth-login">
               <SwitchButton />

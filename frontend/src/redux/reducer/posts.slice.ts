@@ -65,6 +65,16 @@ export const updateAdminPost = createAsyncThunk<Posts , any>('/admin/updateAdmin
 });
 
 
+export const getNewsClient = createAsyncThunk<Posts , any>('/admin/getNewsClient' , async(slug, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/news/${slug}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+
 
 const initialState : PostState = {
     posts : [],
@@ -126,6 +136,14 @@ const postSlice = createSlice({
         }).addCase(updateAdminPost.rejected , (state, action : any) => {
             state.loading = false
             state.tokenExpiredError = action.payload.data.name
+        }).addCase(getNewsClient.pending , (state) => {
+            state.loading = true
+        }).addCase(getNewsClient.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.posts = action.payload.data;
+        }).addCase(getNewsClient.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
         })
     }
 })
