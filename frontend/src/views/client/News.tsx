@@ -1,11 +1,14 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import * as moment from "moment";
 import * as React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Layout from "../../components/client/Layout";
 import { getNewsClient } from "../../redux/reducer/posts.slice";
 import { RootState, useAppDispatch } from "../../redux/store";
+import { idolTokuDa } from "../../utils/baseAvartar";
 interface NewsProps {}
 
 const News: React.FunctionComponent<NewsProps> = () => {
@@ -27,66 +30,94 @@ const News: React.FunctionComponent<NewsProps> = () => {
           {posts.length ? (
             <>
               <Box sx={{ flexGrow: 1 }}>
-                <Card sx={{ padding: "10px", marginBottom: "15px" }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <CardMedia
-                        sx={{ height: 350 }}
-                        image="https://cafebiz.cafebizcdn.vn/2019/1/2/photo-1-15464020829431420592113.png"
-                        title="tokuda"
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="h6"
-                          component="div"
-                          textTransform="capitalize"
-                        >
-                          Hot title News
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Lorem, ipsum dolor sit amet consectetur adipisicing
-                          elit. Aliquid dolore placeat soluta ad voluptate
-                          distinctio, quidem omnis sit temporibus delectus
-                          reprehenderit in? Accusamus laudantium, numquam
-                          expedita cum corporis culpa corrupti?
-                        </Typography>
-                      </CardContent>
-                    </Grid>
-                  </Grid>
-                </Card>
-              </Box>
-              <Box sx={{ flexGrow: 1 }}>
-                {posts?.map((item, i) => (
-                  <Card key={i} sx={{ padding: "10px", marginBottom: "15px" }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={3}>
-                        <CardMedia
-                          sx={{ height: 140 }}
-                          image={item.image}
-                          title={item.title}
-                        />
-                      </Grid>
-                      <Grid item xs={9}>
-                        <CardContent>
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="div"
-                            textTransform="capitalize"
-                          >
-                            {item.title}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {item.description}
-                          </Typography>
-                        </CardContent>
-                      </Grid>
-                    </Grid>
-                  </Card>
-                ))}
+                {posts?.map((item, i) => {
+                  if (i === 0) {
+                    return (
+                      <Box
+                        sx={{ flexGrow: 1 }}
+                        component={Link}
+                        to={`/${catSlug}/${item.id}`}
+                      >
+                        <Card sx={{ padding: "10px", marginBottom: "15px" }}>
+                          <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                              <CardMedia
+                                sx={{ height: 350 }}
+                                image={item?.image ? item?.image : idolTokuDa}
+                                title={item?.title}
+                              />
+                            </Grid>
+                            <Grid item xs={6}>
+                              <CardContent>
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="div"
+                                  textTransform="capitalize"
+                                >
+                                  {item?.title}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  {item?.description}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                  sx={{ marginTop: "5px" }}
+                                >
+                                  {moment(item.createdAt).format("DD-MM-YYYY")}
+                                </Typography>
+                              </CardContent>
+                            </Grid>
+                          </Grid>
+                        </Card>
+                      </Box>
+                    );
+                  }
+                  return (
+                    <Box component={Link} to={`/${catSlug}/${item.id}`} key={i}>
+                      <Card sx={{ padding: "10px", marginBottom: "15px" }}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={3}>
+                            <CardMedia
+                              sx={{ height: 140 }}
+                              image={item?.image ? item?.image : idolTokuDa}
+                              title={item?.title}
+                            />
+                          </Grid>
+                          <Grid item xs={9}>
+                            <CardContent>
+                              <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="div"
+                                textTransform="capitalize"
+                              >
+                                {item?.title}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
+                                {item?.description}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ marginTop: "5px" }}
+                              >
+                                {moment(item.createdAt).format("DD-MM-YYYY")}
+                              </Typography>
+                            </CardContent>
+                          </Grid>
+                        </Grid>
+                      </Card>
+                    </Box>
+                  );
+                })}
               </Box>
             </>
           ) : (

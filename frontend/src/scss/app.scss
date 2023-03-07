@@ -31,11 +31,14 @@ body {
     }
 }
 .main{
-    padding-top: 20px;
+    padding: 20px 0;
 }
 
 .tox-editor-container{
     svg{
         display: none;
     }
+}
+a{
+    text-decoration: none;
 }

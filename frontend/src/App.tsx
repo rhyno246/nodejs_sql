@@ -44,6 +44,7 @@ const App: React.FunctionComponent<AppProps> = () => {
         style={{
           height: "100vh",
           borderRadius: 0,
+          background: switchTheme ? "#222" : "#fff",
         }}
       >
         <BrowserRouter>
