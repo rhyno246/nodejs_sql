@@ -63,24 +63,24 @@ const DetailPost: React.FunctionComponent<DetailPostProps> = () => {
   React.useEffect(() => {
     dispatch(GetPostAdminById(postId));
     setDataCreatePost({
-      id: postById?.data.id,
-      title: postById?.data.title,
-      description: postById?.data.description,
-      category: postById?.data.category,
-      content: postById?.data.content,
-      status: postById?.data.status,
-      image: postById?.data.image,
+      id: postById?.data?.id,
+      title: postById?.data?.title,
+      description: postById?.data?.description,
+      category: postById?.data?.category,
+      content: postById?.data?.content,
+      status: postById?.data?.status,
+      image: postById?.data?.image,
     });
   }, [
     dispatch,
     postId,
-    postById?.data.id,
-    postById?.data.title,
-    postById?.data.description,
-    postById?.data.category,
-    postById?.data.content,
-    postById?.data.status,
-    postById?.data.image,
+    postById?.data?.id,
+    postById?.data?.title,
+    postById?.data?.description,
+    postById?.data?.category,
+    postById?.data?.content,
+    postById?.data?.status,
+    postById?.data?.image,
   ]);
 
   const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {

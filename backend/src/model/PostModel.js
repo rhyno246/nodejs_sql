@@ -85,8 +85,34 @@ module.exports = {
     getNewsClient : (slug , callBack) => {
         pool.query( 
             ` select post.*,  user.id as userId, firstName, lastName, coverPic  from posts as post join users as user on (user.id = post.userId) where category = ?
-            order by post.createdAt desc`,
+            and status = "show" order by post.createdAt desc`,
             [slug],
+            (error, results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results)
+            }
+        )
+    },
+    getNewsClientDetail : (id , callBack) => {
+        pool.query(
+            `select post.*, user.id as userId, firstName, lastName, coverPic
+            from posts as post join users as user on user.id = post.userId  where post.id = ? `,
+            [id],
+            (error, results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results[0] )
+            }
+        )
+    },
+    getAllPostInHome : callBack => {
+        pool.query(
+            `select * from posts where status = "show" order by createdAt desc limit 5 
+            `,
+            [],
             (error, results , fields) => {
                 if(error){
                     return callBack(error)

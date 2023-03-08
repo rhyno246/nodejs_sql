@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import Footer from "./Footer";
 import Header from "./Header";
 
 interface Props {
@@ -18,6 +19,7 @@ const Layout = ({ children }: Props) => {
       >
         <div className="container">{children} </div>
       </div>
+      <Footer />
     </div>
   );
 };

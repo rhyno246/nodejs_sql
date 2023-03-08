@@ -1,4 +1,4 @@
-const { CreateStories, getAllAdminStories, CreateListImage, getListImage, getListImageChild, updateListImageChild, getStoriesDetail, updateStories, deleteListImageChild, deleteStories } = require("../model/StoriesModel");
+const { CreateStories, getAllAdminStories, CreateListImage, getListImage, getListImageChild, updateListImageChild, getStoriesDetail, updateStories, deleteListImageChild, deleteStories, getAllClientStories } = require("../model/StoriesModel");
 
 module.exports = {
     CreateStories : (req,res) => {
@@ -165,6 +165,18 @@ module.exports = {
             return res.json({
                 success : true,
                 message : "Delete success"
+            })
+        })
+    },
+    getAllClientStories : (req, res) => {
+        getAllClientStories((error, results) => {
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.json({
+                success : true,
+                data : results
             })
         })
     }

@@ -19,6 +19,12 @@ body {
     font-size: 16px;
     line-height: 22px;
     font-family: 'Roboto', sans-serif;
+   
+}
+.layout{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .container{
@@ -41,4 +47,111 @@ body {
 }
 a{
     text-decoration: none;
+}
+.footer{
+    background:#007FFF;
+    padding: 15px 0;
+    position: relative;
+    margin-top: auto;
+    p{
+        text-align: center;
+        color: #fff;
+        margin-bottom: 0;
+    }
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+.content-detail{
+    img{
+        max-width: 100%;
+        height: auto;
+    }
+    p{
+        margin: 10px 0;
+    }
+}
+.hot-news{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 20px;
+}
+
+
+.hot-news-item,.news-item{
+    .img{
+        position: relative;
+        padding-bottom: 56.2%;
+        overflow: hidden;
+        border-radius: 3px;
+        cursor: pointer;
+        img{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .content{
+        margin-top: 10px;
+    }
+    .heading{
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .description{
+        margin-top: 5px;
+    }
+}
+
+.hot-news-item{
+    grid-column: 1/3;
+    .heading{
+        font-size: 25px;
+    }
+}
+
+.block{
+    margin-bottom: 20px;
+}
+
+.story-post{
+    ul{
+        list-style: none;
+        margin-bottom: 0;
+        padding-left: 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        li{
+            display: block;
+            width: 200px;
+            height: 250px;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+            &::after{
+                display: block;
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba($color: #000000, $alpha: .5);
+            }
+            img{
+                object-fit: cover;
+                height: 100%;
+            }
+            span{
+                position: absolute;
+                top: 2px;
+                left: 10px;
+                z-index: 9;
+                font-size: 12px;
+            }
+        }
+    }
 }

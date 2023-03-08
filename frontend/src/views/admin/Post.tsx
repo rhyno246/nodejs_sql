@@ -114,7 +114,7 @@ const Post: React.FunctionComponent<PostProps> = () => {
       renderCell: (params: GridValueGetterParams) => {
         return (
           <>
-            {userByEmail.role === "admin" || userByEmail.role === "content" ? (
+            {userByEmail?.role === "admin" || userByEmail?.role === "content" ? (
               <Box>
                 <Button component={Link} to={`/admin/post/${params.id}`}>
                   <EditIcon />
@@ -148,12 +148,12 @@ const Post: React.FunctionComponent<PostProps> = () => {
   posts &&
     posts.forEach((item: any) => {
       rows.push({
-        id: item.id,
-        title: item.title,
-        image: item.image,
-        category: item.category,
-        status: item.status,
-        userCreated: item.role,
+        id: item?.id,
+        title: item?.title,
+        image: item?.image,
+        category: item?.category,
+        status: item?.status,
+        userCreated: item?.role,
         createdAt: moment(item.createdAt).format("DD-MM-YYYY"),
       });
     });

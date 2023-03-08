@@ -141,5 +141,17 @@ module.exports = {
                 return callBack(null , results[0])
             }   
         )
+    },
+    getAllClientStories : (callBack) => {
+        pool.query(
+            `select * from stories order by stories.createdAt desc `,
+            [],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
     }
 }

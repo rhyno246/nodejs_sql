@@ -98,21 +98,23 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
                   ...commonStyles,
                   borderRadius: 1,
                 }}
-                style={{
-                  backgroundImage: `url(${item.image})`,
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  cursor: "pointer",
-                  display: "block",
-                }}
-              />
+                // style={{
+                //   backgroundImage: `url(${item.image})`,
+                //   backgroundPosition: "center",
+                //   backgroundRepeat: "no-repeat",
+                //   backgroundSize: "cover",
+                //   cursor: "pointer",
+                //   display: "block",
+                // }}
+              >
+                <img src={item.image} alt={item.image}/>
+              </Box>
               <Box
                 sx={{
                   position: "absolute",
                   top: "5px",
                   right: "0",
-                  zIndex: "99999999999",
+                  zIndex: "9",
                 }}
               >
                 <IconButton

@@ -65,7 +65,7 @@ export const updateAdminPost = createAsyncThunk<Posts , any>('/admin/updateAdmin
 });
 
 
-export const getNewsClient = createAsyncThunk<Posts , any>('/admin/getNewsClient' , async(slug, thunkAPI) => {
+export const getNewsClient = createAsyncThunk<Posts , any>('/client/getNewsClient' , async(slug, thunkAPI) => {
     try {
         const response = await axiosConfig.get(`/news/${slug}`);
         return response.data;
@@ -73,6 +73,18 @@ export const getNewsClient = createAsyncThunk<Posts , any>('/admin/getNewsClient
         return thunkAPI.rejectWithValue(error)
     }
 });
+
+export const GetPostClientById =  createAsyncThunk<Posts , any>(
+    "/client/GetPostClientById",
+    async (id, thunkAPI) => {
+        try {
+            const response = await axiosConfig.get(`/news/slug/${id}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
 
 
 
@@ -144,6 +156,14 @@ const postSlice = createSlice({
         }).addCase(getNewsClient.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
+        }).addCase(GetPostClientById.pending , (state) => {
+            state.loading = true
+        }).addCase(GetPostClientById.fulfilled , (state , action : any) => {
+            state.loading = false
+            state.postById = action.payload.data
+        }).addCase(GetPostClientById.rejected , (state, action : any) => {
+            state.loading = false
+            state.tokenExpiredError = action.payload.data.name;
         })
     }
 })

@@ -9,6 +9,7 @@ import Layout from "../../components/client/Layout";
 import { getNewsClient } from "../../redux/reducer/posts.slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { idolTokuDa } from "../../utils/baseAvartar";
+import SkeletonNews from "./Skeleton/SkeletonNews";
 interface NewsProps {}
 
 const News: React.FunctionComponent<NewsProps> = () => {
@@ -24,7 +25,7 @@ const News: React.FunctionComponent<NewsProps> = () => {
   return (
     <Layout>
       {loading ? (
-        "loading........."
+        <SkeletonNews />
       ) : (
         <>
           {posts.length ? (
@@ -37,6 +38,7 @@ const News: React.FunctionComponent<NewsProps> = () => {
                         sx={{ flexGrow: 1 }}
                         component={Link}
                         to={`/${catSlug}/${item.id}`}
+                        key={i}
                       >
                         <Card sx={{ padding: "10px", marginBottom: "15px" }}>
                           <Grid container spacing={2}>
@@ -117,11 +119,12 @@ const News: React.FunctionComponent<NewsProps> = () => {
                       </Card>
                     </Box>
                   );
+                  
                 })}
               </Box>
             </>
           ) : (
-            "Empty Post"
+            "Chưa có bài viết nào"
           )}
         </>
       )}
