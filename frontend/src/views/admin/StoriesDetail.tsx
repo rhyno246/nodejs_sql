@@ -98,13 +98,9 @@ const StoriesDetail: React.FunctionComponent<StoriesDetailProps> = () => {
                   ...commonStyles,
                   borderRadius: 1,
                 }}
-                style={{
-                  backgroundImage: `url(${item.image})`,
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
+                className="stories-img"
               >
+                <img src={item.image} alt={item.image} />
                 <Box sx={{ position: "absolute", top: "5px", right: "0" }}>
                   <IconButton
                     size="small"

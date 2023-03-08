@@ -8,6 +8,8 @@ interface HomeState {
     loading : boolean,
     error : any,
     success : any,
+    soccer : Posts[],
+    basketball : Posts[]
 }
 
 export const getHomeClientPost = createAsyncThunk<Posts[]>('/client/getHomeClientPost' , async(_, thunkAPI) => {
@@ -30,6 +32,25 @@ export const getClientStories = createAsyncThunk<Stories[]>('/admin/getClientSto
 
 
 
+export const getHomeSoccer = createAsyncThunk<Posts , any>('/client/getHomeSoccer' , async(id, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/news/category/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const getHomeBasketball = createAsyncThunk<Posts , any>('/client/getHomeBasketball' , async(id, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/news/category/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+
 
 const initialState : HomeState = {
     posts : [],
@@ -37,6 +58,8 @@ const initialState : HomeState = {
     loading : false,
     error : null,
     success : null,
+    soccer : [],
+    basketball :[]
 }
 const homeSlice = createSlice({
     name : "home",
@@ -47,7 +70,7 @@ const homeSlice = createSlice({
         },
         ClearError : (state) => {
             state.error = null
-        },
+        }
     },
     extraReducers(builder) {
         builder.addCase(getHomeClientPost.pending , (state) => {
@@ -66,10 +89,26 @@ const homeSlice = createSlice({
         }).addCase(getClientStories.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
+        }).addCase(getHomeSoccer.pending , (state) => {
+            state.loading = true
+        }).addCase(getHomeSoccer.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.soccer = action.payload.data;
+        }).addCase(getHomeSoccer.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(getHomeBasketball.pending , (state) => {
+            state.loading = true
+        }).addCase(getHomeBasketball.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.basketball = action.payload.data;
+        }).addCase(getHomeBasketball.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
         })
     }
 })
 
-export const { ClearSuccess , ClearError } =  homeSlice.actions;
+export const { ClearSuccess , ClearError  } =  homeSlice.actions;
 const homeReducer = homeSlice.reducer;
 export default homeReducer

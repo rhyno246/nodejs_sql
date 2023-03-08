@@ -121,4 +121,17 @@ module.exports = {
             }
         )
     },
+    getNewsCategory : (id , callBack) => {
+        pool.query(
+            `select * from posts where category = ? order by createdAt desc limit 5 
+            `,
+            [id],
+            (error, results , fields) => {
+                if(error){
+                    return callBack(error)
+                 }
+                 return callBack(null , results)
+            }
+        )
+    }
 }

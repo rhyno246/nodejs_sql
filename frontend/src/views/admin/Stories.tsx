@@ -83,31 +83,17 @@ const Stories: React.FunctionComponent<StoriesProps> = () => {
           }}
         >
           {stories?.map((item, i) => (
-            <Box
-              sx={{
-                position: "relative",
-                width: "15rem",
-                height: "20rem",
-              }}
-              key={i}
-            >
+            <Box key={i} sx={{ position: "relative" }}>
               <Box
-                component={Link}
-                to={`/admin/stories/${item.id}`}
                 sx={{
                   ...commonStyles,
                   borderRadius: 1,
                 }}
-                // style={{
-                //   backgroundImage: `url(${item.image})`,
-                //   backgroundPosition: "center",
-                //   backgroundRepeat: "no-repeat",
-                //   backgroundSize: "cover",
-                //   cursor: "pointer",
-                //   display: "block",
-                // }}
+                className="stories-img"
+                component={Link}
+                to={`/admin/stories/${item.id}`}
               >
-                <img src={item.image} alt={item.image}/>
+                <img src={item.image} alt={item.image} />
               </Box>
               <Box
                 sx={{

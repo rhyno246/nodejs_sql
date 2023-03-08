@@ -1,4 +1,4 @@
-const { createPost, getAdminPost, contentUploadImage, deletePost, getPostById, updateAdminPost, getNewsClient, getNewsClientDetail, getAllPostInHome } = require("../controller/PostController");
+const { createPost, getAdminPost, contentUploadImage, deletePost, getPostById, updateAdminPost, getNewsClient, getNewsClientDetail, getAllPostInHome, getNewsCategory } = require("../controller/PostController");
 const { checkAuthorization, checkRole } = require("../middleware/auth");
 const { upload } = require("../middleware/uploadImage");
 const express = require('express');
@@ -16,10 +16,9 @@ router.route('/admin/uploads').post(upload.single('image') , contentUploadImage)
 
 //client
 router.route('/news/:slug').get(getNewsClient);
-
 router.route('/news/slug/:id').get(getNewsClientDetail);
-
 router.route('/news').get(getAllPostInHome)
+router.route('/news/category/:id').get(getNewsCategory);
 
 
 module.exports = router;

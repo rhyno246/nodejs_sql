@@ -65,7 +65,7 @@ img{
 }
 .content-detail{
     img{
-        max-width: 100%;
+        width: 100%;
         height: auto;
     }
     p{
@@ -117,41 +117,74 @@ img{
 }
 
 .story-post{
-    ul{
-        list-style: none;
-        margin-bottom: 0;
-        padding-left: 0;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        li{
+    .items{
+        display: block;
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+        height: 270px;
+        cursor: pointer;
+        &::after{
             display: block;
-            width: 200px;
-            height: 250px;
-            border-radius: 3px;
-            overflow: hidden;
-            position: relative;
-            &::after{
-                display: block;
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba($color: #000000, $alpha: .5);
-            }
-            img{
-                object-fit: cover;
-                height: 100%;
-            }
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba($color: #000000, $alpha: .3);
+        }
+        img{
+            object-fit: cover;
+            height: 100%;
+        }
+        .time{
+            position: absolute;
+            top: 2px;
+            left: 10px;
+            z-index: 9;
+            font-size: 12px;
+            color: #fff;
+        }
+    }
+}
+
+.stories-img{
+    width: 150px;
+    height: 200px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    img{
+        position: absolute;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+}
+
+.block-content{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 20px;
+    .block-main{
+        .heading-block{
+            border-bottom: 2px solid #007FFF;
             span{
-                position: absolute;
-                top: 2px;
-                left: 10px;
-                z-index: 9;
-                font-size: 12px;
+                text-transform: uppercase;
+                padding: 7px 32px 2px 12px;
+                font-size: 18px;
+                display: inline-block;
+                background-color: #007FFF;
+                color: #fff;
+                clip-path: polygon(90% 0,100% 100%,0% 100%,0% 0%,0 0,100% 0%);
+                border-radius: 3px 0 0 0;
             }
+        }
+        .block-body{
+            margin-top: 15px;
         }
     }
 }
