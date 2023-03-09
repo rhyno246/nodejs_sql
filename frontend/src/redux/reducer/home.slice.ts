@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Posts, Stories } from "../../types/type";
+import { Posts, StoriesById, Story } from "../../types/type";
 import axiosConfig from "../axiosConfig/axiosConfig";
+
 
 interface HomeState {
     posts : Posts[],
-    stories : Stories[],
+    story : Story[],
     loading : boolean,
     error : any,
     success : any,
@@ -13,7 +14,9 @@ interface HomeState {
     guess : Posts[],
     behind : Posts[],
     transfer : Posts[],
-    newsgame : Posts[]
+    newsgame : Posts[],
+    listChildImage : StoriesById[],
+    StoriesDetail : any
 }
 
 export const getHomeClientPost = createAsyncThunk<Posts[]>('/client/getHomeClientPost' , async(_, thunkAPI) => {
@@ -25,7 +28,7 @@ export const getHomeClientPost = createAsyncThunk<Posts[]>('/client/getHomeClien
     }
 });
 
-export const getClientStories = createAsyncThunk<Stories[]>('/admin/getClientStories' , async(_, thunkAPI) => {
+export const getClientStories = createAsyncThunk<Story[]>('/admin/getClientStories' , async(_, thunkAPI) => {
     try {
         const response = await axiosConfig.get('/admin/stories');
         return response.data;
@@ -90,12 +93,30 @@ export const getHomeNewsGame = createAsyncThunk<Posts , any>('/client/getHomeNew
     }
 });
 
+export const getClientListImage = createAsyncThunk<StoriesById, any>('/client/getClientListImage' , async( id , thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/stories/list/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const getClientStoriesDetail = createAsyncThunk<StoriesById, any>('/client/getClientStoriesDetail' , async( id , thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/stories/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
 
 
 
 const initialState : HomeState = {
     posts : [],
-    stories : [],
+    story : [],
     loading : false,
     error : null,
     success : null,
@@ -104,7 +125,9 @@ const initialState : HomeState = {
     guess :[],
     behind : [],
     transfer : [],
-    newsgame : []
+    newsgame : [],
+    listChildImage : [],
+    StoriesDetail : null
 }
 const homeSlice = createSlice({
     name : "home",
@@ -130,7 +153,7 @@ const homeSlice = createSlice({
             state.loading = true
         }).addCase(getClientStories.fulfilled, (state, action : any) => {
             state.loading = false
-            state.stories = action.payload.data;
+            state.story = action.payload.data;
         }).addCase(getClientStories.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
@@ -180,6 +203,22 @@ const homeSlice = createSlice({
             state.loading = false
             state.newsgame = action.payload.data;
         }).addCase(getHomeNewsGame.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(getClientListImage.pending , (state) => {
+            state.loading = true
+        }).addCase(getClientListImage.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.listChildImage = action.payload.data;
+        }).addCase(getClientListImage.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(getClientStoriesDetail.pending , (state) => {
+            state.loading = true
+        }).addCase(getClientStoriesDetail.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.StoriesDetail = action.payload.data;
+        }).addCase(getClientStoriesDetail.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
         })

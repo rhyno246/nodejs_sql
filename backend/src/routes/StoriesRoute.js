@@ -1,4 +1,4 @@
-const { CreateStories, getAllAdminStories, CreateListImage, getListImage, getListImageChild, updateListImageChild, getStoriesDetail, updateStories, deleteListImageChild, deleteStories, getAllClientStories } = require('../controller/StoriesController');
+const { CreateStories, getAllAdminStories, CreateListImage, getListImage, getListImageChild, updateListImageChild, getStoriesDetail, updateStories, deleteListImageChild, deleteStories, getAllClientStories, getClientDetailStories, getClientStoriesId } = require('../controller/StoriesController');
 const { checkAuthorization, checkRole } = require('../middleware/auth');
 const { upload } = require('../middleware/uploadImage');
 const express = require('express');
@@ -24,6 +24,8 @@ router.route('/admin/list/child').patch(upload.single('file') , checkAuthorizati
 
 //client 
 router.route('/stories').get(getAllClientStories)
+router.route('/stories/list/:id').get(getClientDetailStories)
+router.route('/stories/:id').get(getClientStoriesId)
 
 
 module.exports = router;

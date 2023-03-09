@@ -14,7 +14,7 @@ const BlockItem: React.FunctionComponent<BlockItemProps> = ({
 }: BlockItemProps) => {
   const switchTheme = useSelector((state: RootState) => state.switch.isSwitch);
   return (
-    <div className="hot-news-item" key={i}>
+    <>
       <div className="img">
         <Box component={Link} to={`/${item.category}/${item.id}`}>
           <img src={item.image} alt={item.title} />
@@ -30,7 +30,7 @@ const BlockItem: React.FunctionComponent<BlockItemProps> = ({
         </Box>
         <div className="description">{item.description}</div>
       </div>
-    </div>
+    </>
   );
 };
 

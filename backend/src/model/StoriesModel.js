@@ -153,5 +153,30 @@ module.exports = {
                 return callBack(null , results)
             }
         )
+    },
+    getClientDetailStories : (id, callBack) => {
+        pool.query(
+            ` select * from stories_image where storiesId = ? order by stories_image.createdAt desc `,
+            [ id ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
+    },
+    getClientStoriesId : (id, callBack) => {
+        pool.query(
+            ` select * from stories where id = ? order by stories.createdAt desc `,
+            [ id ],
+            (error , results , fields) => {
+                if(error){
+                   return callBack(error)
+                }
+                return callBack(null , results)
+            }
+        )
     }
+
 }

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Stories, StoriesById } from "../../types/type";
+import { Story, StoriesById } from "../../types/type";
 import axiosConfig from "../axiosConfig/axiosConfig";
 
 interface StoriesState {
-    stories : Stories[],
+    stories : Story[],
     loading : boolean,
     error : any,
     success : any,
@@ -26,7 +26,7 @@ const initialState : StoriesState = {
     StoriesDetail : null
 }
 
-export const createStories = createAsyncThunk<Stories , any>('/admin/createStories' , async(data, thunkAPI) => {
+export const createStories = createAsyncThunk<Story , any>('/admin/createStories' , async(data, thunkAPI) => {
     try {
         const response = await axiosConfig.post('/admin/stories' , data);
         return response.data;
@@ -45,7 +45,7 @@ export const createListImage = createAsyncThunk<StoriesById , any>('/admin/creat
     }
 });
 
-export const getAdminStories = createAsyncThunk<Stories[]>('/admin/getAdminStories' , async(_, thunkAPI) => {
+export const getAdminStories = createAsyncThunk<Story[]>('/admin/getAdminStories' , async(_, thunkAPI) => {
     try {
         const response = await axiosConfig.get('/admin/stories');
         return response.data;
@@ -116,6 +116,8 @@ export const deleteStories = createAsyncThunk<StoriesById , any>('/admin/deleteS
         return thunkAPI.rejectWithValue(error)
     }
 });
+
+
 
 
 

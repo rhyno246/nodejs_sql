@@ -37,7 +37,7 @@ export interface Category {
     createdAt : Date
 } 
 
-export interface Stories {
+export interface Story {
     id : number,
     image : string,
     userId : number,

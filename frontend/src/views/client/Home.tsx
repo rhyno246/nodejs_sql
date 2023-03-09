@@ -21,8 +21,23 @@ import SkeletonStoriesPost from "./Skeleton/SkeletonStoriesPost";
 import BlockItem from "../../components/client/BlockItem";
 import BlockChildItem from "../../components/client/BlockChildItem";
 import BlockTextItem from "../../components/client/BlockTextItem";
-
+import SkeletonBlockChild from "./Skeleton/SkeletonBlockChild";
+import Dialog from '@mui/material/Dialog';
+import CloseIcon from '@mui/icons-material/Close';
+import StoriesComponent from "../../components/StoriesComponent";
+import { TransitionProps } from '@mui/material/transitions';
+import Slide from '@mui/material/Slide';
 interface HomeProps {}
+
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Home: React.FunctionComponent<HomeProps> = () => {
   const dispatch = useAppDispatch();
@@ -45,14 +60,27 @@ const Home: React.FunctionComponent<HomeProps> = () => {
     dispatch(getHomeTransfer(dataTransfer))
     dispatch(getHomeNewsGame(dataNewsGame))
   }, [dispatch, dataSoccer, dataBasketball , dataGuess , dataBehind , dataTransfer , dataNewsGame]);
-  const { loading, posts, stories, soccer, basketball , guess , behind , transfer ,newsgame } = useSelector(
+  const { loading, posts, story, soccer, basketball , guess , behind , transfer ,newsgame } = useSelector(
     (state: RootState) => state.home
   );
+
+  const [open, setOpen] = React.useState(false);
+  const [storiesId , setStoriesId] = React.useState("")
+
+  const handleClickOpen = (id : any) : void => {
+    setOpen(true);
+    setStoriesId(id)
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
 
   return (
     <Layout>
       {
-        stories && <Box className="block story-post">
+        story.length && <Box className="block story-post">
         {loading ? (
           <SkeletonStoriesPost />
         ) : (
@@ -65,8 +93,8 @@ const Home: React.FunctionComponent<HomeProps> = () => {
             className="mySwiper story-post"
           >
             {
-              stories?.map((item, i) => (
-                <SwiperSlide key={i}>
+              story?.map((item, i) => (
+                <SwiperSlide key={i} onClick={() =>handleClickOpen(item.id)}>
                   <div className="items">
                     <img src={item.image} alt={item.image} />
                     <span className="time">
@@ -89,9 +117,9 @@ const Home: React.FunctionComponent<HomeProps> = () => {
               {
                 posts?.map((item, i) => {
                   if (i === 0) {
-                    return <BlockItem item={item} i={i} />;
+                    return <Box key={i} className="hot-news-item"><BlockItem item={item} i={i} /></Box>;
                   }
-                  return <BlockChildItem item={item} i={i} />;
+                  return <Box className="news-item" key={i}><BlockChildItem item={item} i={i} /></Box>;
                 })}
             </>
           )}
@@ -105,15 +133,15 @@ const Home: React.FunctionComponent<HomeProps> = () => {
             </h3>
             <Box className="block-body">
               {loading ? (
-                "loading .... "
+                <SkeletonBlockChild />
               ) : (
                 <>
                   {
                     soccer?.map((item, i) => {
                       if (i === 0) {
-                        return <BlockChildItem item={item} i={i} />;
+                        return <Box className="news-item" key={i}><BlockChildItem item={item} i={i} /></Box>;
                       }
-                      return <BlockTextItem item={item} i={i} />;
+                      return <Box key={i}><BlockTextItem item={item} i={i} /></Box>;
                     })}
                 </>
               )}
@@ -128,15 +156,15 @@ const Home: React.FunctionComponent<HomeProps> = () => {
           </h3>
           <Box className="block-body">
             {loading ? (
-              "loading .... "
+              <SkeletonBlockChild />
             ) : (
               <>
                 {
                   basketball?.map((item, i) => {
                     if (i === 0) {
-                      return <BlockChildItem item={item} i={i} />;
+                      return <Box className="news-item" key={i}><BlockChildItem item={item} i={i} /></Box>;
                     }
-                    return <BlockTextItem item={item} i={i} />;
+                    return <Box key={i}><BlockTextItem item={item} i={i} /></Box>;
                   })}
               </>
             )}
@@ -150,15 +178,15 @@ const Home: React.FunctionComponent<HomeProps> = () => {
           </h3>
           <Box className="block-body">
             {loading ? (
-              "loading .... "
+              <SkeletonBlockChild />
             ) : (
               <>
                 {
                   guess?.map((item, i) => {
                     if (i === 0) {
-                      return <BlockChildItem item={item} i={i} />;
+                      return <Box className="news-item" key={i}><BlockChildItem item={item} i={i} /></Box>;
                     }
-                    return <BlockTextItem item={item} i={i} />;
+                    return <Box key={i}><BlockTextItem item={item} i={i} /></Box>;
                   })}
               </>
             )}
@@ -173,15 +201,15 @@ const Home: React.FunctionComponent<HomeProps> = () => {
           </h3>
           <Box className="block-body">
             {loading ? (
-              "loading .... "
+              <SkeletonBlockChild />
             ) : (
               <>
                 {
                   behind?.map((item, i) => {
                     if (i === 0) {
-                      return <BlockChildItem item={item} i={i} />;
+                      return <Box className="news-item" key={i}><BlockChildItem item={item} i={i} /></Box>;
                     }
-                    return <BlockTextItem item={item} i={i} />;
+                    return <Box key={i}><BlockTextItem item={item} i={i} /></Box>;
                   })}
               </>
             )}
@@ -197,15 +225,15 @@ const Home: React.FunctionComponent<HomeProps> = () => {
           </h3>
           <Box className="block-body">
             {loading ? (
-              "loading .... "
+              <SkeletonBlockChild />
             ) : (
               <>
                 {
                   transfer?.map((item, i) => {
                     if (i === 0) {
-                      return <BlockChildItem item={item} i={i} />;
+                      return <Box className="news-item" key={i}><BlockChildItem item={item} i={i} /></Box>;
                     }
-                    return <BlockTextItem item={item} i={i} />;
+                    return <Box key={i}><BlockTextItem item={item} i={i} /></Box>;
                   })}
               </>
             )}
@@ -220,15 +248,15 @@ const Home: React.FunctionComponent<HomeProps> = () => {
           </h3>
           <Box className="block-body">
             {loading ? (
-              "loading .... "
+              <SkeletonBlockChild />
             ) : (
               <>
                 {
                   newsgame?.map((item, i) => {
                     if (i === 0) {
-                      return <BlockChildItem item={item} i={i} />;
+                      return <Box className="news-item" key={i}><BlockChildItem item={item} i={i} /></Box>;
                     }
-                    return <BlockTextItem item={item} i={i} />;
+                    return <Box key={i}><BlockTextItem item={item} i={i} /></Box>;
                   })}
               </>
             )}
@@ -236,6 +264,16 @@ const Home: React.FunctionComponent<HomeProps> = () => {
         </Box>
         }
         
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+         <CloseIcon onClick={handleClose} sx={{ cursor : "pointer", position : "fixed", top : "10px", right : "10px" }}/>
+         <StoriesComponent id={storiesId}/>
+      </Dialog>
+
       </Box>
     </Layout>
   );
