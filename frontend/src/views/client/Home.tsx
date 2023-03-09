@@ -80,7 +80,7 @@ const Home: React.FunctionComponent<HomeProps> = () => {
   return (
     <Layout>
       {
-        story.length && <Box className="block story-post">
+        story && <Box className="block story-post">
         {loading ? (
           <SkeletonStoriesPost />
         ) : (
