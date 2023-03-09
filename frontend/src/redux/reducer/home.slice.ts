@@ -9,7 +9,11 @@ interface HomeState {
     error : any,
     success : any,
     soccer : Posts[],
-    basketball : Posts[]
+    basketball : Posts[],
+    guess : Posts[],
+    behind : Posts[],
+    transfer : Posts[],
+    newsgame : Posts[]
 }
 
 export const getHomeClientPost = createAsyncThunk<Posts[]>('/client/getHomeClientPost' , async(_, thunkAPI) => {
@@ -50,6 +54,43 @@ export const getHomeBasketball = createAsyncThunk<Posts , any>('/client/getHomeB
     }
 });
 
+export const getHomeGuess = createAsyncThunk<Posts , any>('/client/getHomeGuess' , async(id, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/news/category/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const getHomeBehind = createAsyncThunk<Posts , any>('/client/getHomeBehind' , async(id, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/news/category/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const getHomeTransfer = createAsyncThunk<Posts , any>('/client/getHomeTransfer' , async(id, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/news/category/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+export const getHomeNewsGame = createAsyncThunk<Posts , any>('/client/getHomeNewsGame' , async(id, thunkAPI) => {
+    try {
+        const response = await axiosConfig.get(`/news/category/${id}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+});
+
+
 
 
 const initialState : HomeState = {
@@ -59,7 +100,11 @@ const initialState : HomeState = {
     error : null,
     success : null,
     soccer : [],
-    basketball :[]
+    basketball :[],
+    guess :[],
+    behind : [],
+    transfer : [],
+    newsgame : []
 }
 const homeSlice = createSlice({
     name : "home",
@@ -103,6 +148,38 @@ const homeSlice = createSlice({
             state.loading = false
             state.basketball = action.payload.data;
         }).addCase(getHomeBasketball.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(getHomeGuess.pending , (state) => {
+            state.loading = true
+        }).addCase(getHomeGuess.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.guess = action.payload.data;
+        }).addCase(getHomeGuess.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(getHomeBehind.pending , (state) => {
+            state.loading = true
+        }).addCase(getHomeBehind.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.behind = action.payload.data;
+        }).addCase(getHomeBehind.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(getHomeTransfer.pending , (state) => {
+            state.loading = true
+        }).addCase(getHomeTransfer.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.transfer = action.payload.data;
+        }).addCase(getHomeTransfer.rejected, (state, action : any) => {
+            state.loading = false;
+            state.error = action.payload.data;
+        }).addCase(getHomeNewsGame.pending , (state) => {
+            state.loading = true
+        }).addCase(getHomeNewsGame.fulfilled, (state, action : any) => {
+            state.loading = false
+            state.newsgame = action.payload.data;
+        }).addCase(getHomeNewsGame.rejected, (state, action : any) => {
             state.loading = false;
             state.error = action.payload.data;
         })

@@ -123,7 +123,7 @@ module.exports = {
     },
     getNewsCategory : (id , callBack) => {
         pool.query(
-            `select * from posts where category = ? order by createdAt desc limit 5 
+            `select * from posts where category = ? and status = "show" order by createdAt desc limit 5 
             `,
             [id],
             (error, results , fields) => {

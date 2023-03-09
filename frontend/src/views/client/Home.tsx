@@ -5,8 +5,12 @@ import Layout from "../../components/client/Layout";
 import {
   getClientStories,
   getHomeBasketball,
+  getHomeBehind,
   getHomeClientPost,
+  getHomeGuess,
+  getHomeNewsGame,
   getHomeSoccer,
+  getHomeTransfer,
 } from "../../redux/reducer/home.slice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import SkeletonHomeHotNews from "./Skeleton/SkeletonHomeHotNews";
@@ -25,21 +29,30 @@ const Home: React.FunctionComponent<HomeProps> = () => {
   const data: any = {
     dataSoccer: "bong-da",
     dataBasketball: "bong-ro",
+    dataGuess : "nhan-dinh",
+    dataBehind : "hau-truong",
+    dataTransfer : "chuyen-nhuong",
+    dataNewsGame : "tin-game"
   };
-  const { dataSoccer, dataBasketball } = data;
+  const { dataSoccer, dataBasketball, dataGuess , dataBehind , dataTransfer, dataNewsGame } = data;
   React.useEffect(() => {
     dispatch(getHomeClientPost());
     dispatch(getClientStories());
     dispatch(getHomeSoccer(dataSoccer));
     dispatch(getHomeBasketball(dataBasketball));
-  }, [dispatch, dataSoccer, dataBasketball]);
-  const { loading, posts, stories, soccer, basketball } = useSelector(
+    dispatch(getHomeGuess(dataGuess));
+    dispatch(getHomeBehind(dataBehind));
+    dispatch(getHomeTransfer(dataTransfer))
+    dispatch(getHomeNewsGame(dataNewsGame))
+  }, [dispatch, dataSoccer, dataBasketball , dataGuess , dataBehind , dataTransfer , dataNewsGame]);
+  const { loading, posts, stories, soccer, basketball , guess , behind , transfer ,newsgame } = useSelector(
     (state: RootState) => state.home
   );
 
   return (
     <Layout>
-      <Box className="block story-post">
+      {
+        stories && <Box className="block story-post">
         {loading ? (
           <SkeletonStoriesPost />
         ) : (
@@ -51,8 +64,8 @@ const Home: React.FunctionComponent<HomeProps> = () => {
             }}
             className="mySwiper story-post"
           >
-            {stories &&
-              stories.map((item, i) => (
+            {
+              stories?.map((item, i) => (
                 <SwiperSlide key={i}>
                   <div className="items">
                     <img src={item.image} alt={item.image} />
@@ -65,44 +78,51 @@ const Home: React.FunctionComponent<HomeProps> = () => {
           </Swiper>
         )}
       </Box>
-      <Box className="block hot-news">
-        {loading ? (
-          <SkeletonHomeHotNews />
-        ) : (
-          <>
-            {posts &&
-              posts.map((item, i) => {
-                if (i === 0) {
-                  return <BlockItem item={item} i={i} />;
-                }
-                return <BlockChildItem item={item} i={i} />;
-              })}
-          </>
-        )}
-      </Box>
-      <Box className="block-content">
-        <Box className="block block-main">
-          <h3 className="heading-block">
-            <span>Bóng Đá</span>
-          </h3>
-          <Box className="block-body">
-            {loading ? (
-              "loading .... "
-            ) : (
-              <>
-                {soccer &&
-                  soccer.map((item, i) => {
-                    if (i === 0) {
-                      return <BlockChildItem item={item} i={i} />;
-                    }
-                    return <BlockTextItem item={item} i={i} />;
-                  })}
-              </>
-            )}
-          </Box>
+      }
+      
+      {
+        posts.length > 0 && <Box className="block hot-news">
+          {loading ? (
+            <SkeletonHomeHotNews />
+          ) : (
+            <>
+              {
+                posts?.map((item, i) => {
+                  if (i === 0) {
+                    return <BlockItem item={item} i={i} />;
+                  }
+                  return <BlockChildItem item={item} i={i} />;
+                })}
+            </>
+          )}
         </Box>
-
-        <Box className="block block-main">
+      }
+      <Box className="block-content">
+        {
+          soccer.length > 0 && <Box className="block block-main">
+            <h3 className="heading-block">
+              <span>Bóng Đá</span>
+            </h3>
+            <Box className="block-body">
+              {loading ? (
+                "loading .... "
+              ) : (
+                <>
+                  {
+                    soccer?.map((item, i) => {
+                      if (i === 0) {
+                        return <BlockChildItem item={item} i={i} />;
+                      }
+                      return <BlockTextItem item={item} i={i} />;
+                    })}
+                </>
+              )}
+            </Box>
+          </Box>
+        }
+        
+        {
+          basketball.length > 0 && <Box className="block block-main">
           <h3 className="heading-block">
             <span>Bóng Rổ</span>
           </h3>
@@ -111,8 +131,8 @@ const Home: React.FunctionComponent<HomeProps> = () => {
               "loading .... "
             ) : (
               <>
-                {basketball &&
-                  basketball.map((item, i) => {
+                {
+                  basketball?.map((item, i) => {
                     if (i === 0) {
                       return <BlockChildItem item={item} i={i} />;
                     }
@@ -122,6 +142,100 @@ const Home: React.FunctionComponent<HomeProps> = () => {
             )}
           </Box>
         </Box>
+        }
+        {
+          guess.length > 0 && <Box className="block block-main">
+          <h3 className="heading-block">
+            <span>Nhận Định</span>
+          </h3>
+          <Box className="block-body">
+            {loading ? (
+              "loading .... "
+            ) : (
+              <>
+                {
+                  guess?.map((item, i) => {
+                    if (i === 0) {
+                      return <BlockChildItem item={item} i={i} />;
+                    }
+                    return <BlockTextItem item={item} i={i} />;
+                  })}
+              </>
+            )}
+          </Box>
+        </Box>
+        }
+
+        {
+          behind.length > 0 && <Box className="block block-main">
+          <h3 className="heading-block">
+            <span>Hậu Trường</span>
+          </h3>
+          <Box className="block-body">
+            {loading ? (
+              "loading .... "
+            ) : (
+              <>
+                {
+                  behind?.map((item, i) => {
+                    if (i === 0) {
+                      return <BlockChildItem item={item} i={i} />;
+                    }
+                    return <BlockTextItem item={item} i={i} />;
+                  })}
+              </>
+            )}
+          </Box>
+        </Box>
+        }
+
+
+        {
+          transfer.length > 0 && <Box className="block block-main">
+          <h3 className="heading-block">
+            <span>Chuyển Nhượng</span>
+          </h3>
+          <Box className="block-body">
+            {loading ? (
+              "loading .... "
+            ) : (
+              <>
+                {
+                  transfer?.map((item, i) => {
+                    if (i === 0) {
+                      return <BlockChildItem item={item} i={i} />;
+                    }
+                    return <BlockTextItem item={item} i={i} />;
+                  })}
+              </>
+            )}
+          </Box>
+        </Box>
+        }
+
+        {
+          newsgame.length > 0 && <Box className="block block-main">
+          <h3 className="heading-block">
+            <span>Tin Game</span>
+          </h3>
+          <Box className="block-body">
+            {loading ? (
+              "loading .... "
+            ) : (
+              <>
+                {
+                  newsgame?.map((item, i) => {
+                    if (i === 0) {
+                      return <BlockChildItem item={item} i={i} />;
+                    }
+                    return <BlockTextItem item={item} i={i} />;
+                  })}
+              </>
+            )}
+          </Box>
+        </Box>
+        }
+        
       </Box>
     </Layout>
   );
