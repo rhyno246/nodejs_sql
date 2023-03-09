@@ -42,7 +42,7 @@ const App: React.FunctionComponent<AppProps> = () => {
     <ThemeProvider theme={switchTheme ? darkTheme : lightTheme}>
       <Paper
         style={{
-          height: "100vh",
+          height: "100%",
           borderRadius: 0,
           background: switchTheme ? "#222" : "#fff",
         }}

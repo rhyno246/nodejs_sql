@@ -22,6 +22,12 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import {
+  ClearSuccess,
+  getAdminComment,
+} from "../../redux/reducer/comment.slice";
+import Comments from "../../components/backend/comments/Comments";
+import { toast } from "react-toastify";
 
 interface DashBoardProps {}
 
@@ -38,15 +44,26 @@ ChartJS.register(
 const DashBoard: React.FunctionComponent<DashBoardProps> = () => {
   const dispatch = useAppDispatch();
 
+  const { users } = useSelector((state: RootState) => state.users);
+  const { posts } = useSelector((state: RootState) => state.posts);
+  const { stories } = useSelector((state: RootState) => state.stories);
+  const { comments, success } = useSelector(
+    (state: RootState) => state.comment
+  );
+
   React.useEffect(() => {
     dispatch(getAllUsersAdmin());
     dispatch(getAdminPost());
     dispatch(getAdminStories());
-  }, [dispatch]);
-
-  const { users } = useSelector((state: RootState) => state.users);
-  const { posts } = useSelector((state: RootState) => state.posts);
-  const { stories } = useSelector((state: RootState) => state.stories);
+    dispatch(getAdminComment());
+    if (success) {
+      dispatch(getAdminComment());
+    }
+    if (success?.warning) {
+      toast.warning(success.message);
+      dispatch(ClearSuccess());
+    }
+  }, [dispatch, success]);
 
   const options = {
     responsive: true,
@@ -198,14 +215,29 @@ const DashBoard: React.FunctionComponent<DashBoardProps> = () => {
                 }}
               >
                 <MessageIcon />
-                <span style={{ marginLeft: "15px" }}>Total Comment : 20</span>
+                <span style={{ marginLeft: "15px" }}>
+                  Total Comment : {comments?.length}
+                </span>
               </Box>
             </Card>
           </Grid>
         </Grid>
-        <Card sx={{ marginTop: "20px", padding: " 10px 20px" }}>
-          <Line options={options} data={data} height={100} />
-        </Card>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          <Grid item xs={2} sm={2} md={8}>
+            <Card sx={{ marginTop: "20px", padding: " 10px 20px" }}>
+              <Line options={options} data={data} height={147} />
+            </Card>
+          </Grid>
+          <Grid item xs={2} sm={2} md={4}>
+            <Card sx={{ marginTop: "20px", padding: " 10px 20px" }}>
+              <Comments item={comments} />
+            </Card>
+          </Grid>
+        </Grid>
       </Box>
     </Layout>
   );

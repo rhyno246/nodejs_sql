@@ -7,6 +7,7 @@ const userRouter = require('./src/routes/userRoute');
 const postRouter = require('./src/routes/PostRoute');
 const categoryRouter = require('./src/routes/CategoryRoute')
 const storiesRouter = require('./src/routes/StoriesRoute');
+const commentRouter = require('./src/routes/CommentRoute');
 app.use(express.json());              
 app.use(cors());
 app.use(bodyParser.urlencoded({ 
@@ -19,6 +20,7 @@ app.use('/api/v1' , userRouter);
 app.use('/api/v1' , postRouter);
 app.use('/api/v1' , categoryRouter);
 app.use('/api/v1' , storiesRouter);
+app.use('/api/v1' , commentRouter);
 
 
 const PORT = process.env.PORT || 8000;

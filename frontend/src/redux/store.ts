@@ -6,6 +6,7 @@ import storiesReducer from './reducer/stories.slice';
 import switchReducer from './reducer/switch.slice';
 import userReducer from './reducer/users.slice';
 import homeReducer from './reducer/home.slice';
+import commentReducer from './reducer/comment.slice';
 
 export const store = configureStore({
     reducer : {
@@ -14,7 +15,8 @@ export const store = configureStore({
         posts : postReducer,
         category : categoryReducer,
         stories : storiesReducer,
-        home : homeReducer
+        home : homeReducer,
+        comment : commentReducer
     }
 })
 export type RootState = ReturnType<typeof store.getState>

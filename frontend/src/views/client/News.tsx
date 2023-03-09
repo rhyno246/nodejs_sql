@@ -119,7 +119,6 @@ const News: React.FunctionComponent<NewsProps> = () => {
                       </Card>
                     </Box>
                   );
-                  
                 })}
               </Box>
             </>

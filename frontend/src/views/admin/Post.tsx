@@ -114,7 +114,8 @@ const Post: React.FunctionComponent<PostProps> = () => {
       renderCell: (params: GridValueGetterParams) => {
         return (
           <>
-            {userByEmail?.role === "admin" || userByEmail?.role === "content" ? (
+            {userByEmail?.role === "admin" ||
+            userByEmail?.role === "content" ? (
               <Box>
                 <Button component={Link} to={`/admin/post/${params.id}`}>
                   <EditIcon />

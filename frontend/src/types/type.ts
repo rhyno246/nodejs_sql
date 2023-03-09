@@ -63,3 +63,17 @@ export interface User {
     success : boolean,
     data : string,
 }
+
+export interface Comment {
+    comment : string,
+    createdAt : Date,
+    userId : number,
+    postId : number,
+    coverPic : string,
+    firstName : string,
+    lastName : string,
+    id: number,
+    category : string,
+    title : string,
+    image : string
+}

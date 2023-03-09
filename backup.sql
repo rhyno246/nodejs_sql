@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: nodejs_sql
 -- ------------------------------------------------------
--- Server version	8.0.30
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,15 +24,15 @@ DROP TABLE IF EXISTS `category`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `slug` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
   `userId` int NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `categoryUserId_idx` (`userId`),
   CONSTRAINT `categoryUserId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,8 +54,8 @@ DROP TABLE IF EXISTS `comments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `createAt` datetime DEFAULT NULL,
+  `comment` text COLLATE utf8_unicode_ci NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
   `userId` int NOT NULL,
   `postId` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -64,7 +64,7 @@ CREATE TABLE `comments` (
   KEY `postId_idx` (`postId`),
   CONSTRAINT `commentUserId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `postId` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,6 +73,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (2,'chó ngu','2023-03-09 20:52:07',228,43),(3,'đasads','2023-03-09 20:53:25',228,43),(4,'sdadasdas','2023-03-09 20:53:28',228,43),(5,'sdadsadsadsa','2023-03-09 20:53:32',228,43),(6,'tokuda is the best','2023-03-09 21:13:03',238,43),(9,'mp3 m3p','2023-03-09 22:40:14',238,44),(10,'dsadsaadsasd','2023-03-09 22:41:48',238,45),(11,'dsadsadsadasasdsd','2023-03-09 22:41:54',238,42);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,19 +86,19 @@ DROP TABLE IF EXISTS `posts`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `posts` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `description` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `content` text COLLATE utf8mb3_unicode_ci,
+  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
   `userId` int NOT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `category` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `category` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `userId_idx` (`userId`),
   CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,12 +120,12 @@ DROP TABLE IF EXISTS `stories`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stories` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
   `userId` int NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,15 +147,15 @@ DROP TABLE IF EXISTS `stories_image`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stories_image` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
   `storiesId` int NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `storiesId_idx` (`storiesId`),
   CONSTRAINT `storiesId` FOREIGN KEY (`storiesId`) REFERENCES `stories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,21 +177,21 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `lastName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `gender` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `showpass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `firstName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `lastName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `gender` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `showpass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
   `phone` double NOT NULL,
-  `coverPic` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `profilePic` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `role` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'user',
+  `coverPic` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profilePic` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `role` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'user',
   `createdAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +200,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (228,'liet','quang 1','m','quangthanhliet@gmail.com','$2a$10$0NUHRc8fUutryGUES/lCEuwz.wvifmMxLkbrqkGdP8yNbwZjcfhha','admin',908096448,'http://localhost:8000/Mangekyou_Sharingan_Itachi.svg.png','http://localhost:8000/mceu_18946827821676301135832.jpg','admin','2023-01-01 17:56:58'),(238,'man','nguyen','m','nguyentrongminhman95@gmail.com','$2a$10$.ezf3Dbj.6JVyzSqEG2lReCOiNmMlP9D92sS39TGeUlPw7LwoO1qG','admin',908096448,NULL,NULL,'admin','2023-01-02 17:56:58'),(239,'test 1','nguyen','m','test@gmail.com','$2a$10$DeMcpNl2M6POf9YL2kc30ecJ5NJOYKviVGjq0fYhxQtuswVfh7BNS','admin',908096448,NULL,NULL,'content','2023-01-04 17:58:57'),(240,'saddsa','adssad','dsasda','2121','$2a$10$u/ElwcYO65ztTPwfRrXWG.IEWjS2ieK7KD2jA3mvryEdRWin.j/py','dsdsasda',212321,NULL,NULL,'content','2023-03-04 22:34:14'),(241,'dsadsdas','dsasdaads','sadsda','2e321','$2a$10$FgiBemS.o3vl7N2oSjeOOOLYQS95RotCLQCpFW9EFPyu1PxYWcQdS','sdads',232323,NULL,NULL,'user','2023-03-04 22:34:23');
+INSERT INTO `users` VALUES (228,'liet','quang 1','m','quangthanhliet@gmail.com','$2a$10$0NUHRc8fUutryGUES/lCEuwz.wvifmMxLkbrqkGdP8yNbwZjcfhha','admin',908096448,'http://localhost:8000/Mangekyou_Sharingan_Itachi.svg.png','http://localhost:8000/mceu_18946827821676301135832.jpg','admin','2023-01-01 17:56:58'),(238,'man','nguyen','m','nguyentrongminhman95@gmail.com','$2a$10$.ezf3Dbj.6JVyzSqEG2lReCOiNmMlP9D92sS39TGeUlPw7LwoO1qG','admin',908096448,NULL,'http://localhost:8000/Chelsea-lot-xac-4.jpg','admin','2023-01-02 17:56:58'),(239,'test 1','nguyen','m','test@gmail.com','$2a$10$DeMcpNl2M6POf9YL2kc30ecJ5NJOYKviVGjq0fYhxQtuswVfh7BNS','admin',908096448,NULL,NULL,'content','2023-01-04 17:58:57'),(240,'saddsa','adssad','dsasda','2121','$2a$10$u/ElwcYO65ztTPwfRrXWG.IEWjS2ieK7KD2jA3mvryEdRWin.j/py','dsdsasda',212321,NULL,NULL,'content','2023-03-04 22:34:14'),(241,'dsadsdas','dsasdaads','sadsda','2e321','$2a$10$FgiBemS.o3vl7N2oSjeOOOLYQS95RotCLQCpFW9EFPyu1PxYWcQdS','sdads',232323,NULL,NULL,'user','2023-03-04 22:34:23');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -212,4 +213,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-09 16:47:20
+-- Dump completed on 2023-03-09 22:43:30
