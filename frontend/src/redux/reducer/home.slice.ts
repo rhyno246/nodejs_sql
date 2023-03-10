@@ -28,9 +28,9 @@ export const getHomeClientPost = createAsyncThunk<Posts[]>('/client/getHomeClien
     }
 });
 
-export const getClientStories = createAsyncThunk<Story[]>('/admin/getClientStories' , async(_, thunkAPI) => {
+export const getClientStories = createAsyncThunk<Story[]>('/getClientStories' , async(_, thunkAPI) => {
     try {
-        const response = await axiosConfig.get('/admin/stories');
+        const response = await axiosConfig.get('/stories');
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error)
