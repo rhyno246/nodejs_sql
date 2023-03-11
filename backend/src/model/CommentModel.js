@@ -61,7 +61,7 @@ module.exports = {
     getCommentProfile : (id , callBack) => {
         pool.query(
             `select c.*,  post.id as postId, title , image , category from comments as c join posts as post on (post.id = c.postId)
-            where c.userId = ? order by c.createdAt desc
+            where c.userId = ? group by c.postId having count(c.postId) >= 1 order by c.createdAt desc
             `,
             [id],
             (error, results , fields) => {

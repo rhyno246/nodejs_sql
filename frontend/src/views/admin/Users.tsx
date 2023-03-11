@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 interface UsersProps {}
 
 const Users: React.FunctionComponent<UsersProps> = () => {
-  const { users, success, userById, deleteSuccess } = useSelector(
+  const { users, success, userById, deleteSuccess, loading } = useSelector(
     (state: RootState) => state.users
   );
   const dispatch = useAppDispatch();
@@ -156,6 +156,7 @@ const Users: React.FunctionComponent<UsersProps> = () => {
         Add new user
       </Button>
       <DataGrid
+        loading={loading}
         rows={rows}
         columns={columns}
         pageSize={10}

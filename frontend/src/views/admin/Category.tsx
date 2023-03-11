@@ -28,7 +28,7 @@ const Category: React.FunctionComponent<CategoryProps> = () => {
   const [catId, setCatId] = React.useState("");
   const [openCfm, setOpenCfm] = React.useState(false);
 
-  const { success, error, category } = useSelector(
+  const { success, error, category, loading } = useSelector(
     (state: RootState) => state.category
   );
   const dispatch = useAppDispatch();
@@ -156,6 +156,7 @@ const Category: React.FunctionComponent<CategoryProps> = () => {
       </Button>
 
       <DataGrid
+        loading={loading}
         rows={rows}
         columns={columns}
         pageSize={10}

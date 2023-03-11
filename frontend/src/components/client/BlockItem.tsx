@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
+import { idolTokuDa } from "../../utils/baseAvartar";
 interface BlockItemProps {
   item: any;
   i: number;
@@ -17,7 +18,7 @@ const BlockItem: React.FunctionComponent<BlockItemProps> = ({
     <>
       <div className="img">
         <Box component={Link} to={`/${item.category}/${item.id}`}>
-          <img src={item.image} alt={item.title} />
+          <img src={item.image ? item.image : idolTokuDa} alt={item.title} />
         </Box>
       </div>
       <div className="content">

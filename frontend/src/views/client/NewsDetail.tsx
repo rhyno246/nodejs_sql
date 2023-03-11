@@ -9,11 +9,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import * as moment from "moment";
 import Loading from "../../components/Loading";
 import { toast } from "react-toastify";
-import {
-  ClearSuccess,
-  createComment,
-  getComment,
-} from "../../redux/reducer/comment.slice";
+import { createComment, getComment } from "../../redux/reducer/comment.slice";
 import Avatar from "@mui/material/Avatar";
 import { idolTokuDa } from "../../utils/baseAvartar";
 
@@ -29,25 +25,26 @@ const NewsDetail: React.FunctionComponent<NewsDetailProps> = () => {
   );
   const [comment, setComment] = React.useState("");
   React.useEffect(() => {
-    if (success) {
-      dispatch(ClearSuccess());
-      setComment("");
-    }
     dispatch(GetPostClientById(id));
+    if (success) {
+      dispatch(getComment(id));
+    }
     dispatch(getComment(id));
   }, [dispatch, id, success]);
 
   const handleCreateCategory = (e: React.FormEvent<HTMLElement>): void => {
     e.preventDefault();
-    if (!userByEmail) {
-      toast.warn("Bạn chưa đăng nhập . Vui lòng đăng nhập tiếp tục bình luận");
+    if (!userByEmail || comment === "") {
+      toast.warn("Bạn chưa đăng nhập hoặc chưa viết bình luận");
+    } else {
+      const newData = {
+        comment: comment,
+        userId: userByEmail?.id,
+        postId: id,
+      };
+      setComment("");
+      dispatch(createComment(newData));
     }
-    const newData = {
-      comment: comment,
-      userId: userByEmail?.id,
-      postId: id,
-    };
-    dispatch(createComment(newData));
   };
 
   return (

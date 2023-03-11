@@ -17,6 +17,7 @@ import UpdateUser from "./UpdateUser";
 import ChangeProFilePic from "./ChangeProFilePic";
 import { idolTokuDa } from "../../../utils/baseAvartar";
 import { getProfileComment } from "../../../redux/reducer/comment.slice";
+import SkeletonProfileComment from "../Skeleton/SkeletonProfileComment";
 interface ProFileProps {}
 
 const ProFile: React.FunctionComponent<ProFileProps> = () => {
@@ -25,7 +26,9 @@ const ProFile: React.FunctionComponent<ProFileProps> = () => {
     (state: RootState) => state.users
   );
 
-  const { comments } = useSelector((state: RootState) => state.comment);
+  const { comments, loading } = useSelector(
+    (state: RootState) => state.comment
+  );
   const [openEdit, setOpenEdit] = React.useState(false);
   const dispatch = useAppDispatch();
   const openModalEditUser = (): void => {
@@ -104,27 +107,33 @@ const ProFile: React.FunctionComponent<ProFileProps> = () => {
           </Typography>
           <Box sx={{ marginTop: "20px" }}>
             <div className="profile-comment">
-              {comments?.map((item, i) => (
-                <div className="news-item" key={i}>
-                  <div className="img">
-                    <Box
-                      component={Link}
-                      to={`/${item.category}/${item.postId}`}
-                    >
-                      <img src={item.image} alt={item.title} />
-                    </Box>
-                  </div>
-                  <div className="content">
-                    <Box
-                      component={Link}
-                      to={`/${item.category}/${item.postId}`}
-                      sx={{ color: switchTheme ? "#fff" : "#333" }}
-                    >
-                      <h3 className="heading">{item.title}</h3>
-                    </Box>
-                  </div>
-                </div>
-              ))}
+              {loading ? (
+                <SkeletonProfileComment />
+              ) : (
+                <>
+                  {comments?.map((item, i) => (
+                    <div className="news-item" key={i}>
+                      <div className="img">
+                        <Box
+                          component={Link}
+                          to={`/${item.category}/${item.postId}`}
+                        >
+                          <img src={item.image} alt={item.title} />
+                        </Box>
+                      </div>
+                      <div className="content">
+                        <Box
+                          component={Link}
+                          to={`/${item.category}/${item.postId}`}
+                          sx={{ color: switchTheme ? "#fff" : "#333" }}
+                        >
+                          <h3 className="heading">{item.title}</h3>
+                        </Box>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           </Box>
         </Box>

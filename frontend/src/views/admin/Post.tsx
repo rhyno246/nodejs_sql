@@ -22,7 +22,7 @@ interface PostProps {}
 const Post: React.FunctionComponent<PostProps> = () => {
   const dispatch = useAppDispatch();
   const { userByEmail } = useSelector((state: RootState) => state.users);
-  const { posts, success, error } = useSelector(
+  const { posts, success, error, loading } = useSelector(
     (state: RootState) => state.posts
   );
   const [postId, setPostId] = React.useState("");
@@ -164,6 +164,7 @@ const Post: React.FunctionComponent<PostProps> = () => {
         Add New Post
       </Button>
       <DataGrid
+        loading={loading}
         rows={rows}
         columns={columns}
         pageSize={10}

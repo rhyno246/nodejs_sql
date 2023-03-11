@@ -1,1 +1,1 @@
-export const idolTokuDa = "https://cafebiz.cafebizcdn.vn/2019/1/2/photo-1-15464020829431420592113.png";
+export const idolTokuDa = "/none-image.webp";
