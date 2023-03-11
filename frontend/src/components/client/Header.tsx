@@ -1,19 +1,9 @@
 import * as React from "react";
 import logoLight from "../../logo/sabasports.svg";
 import logoDark from "../../logo/logo-footer.png";
-import SearchIcon from "@mui/icons-material/Search";
 import SwitchButton from "../SwitchButton";
 import { NavLink } from "react-router-dom";
-import {
-  Avatar,
-  Box,
-  Button,
-  FormControl,
-  Menu,
-  MenuItem,
-  OutlinedInput,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Menu, MenuItem, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -59,16 +49,6 @@ const Header = () => {
                 alt="logo"
               />
             </NavLink>
-            <div className="box-search">
-              <Box component="form">
-                <FormControl sx={{ width: "200px" }}>
-                  <OutlinedInput placeholder="Tìm kím ... " />
-                </FormControl>
-                <Button variant="text" type="submit" color="primary">
-                  <SearchIcon style={{ fontSize: "18px" }} />
-                </Button>
-              </Box>
-            </div>
           </div>
         </div>
       </div>
