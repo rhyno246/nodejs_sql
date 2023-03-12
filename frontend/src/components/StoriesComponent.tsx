@@ -31,8 +31,10 @@ const StoriesComponent: React.FunctionComponent<StoriesComponentProps> = ({
   const progressCircle = React.useRef(null);
   const progressContent = React.useRef(null);
   const onAutoplayTimeLeft = (s: any, time: any, progress: any) => {
-    progressCircle.current.style.setProperty("--progress", 1 - progress);
-    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+    if (id) {
+      progressCircle.current.style.setProperty("--progress", 1 - progress);
+      progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+    }
   };
   return (
     <Box
@@ -76,7 +78,7 @@ const StoriesComponent: React.FunctionComponent<StoriesComponentProps> = ({
           <div
             className="autoplay-progress"
             slot="container-end"
-            style={{ opacity: listChildImage.length >= 1 ? "1" : "0" }}
+            style={{ display: listChildImage.length >= 1 ? "flex" : "none" }}
           >
             <svg viewBox="0 0 48 48" ref={progressCircle}>
               <circle cx="24" cy="24" r="20"></circle>
