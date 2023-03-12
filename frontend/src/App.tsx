@@ -27,6 +27,7 @@ import Category from "./views/admin/Category";
 import Stories from "./views/admin/Stories";
 import StoriesDetail from "./views/admin/StoriesDetail";
 import { getMenu } from "./redux/reducer/category.slice";
+import NotFound from "./views/client/NotFound";
 
 interface AppProps {}
 const App: React.FunctionComponent<AppProps> = () => {
@@ -110,7 +111,7 @@ const App: React.FunctionComponent<AppProps> = () => {
               <Route index element={<ProFile />} />
             </Route>
 
-            <Route path="*" element={<p>There's nothing here: 404!</p>} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </Paper>

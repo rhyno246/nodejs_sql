@@ -295,3 +295,19 @@ img{
         }
     }
 }
+
+.not-found{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1{
+        font-size: 50px;
+        margin-bottom: 30px;
+    }
+    a{
+        color: red;
+        font-size: 20px;
+    }
+}
